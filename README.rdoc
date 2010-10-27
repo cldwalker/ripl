@@ -1,0 +1,17 @@
+== Description
+
+Ruby Interactive Print Loop - A lightweight, modular alternative to irb
+
+== Install
+
+Install the gem with:
+
+    sudo gem install ripl
+
+== Usage
+
+    $ ripl
+    >> ...
+
+== Todo
+* Everything!
