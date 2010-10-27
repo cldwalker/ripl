@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.email       = "gabriel.horner@gmail.com"
   s.homepage    = "http://github.com/cldwlaker/ripl"
   s.summary = "A lightweight, modular alternative to irb"
-  s.description =  "DESCRIPTION"
+  s.description =  "Ruby Interactive Print Loop - A lightweight, modular alternative to irb"
   s.required_rubygems_version = ">= 1.3.6"
   s.rubyforge_project = 'tagaholic'
   s.files = Dir.glob(%w[{lib,test}/**/*.rb bin/* [A-Z]*.{txt,rdoc} ext/**/*.{rb,c} **/deps.rip]) + %w{Rakefile .gemspec}
