@@ -1,6 +1,6 @@
 == Description
 
-Ruby Interactive Print Loop - A lightweight, modular alternative to irb
+Ruby Interactive Print Loop - A light, modular alternative to irb
 
 == Install
 
