@@ -8,6 +8,11 @@ module Ripl
   end
 
   def shell(options={})
-    @shell ||= Shell.new(options)
+    @shell ||= begin
+      require 'ripl/readline_shell'
+      ReadlineShell.new(options)
+    rescue LoadError
+      Shell.new(options)
+    end
   end
 end
