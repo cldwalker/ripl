@@ -11,7 +11,7 @@ module Ripl
     end
 
     def before_loop
-      load_rc
+      load_rc if @options[:irbrc]
     end
 
     def load_rc
