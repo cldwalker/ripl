@@ -1,6 +1,9 @@
 require 'readline'
+require 'ripl/completion'
 
 class Ripl::ReadlineShell < Ripl::Shell
+  include Ripl::Completion
+
   def get_input
     Readline.readline @options[:prompt], true
   end
@@ -10,6 +13,7 @@ class Ripl::ReadlineShell < Ripl::Shell
   end
 
   def before_loop
+    start_completion
     super
     File.exists?(history_file) &&
       IO.readlines(history_file).each {|e| Readline::HISTORY << e.chomp }
