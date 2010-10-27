@@ -1,6 +1,6 @@
 module Ripl
   class Shell
-    OPTIONS = {:name=>'ripl', :line=>1, :result_prompt=>'=> ',
+    OPTIONS = {:name=>'ripl', :line=>1, :result_prompt=>'=> ', :prompt=>'>> ',
       :binding=>TOPLEVEL_BINDING, :irbrc=>'~/.irbrc'}
 
     attr_accessor :line, :binding, :result_prompt
@@ -29,11 +29,24 @@ module Ripl
     end
 
     def print_eval_error(e)
-      warn "#{e.class}: #{e.message}"
+      warn "#{e.class}: #{e.message}\n\t#{e.backtrace.join("\n\t")}"
     end
 
     def format_result(result)
       @options[:result_prompt] + result.inspect
+    end
+
+    def loop
+      while true do
+        input = get_input
+        break if input == 'exit'
+        puts loop_once(input)
+      end
+    end
+
+    def get_input
+      print @options[:prompt]
+      $stdin.gets.chomp
     end
 
     def loop_once(input)
