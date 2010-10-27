@@ -1,13 +1,17 @@
 module Ripl
   class Shell
     OPTIONS = {:name=>'ripl', :line=>1, :result_prompt=>'=> ', :prompt=>'>> ',
-      :binding=>TOPLEVEL_BINDING, :irbrc=>'~/.irbrc'}
+      :binding=>TOPLEVEL_BINDING, :irbrc=>'~/.irbrc', :history=>'~/.irb_history'}
 
     attr_accessor :line, :binding, :result_prompt
     attr_reader :has_autocompletion
     def initialize(options={})
       @options = OPTIONS.merge options
       @name, @binding, @line = @options.values_at(:name, :binding, :line)
+      before_loop
+    end
+
+    def before_loop
       start_completion
       load_rc
     end
@@ -42,7 +46,10 @@ module Ripl
         break if input == 'exit'
         puts loop_once(input)
       end
+      after_loop
     end
+
+    def after_loop; end
 
     def get_input
       print @options[:prompt]
