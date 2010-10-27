@@ -21,7 +21,7 @@ module Ripl
     def loop
       while true do
         input = get_input
-        break if input == 'exit'
+        break if !input || input == 'exit'
         puts loop_once(input)
       end
       after_loop
