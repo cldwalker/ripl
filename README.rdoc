@@ -13,5 +13,8 @@ Install the gem with:
     $ ripl
     >> ...
 
+== Credits
+* janlelis for bug fix and tweaks
+
 == Todo
 * Everything!
