@@ -10,12 +10,6 @@ module Ripl
       @irbrc = @options[:irbrc]
     end
 
-    def before_loop
-      load @irbrc if @irbrc && File.exists?(File.expand_path(@irbrc))
-    rescue StandardError, SyntaxError
-      warn "Error while loading #{@irbrc}:\n"+ format_error($!)
-    end
-
     def loop
       before_loop
       while true do
@@ -26,8 +20,6 @@ module Ripl
       after_loop
     end
 
-    def after_loop; end
-
     def get_input
       print @options[:prompt]
       $stdin.gets.chomp
@@ -35,7 +27,7 @@ module Ripl
 
     def loop_once(input)
       begin
-        result = eval_line(input)
+        result = loop_eval(input)
       rescue Exception => e
         print_eval_error(e)
       end
@@ -43,10 +35,6 @@ module Ripl
       eval("_ = #{result.inspect}", @binding) rescue nil
       @line += 1
       format_result result
-    end
-
-    def eval_line(str)
-      eval(str, @binding, "(#{@name})", @line)
     end
 
     def print_eval_error(e)
@@ -61,4 +49,19 @@ module Ripl
       @options[:result_prompt] + result.inspect
     end
   end
+
+  module Hooks
+    def before_loop
+      load @irbrc if @irbrc && File.exists?(File.expand_path(@irbrc))
+    rescue StandardError, SyntaxError
+      warn "Error while loading #{@irbrc}:\n"+ format_error($!)
+    end
+
+    def loop_eval(str)
+      eval(str, @binding, "(#{@name})", @line)
+    end
+
+    def after_loop; end
+  end
+  Shell.send :include, Hooks
 end
