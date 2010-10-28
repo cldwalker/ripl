@@ -32,7 +32,6 @@ module Ripl
         print_eval_error(e)
       end
 
-      eval("_ = #{result.inspect}", @binding) rescue nil
       @line += 1
       format_result result
     end
@@ -58,7 +57,7 @@ module Ripl
     end
 
     def loop_eval(str)
-      eval(str, @binding, "(#{@name})", @line)
+      eval('_ = '+str, @binding, "(#{@name})", @line)
     end
 
     def after_loop; end
