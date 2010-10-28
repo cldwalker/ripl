@@ -7,18 +7,17 @@ module Ripl
     def initialize(options={})
       @options = OPTIONS.merge options
       @name, @binding, @line = @options.values_at(:name, :binding, :line)
-      before_loop
+      @irbrc = @options[:irbrc]
     end
 
     def before_loop
-      load_rc if @options[:irbrc]
-    end
-
-    def load_rc
-      load @options[:irbrc] if File.exists?(File.expand_path(@options[:irbrc]))
+      load @irbrc if @irbrc && File.exists?(File.expand_path(@irbrc))
+    rescue StandardError, SyntaxError
+      warn "Error while loading #{@irbrc}:\n"+ format_error($!)
     end
 
     def loop
+      before_loop
       while true do
         input = get_input
         break if !input || input == 'exit'
@@ -51,7 +50,11 @@ module Ripl
     end
 
     def print_eval_error(e)
-      warn "#{e.class}: #{e.message}\n\t#{e.backtrace.join("\n\t")}"
+      warn format_error(e)
+    end
+
+    def format_error(e)
+      "#{e.class}: #{e.message}\n\t#{e.backtrace.join("\n\t")}"
     end
 
     def format_result(result)
