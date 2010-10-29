@@ -8,6 +8,32 @@ Install the gem with:
 
     sudo gem install ripl
 
+== Features
+
+* Same as irb
+  * Reads ~/.irbrc on startup
+  * Appends to ~/.irb_history on exit
+  * Autocompletion (from bond)
+  * _ for last result
+  * Type 'exit' or Ctrl-D to exit
+* Enhancements over irb
+  * ~/.irbrc errors caught
+  * Provides hooks for plugins
+  * Method argument and customizable autocompletion (from bond)
+  * Less than 150 loc vs irb's 5000+ loc
+  * Simple configuration i.e. one hash
+* Different from irb
+  * No commandline options yet
+  * No multi-line evaluation
+  * No irb subsessions or workspaces
+  * No IRB.conf features i.e. dynamic prompts and auto indent
+
+== Philosophy
+
+ripl is a light, flexible repl(shell) meant to lay the foundation for customizable ruby shells. It
+provides an environment for plugins to share and reuse best practices for shells. ripl can be
+easily customized for gems, applications and is even usable on the web (examples forthcoming).
+
 == Usage
 
     $ ripl
@@ -16,5 +42,12 @@ Install the gem with:
 == Credits
 * janlelis for bug fix and tweaks
 
+== irb alternatives
+Some other irb alternatives which I encourage you to check out:
+
+* {ir}[http://github.com/raggi/ir]: nice and light
+* {irb2}[http://github.com/wycats/irb2]: yehuda katz's partial attempt at rewriting irb
+* {dietrb}[http://github.com/alloy/dietrb]: mac and ruby 1.9 specific
+
 == Todo
-* Everything!
+* Everything (tests especially)!
