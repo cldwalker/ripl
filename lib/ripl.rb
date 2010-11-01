@@ -20,6 +20,8 @@ module Ripl
         require $1
       when '-f'
         ripl_options[:irbrc] = nil
+      when '-d'
+        $DEBUG = true
       when '-v', '--version'
         puts Ripl::VERSION; exit
       end
