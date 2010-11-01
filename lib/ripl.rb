@@ -16,6 +16,8 @@ module Ripl
         $LOAD_PATH.unshift(*$1.split(":"))
       when /-r=?(.*)/
         require $1
+      when '-d'
+        $DEBUG = true
       when '-v', '--version'
         puts Ripl::VERSION; exit
       end
