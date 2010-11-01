@@ -15,8 +15,10 @@ module Ripl
     while argv[0] =~ /^-/
       case argv.shift
       when /-I=?(.*)/
+        argv.shift =~ /(.*)/ if $1.empty?
         $LOAD_PATH.unshift(*$1.split(":"))
       when /-r=?(.*)/
+        argv.shift =~ /(.*)/ if $1.empty?
         require $1
       when '-f'
         ripl_options[:irbrc] = nil
