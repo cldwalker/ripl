@@ -14,7 +14,7 @@ module Ripl
       before_loop
       input = ''
       while true do
-        catch :multiline do
+        input = catch :multiline do
           new_input = get_input
           exit if !new_input
           input += new_input
@@ -22,7 +22,6 @@ module Ripl
           puts loop_once(input) unless input.empty?
           input = ''
         end
-        input += "\n"
       end
       after_loop
     end
@@ -37,7 +36,7 @@ module Ripl
         result = loop_eval(input)
       rescue Exception => e
         if e.is_a?(SyntaxError) && e.message =~ /unexpected \$end|unterminated string meets end of file/
-          throw :multiline
+          throw :multiline, input + "\n"
         else
           print_eval_error(e)
         end
