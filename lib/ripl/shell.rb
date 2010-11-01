@@ -15,7 +15,7 @@ module Ripl
       while true do
         input = get_input
         break if !input || input == 'exit'
-        puts loop_once(input)
+        puts loop_once(input) unless input.empty?
       end
       after_loop
     end
