@@ -24,6 +24,9 @@ module Ripl
         end
       end
       after_loop
+    rescue Interrupt
+      puts '[C]'
+      retry
     end
 
     def get_input
