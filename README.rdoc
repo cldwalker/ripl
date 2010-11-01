@@ -16,6 +16,7 @@ Install the gem with:
   * Autocompletion (from bond)
   * _ for last result
   * Type 'exit' or Ctrl-D to exit
+  * Commandline options: -r, -I, -v
 * Enhancements over irb
   * ~/.irbrc errors caught
   * Provides hooks for plugins
@@ -23,10 +24,10 @@ Install the gem with:
   * Less than 150 loc vs irb's 5000+ loc
   * Simple configuration i.e. one hash
 * Different from irb
-  * No commandline options yet
   * No multi-line evaluation
   * No irb subsessions or workspaces
   * No IRB.conf features i.e. dynamic prompts and auto indent
+  * Most commandline options not supported
 
 == Philosophy
 
@@ -59,7 +60,8 @@ start on a specific binding:
 If you want to invoke your custom shell with ripl, make it a ripl command.
 To create one, create an executable in the format ripl-<command> and make sure it's in your shell's
 $PATH. For example, the file 'ripl-my_gem' would be invoked with `ripl my_gem`. Note that with your
-command you can take arguments and parse your options as you please.
+command you can take arguments and parse your options as you please. For an example command,
+see {ripl-rails}[http://github.com/cldwalker/ripl-rails].
 
 == Credits
 * janlelis for bug fix and tweaks

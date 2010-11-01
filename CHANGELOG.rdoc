@@ -1,3 +1,8 @@
+== 0.1.2
+* Add support for commands
+* Add -I, -r and -v options
+* Better docs
+
 == 0.1.1
 * Provide hooks for shell plugins
 * Rescue irbrc exceptions
