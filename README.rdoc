@@ -39,6 +39,28 @@ easily customized for gems, applications and is even usable on the web (examples
     $ ripl
     >> ...
 
+== Create Custom Shells
+
+Creating a custom shell is as simple as:
+
+    #!/usr/bin/env ruby
+
+    require 'ripl'
+    # Do whatever setup you want ...
+    Ripl.start
+
+Ripl.start takes options to customize your shell. For example if you wanted to
+start on a specific binding:
+
+    Ripl.start :binding => my_desired_binding
+
+== Create Commands
+
+If you want to invoke your custom shell with ripl, make it a ripl command.
+To create one, create an executable in the format ripl-<command> and make sure it's in your shell's
+$PATH. For example, the file 'ripl-my_gem' would be invoked with `ripl my_gem`. Note that with your
+command you can take arguments and parse your options as you please.
+
 == Credits
 * janlelis for bug fix and tweaks
 
