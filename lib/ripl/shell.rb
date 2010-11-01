@@ -12,10 +12,17 @@ module Ripl
 
     def loop
       before_loop
+      input = ''
       while true do
-        input = get_input
-        break if !input || input == 'exit'
-        puts loop_once(input) unless input.empty?
+        catch :multiline do
+          new_input = get_input
+          exit if !new_input
+          input += new_input
+          exit if input == 'exit'
+          puts loop_once(input) unless input.empty?
+          input = ''
+        end
+        input += "\n"
       end
       after_loop
     end
@@ -29,7 +36,11 @@ module Ripl
       begin
         result = loop_eval(input)
       rescue Exception => e
-        print_eval_error(e)
+        if e.is_a?(SyntaxError) && e.message =~ /unexpected \$end|unterminated string meets end of file/
+          throw :multiline
+        else
+          print_eval_error(e)
+        end
       end
 
       @line += 1
