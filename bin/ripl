@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 
 require 'ripl'
-Ripl.start
+Ripl.run
