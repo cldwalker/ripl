@@ -5,7 +5,21 @@ module Ripl
   extend self
 
   def run
+    parse_options(ARGV)
     ARGV[0] ? run_command(ARGV) : start
+  end
+
+  def parse_options(argv)
+    while argv[0] =~ /^-/
+      case argv.shift
+      when /-I=?(.*)/
+        $LOAD_PATH.unshift(*$1.split(":"))
+      when /-r=?(.*)/
+        require $1
+      when '-v', '--version'
+        puts Ripl::VERSION; exit
+      end
+    end
   end
 
   def run_command(argv)
