@@ -3,7 +3,7 @@ module Ripl
     OPTIONS = {:name=>'ripl', :line=>1, :result_prompt=>'=> ', :prompt=>'>> ',
       :binding=>TOPLEVEL_BINDING, :irbrc=>'~/.irbrc', :history=>'~/.irb_history'}
 
-    attr_accessor :line, :binding, :result_prompt
+    attr_accessor :line, :binding, :result_prompt, :last_result
     def initialize(options={})
       @options = OPTIONS.merge options
       @name, @binding, @line = @options.values_at(:name, :binding, :line)
@@ -27,13 +27,14 @@ module Ripl
 
     def loop_once(input)
       begin
-        result = loop_eval(input)
+        @last_result = loop_eval(input)
+        eval("_ = Ripl.shell.last_result", @binding)
       rescue Exception => e
         print_eval_error(e)
       end
 
       @line += 1
-      format_result result
+      format_result @last_result
     end
 
     def print_eval_error(e)
@@ -57,7 +58,7 @@ module Ripl
     end
 
     def loop_eval(str)
-      eval('_ = '+str, @binding, "(#{@name})", @line)
+      eval(str, @binding, "(#{@name})", @line)
     end
 
     def after_loop; end
