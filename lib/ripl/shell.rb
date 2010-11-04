@@ -26,9 +26,11 @@ module Ripl
 
     def during_loop
       while true do
+        @error_raised = nil
         input = get_input
         break if !input || input == 'exit'
-        puts loop_once(input)
+        loop_once(input)
+        puts(format_result(@last_result)) unless @error_raised
       end
     end
 
@@ -42,11 +44,11 @@ module Ripl
         @last_result = loop_eval(input)
         eval("_ = Ripl.shell.last_result", @binding)
       rescue Exception => e
+        @error_raised = true
         print_eval_error(e)
       end
 
       @line += 1
-      format_result @last_result
     end
 
     def loop_eval(str)
