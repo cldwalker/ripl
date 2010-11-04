@@ -15,6 +15,8 @@ module Ripl
       during_loop
       after_loop
     end
+
+    def config; Ripl.config; end
   end
 
   module Hooks

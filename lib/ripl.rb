@@ -4,6 +4,10 @@ require 'ripl/version'
 module Ripl
   extend self
 
+  def config
+    @config ||= {}
+  end
+
   def run
     parse_options(ARGV)
     ARGV[0] ? run_command(ARGV) : start
@@ -20,6 +24,8 @@ module Ripl
         $DEBUG = true
       when '-v', '--version'
         puts Ripl::VERSION; exit
+      when '-f'
+        ENV['RIPL_IRBRC'] = 'false'
       end
     end
   end
@@ -32,7 +38,8 @@ module Ripl
   end
 
   def start(options={})
-    shell(options).loop
+    config[:irbrc] = ENV['RIPL_IRBRC'] != 'false' if ENV['RIPL_IRBRC']
+    shell(options.merge(config)).loop
   end
 
   def shell(options={})
