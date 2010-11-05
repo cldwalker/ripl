@@ -1,7 +1,7 @@
 require 'readline'
 require 'ripl/completion'
 
-class Ripl::ReadlineShell < Ripl::Shell
+module Ripl::Readline
   include Ripl::Completion
 
   def get_input
@@ -23,3 +23,5 @@ class Ripl::ReadlineShell < Ripl::Shell
     File.open(history_file, 'w') {|f| f.write Readline::HISTORY.to_a.join("\n") }
   end
 end
+
+Ripl::Shell.send :include, Ripl::Readline

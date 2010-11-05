@@ -44,8 +44,8 @@ module Ripl
 
   def shell(options={})
     @shell ||= begin
-      require 'ripl/readline_shell'
-      ReadlineShell.new(options)
+      require 'ripl/readline'
+      Shell.new(options)
     rescue LoadError
       Shell.new(options)
     end
