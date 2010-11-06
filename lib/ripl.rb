@@ -45,6 +45,7 @@ module Ripl
   def shell(options={})
     @shell ||= begin
       require 'ripl/readline'
+      require 'ripl/completion'
       Shell.new(options)
     rescue LoadError
       Shell.new(options)

@@ -1,11 +1,9 @@
-module Ripl
-  module Completion
-    def start_completion
-      require 'bond'
-      Bond.start
-      true
-    rescue LoadError
-      false
-    end
+require 'bond'
+
+module Ripl::Completion
+  def before_loop
+    Bond.start
+    super
   end
 end
+Ripl::Shell.send :include, Ripl::Completion
