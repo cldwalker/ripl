@@ -2,7 +2,7 @@ require 'bond'
 
 module Ripl::Completion
   def before_loop
-    Bond.start
+    Bond.start config[:completion] || {}
     super
   end
 end

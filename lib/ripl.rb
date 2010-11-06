@@ -6,7 +6,7 @@ module Ripl
   extend self
 
   def config
-    @config ||= {}
+    @config ||= {:readline=>true}
   end
 
   def run
@@ -40,12 +40,13 @@ module Ripl
 
   def start(options={})
     config[:irbrc] = ENV['RIPL_IRBRC'] != 'false' if ENV['RIPL_IRBRC']
-    shell(options.merge(config)).loop
+    shell(options).loop
   end
 
   def shell(options={})
     @shell ||= begin
-      require 'ripl/readline'
+      options = config.merge options
+      require 'ripl/readline' if options[:readline]
       require 'ripl/completion'
       Shell.new(options)
     rescue LoadError
