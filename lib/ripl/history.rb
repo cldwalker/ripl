@@ -5,6 +5,10 @@ module Ripl::History
 
   def history; @history; end
 
+  def get_input
+    (@history << super)[-1]
+  end
+
   def before_loop
     config[:history], @history = '~/.irb_history', []
     super
