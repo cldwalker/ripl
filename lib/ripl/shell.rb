@@ -42,14 +42,12 @@ module Ripl
     end
 
     def loop_once(input)
-      begin
-        @last_result = loop_eval(input)
-        eval("_ = Ripl.shell.last_result", @binding)
-      rescue Exception => e
-        @error_raised = true
-        print_eval_error(e)
-      end
-
+      @last_result = loop_eval(input)
+      eval("_ = Ripl.shell.last_result", @binding)
+    rescue Exception => e
+      @error_raised = true
+      print_eval_error(e)
+    ensure
       @line += 1
     end
 
