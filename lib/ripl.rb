@@ -1,4 +1,5 @@
 require 'ripl/shell'
+require 'ripl/history'
 require 'ripl/version'
 
 module Ripl

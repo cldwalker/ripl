@@ -1,7 +1,7 @@
 module Ripl
   class Shell
     OPTIONS = {:name=>'ripl', :line=>1, :result_prompt=>'=> ', :prompt=>'>> ',
-      :binding=>TOPLEVEL_BINDING, :irbrc=>'~/.irbrc', :history=>'~/.irb_history'}
+      :binding=>TOPLEVEL_BINDING, :irbrc=>'~/.irbrc'}
 
     attr_accessor :line, :binding, :result_prompt, :last_result
     def initialize(options={})
