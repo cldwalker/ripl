@@ -12,11 +12,12 @@ module Ripl::Readline
 
   def before_loop
     super
+    at_exit { write_history }
     File.exists?(history_file) &&
       IO.readlines(history_file).each {|e| Readline::HISTORY << e.chomp }
   end
 
-  def after_loop
+  def write_history
     File.open(history_file, 'w') {|f| f.write Readline::HISTORY.to_a.join("\n") }
   end
 end
