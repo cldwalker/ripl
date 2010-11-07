@@ -65,7 +65,7 @@ module Ripl
     end
 
     def format_error(e)
-      "#{e.class}: #{e.message}\n\t#{e.backtrace.join("\n\t")}"
+      "#{e.class}: #{e.message}\n    #{e.backtrace.join("\n    ")}"
     end
 
     def format_result(result)
