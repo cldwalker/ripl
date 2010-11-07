@@ -20,7 +20,7 @@ module Ripl
     def config; Ripl.config; end
   end
 
-  module Hooks
+  module Pluggable
     def before_loop
       load_rc(@irbrc) if @irbrc
     end
@@ -74,5 +74,5 @@ module Ripl
 
     def after_loop; end
   end
-  Shell.send :include, Hooks
+  Shell.send :include, Pluggable
 end

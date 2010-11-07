@@ -10,24 +10,27 @@ Install the gem with:
 
 == Features
 
-* Same as irb
+* Similar to irb
   * Reads ~/.irbrc on startup
   * Appends to ~/.irb_history on exit
   * Autocompletion (from bond)
   * _ for last result
   * Type 'exit' or Ctrl-D to exit
-  * Commandline options: -r, -I, -v
+  * 6 common commandline options: -f, -r, -I, -d, -h, -v
+  * IRB.conf -> Ripl.config
 * Enhancements over irb
   * ~/.irbrc errors caught
-  * Provides hooks for plugins
-  * Method argument and customizable autocompletion (from bond)
-  * Less than 150 loc vs irb's 5000+ loc
-  * Simple configuration i.e. one hash
+  * Easily extendable with plugins
+  * ~150 loc vs irb's 5000+ loc
+  * Customizable completion and completion of method arguments (from bond)
+  * Easy to create custom shells for gems and apps i.e. Ripl.start
+  * Easy to create and invoke ripl subcommands
 * Different from irb
   * No multi-line evaluation
   * No irb subsessions or workspaces
-  * No IRB.conf features i.e. dynamic prompts and auto indent
-  * Most commandline options not supported
+  * No IRB.conf features i.e. preconfigured prompts and auto indent
+
+Note: Irb features not in ripl can be implemented as plugins.
 
 == Philosophy
 
@@ -40,14 +43,34 @@ easily customized for gems, applications and is even usable on the web (examples
     $ ripl
     >> ...
 
+== Create Plugins
+
+A ripl plugin is a module that is included into Ripl::Shell. As an example let's color error
+messages red. Knowing that error messages are formatted by format_error() and terminal strings are
+encoded red in the format "\e[31m%s\e[m", this plugin becomes:
+
+    module Ripl
+      module RedError
+        def format_error(error)
+          "\e[31m#{super}\e[m"
+        end
+      end
+    end
+    Ripl::Shell.send :include, Ripl::RedError
+
+Note this plugin extends format_error() by invoking the original format_error() with super.  Also
+note that plugins are just modules and thus can be packaged as gems and reused across shells as
+needed.
+
+ripl encourages plugins by making most of its shell available to plugins. For methods that can be
+extended by plugins, see Ripl::Pluggable.
+
 == Create Custom Shells
 
-Creating a custom shell is as simple as:
-
-    #!/usr/bin/env ruby
+Creating and starting a custom shell is as simple as:
 
     require 'ripl'
-    # Do whatever setup you want ...
+    # Define plugins, load files, etc...
     Ripl.start
 
 Ripl.start takes options to customize your shell. For example if you wanted to
@@ -67,7 +90,7 @@ see {ripl-rails}[http://github.com/cldwalker/ripl-rails].
 * janlelis for bug fix and tweaks
 
 == irb alternatives
-Some other irb alternatives which I encourage you to check out:
+Some other irb alternatives to check out:
 
 * {ir}[http://github.com/raggi/ir]: nice and light
 * {irb2}[http://github.com/wycats/irb2]: yehuda katz's partial attempt at rewriting irb
