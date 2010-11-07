@@ -27,6 +27,8 @@ module Ripl
         puts Ripl::VERSION; exit
       when '-f'
         ENV['RIPL_IRBRC'] = 'false'
+      when '-h', '--help'
+        puts IO.readlines(__FILE__).grep(/^#/).map {|e| e.sub(/^#\s/,'') }; exit
       end
     end
   end
@@ -54,3 +56,13 @@ module Ripl
     end
   end
 end
+__END__
+# Usage: ripl [OPTIONS] [COMMAND] [ARGS]
+#
+# Options:
+#   -f                  Supress loading ~/.irbrc
+#   -d, --debug         Set $DEBUG to true (same as `ruby -d')
+#   -I=PATH             Add to front of $LOAD_PATH. Delimit multiple paths with ':'
+#   -r, --require=FILE  Require file (same as `ruby -r')
+#   -v, --version       Print ripl version
+#   -h, --help          Print help
