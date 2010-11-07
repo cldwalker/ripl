@@ -1,7 +1,28 @@
 module Ripl
   class Shell
     OPTIONS = {:name=>'ripl', :line=>1, :result_prompt=>'=> ', :prompt=>'>> ',
-      :binding=>TOPLEVEL_BINDING, :irbrc=>'~/.irbrc', :riplrc=>'~/.riplrc'}
+      :binding=>TOPLEVEL_BINDING, :irbrc=>'~/.irbrc'}
+
+    def self.create(options={})
+      load_rc(Ripl.config[:riplrc])
+      options = Ripl.config.merge options
+      require 'ripl/readline' if options[:readline]
+      require 'ripl/completion'
+      Shell.new(options)
+    rescue LoadError
+      Shell.new(options)
+    end
+
+    def self.load_rc(file)
+      load file if File.exists?(File.expand_path(file))
+    rescue StandardError, SyntaxError
+      warn "Error while loading #{file}:\n"+ format_error($!)
+    end
+
+    def self.format_error(err)
+      "#{err.class}: #{err.message}\n    #{err.backtrace.join("\n    ")}"
+    end
+
 
     attr_accessor :line, :binding, :result_prompt, :last_result
     def initialize(options={})
@@ -11,7 +32,6 @@ module Ripl
     end
 
     def loop
-      load_rc(@options[:riplrc])
       before_loop
       during_loop
       after_loop
@@ -22,13 +42,7 @@ module Ripl
 
   module Pluggable
     def before_loop
-      load_rc(@irbrc) if @irbrc
-    end
-
-    def load_rc(file)
-      load file if File.exists?(File.expand_path(file))
-    rescue StandardError, SyntaxError
-      warn "Error while loading #{file}:\n"+ format_error($!)
+      Shell.load_rc(@irbrc) if @irbrc
     end
 
     def during_loop
@@ -60,13 +74,11 @@ module Ripl
       eval(str, @binding, "(#{@name})", @line)
     end
 
-    def print_eval_error(e)
-      warn format_error(e)
+    def print_eval_error(err)
+      warn format_error(err)
     end
 
-    def format_error(e)
-      "#{e.class}: #{e.message}\n    #{e.backtrace.join("\n    ")}"
-    end
+    def format_error(err); Shell.format_error(err); end
 
     def format_result(result)
       @options[:result_prompt] + result.inspect

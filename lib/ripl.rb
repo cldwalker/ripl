@@ -6,7 +6,7 @@ module Ripl
   extend self
 
   def config
-    @config ||= {:readline=>true}
+    @config ||= {:readline=>true, :riplrc=>'~/.riplrc'}
   end
 
   def run
@@ -46,14 +46,7 @@ module Ripl
   end
 
   def shell(options={})
-    @shell ||= begin
-      options = config.merge options
-      require 'ripl/readline' if options[:readline]
-      require 'ripl/completion'
-      Shell.new(options)
-    rescue LoadError
-      Shell.new(options)
-    end
+    @shell ||= Shell.create(options)
   end
 end
 __END__
