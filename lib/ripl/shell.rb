@@ -1,7 +1,7 @@
 module Ripl
   class Shell
     OPTIONS = {:name=>'ripl', :line=>1, :result_prompt=>'=> ', :prompt=>'>> ',
-      :binding=>TOPLEVEL_BINDING, :irbrc=>'~/.irbrc'}
+      :binding=>TOPLEVEL_BINDING, :irbrc=>'~/.irbrc', :riplrc=>'~/.riplrc'}
 
     attr_accessor :line, :binding, :result_prompt, :last_result
     def initialize(options={})
@@ -11,6 +11,7 @@ module Ripl
     end
 
     def loop
+      load_rc(@options[:riplrc])
       before_loop
       during_loop
       after_loop
@@ -21,9 +22,13 @@ module Ripl
 
   module Hooks
     def before_loop
-      load @irbrc if @irbrc && File.exists?(File.expand_path(@irbrc))
+      load_rc(@irbrc) if @irbrc
+    end
+
+    def load_rc(file)
+      load file if File.exists?(File.expand_path(file))
     rescue StandardError, SyntaxError
-      warn "Error while loading #{@irbrc}:\n"+ format_error($!)
+      warn "Error while loading #{file}:\n"+ format_error($!)
     end
 
     def during_loop
