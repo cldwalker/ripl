@@ -1,3 +1,9 @@
+== 0.2.0
+* Full support for plugins
+* Add history support for all shells
+* Add ~/.riplrc
+* Add usage and more commandline options
+
 == 0.1.2
 * Add support for commands
 * Add -I, -r and -v options
