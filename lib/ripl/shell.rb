@@ -23,7 +23,6 @@ module Ripl
       "#{err.class}: #{err.message}\n    #{err.backtrace.join("\n    ")}"
     end
 
-
     attr_accessor :line, :binding, :result_prompt, :last_result
     def initialize(options={})
       @options = OPTIONS.merge options
