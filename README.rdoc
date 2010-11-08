@@ -21,7 +21,7 @@ Install the gem with:
 * Enhancements over irb
   * ~/.irbrc errors caught
   * Easily extendable with plugins
-  * ~150 loc vs irb's 5000+ loc
+  * Less than 175 loc vs irb's 5000+ loc
   * Customizable completion and completion of method arguments (from bond)
   * Easy to create custom shells for gems and apps i.e. Ripl.start
   * Easy to create and invoke ripl subcommands
@@ -45,8 +45,8 @@ easily customized for gems, applications and is even usable on the web (examples
 
 == Create Plugins
 
-A ripl plugin is a module that is included into Ripl::Shell. As an example let's color error
-messages red. Knowing that error messages are formatted by format_error() and terminal strings are
+A ripl plugin is a module that is included into Ripl::Shell or Ripl::Runner. As an example let's color error
+messages red. Knowing that error messages are formatted by Ripl::Shell#format_error and terminal strings are
 encoded red in the format "\e[31m%s\e[m", this plugin becomes:
 
     module Ripl
@@ -62,8 +62,9 @@ Note this plugin extends format_error() by invoking the original format_error() 
 note that plugins are just modules and thus can be packaged as gems and reused across shells as
 needed.
 
-ripl encourages plugins by making most of its shell available to plugins. For methods that can be
-extended by plugins, see Ripl::Pluggable.
+ripl highly encourages plugins by loading them as early as possible and allowing them to effect
+almost any aspect of ripl. To customize the shell and the runner (for option and argument parsing),
+see Ripl::Shell::API and Ripl::Runner::API.
 
 == Create Custom Shells
 

@@ -3,8 +3,10 @@ module Ripl::Runner
     mod.extend(self)
   end
 
-  module Pluggable 
+  module API
     def run
+      load_rc(Ripl.config[:riplrc])
+      @riplrc = true
       parse_options(ARGV)
       ARGV[0] ? run_command(ARGV) : start
     end
@@ -36,11 +38,22 @@ module Ripl::Runner
     end
 
     def start(options={})
+      load_rc(Ripl.config[:riplrc]) unless @riplrc
       Ripl.config[:irbrc] = ENV['RIPL_IRBRC'] != 'false' if ENV['RIPL_IRBRC']
       Ripl.shell(options).loop
     end
+
+    def load_rc(file)
+      load file if File.exists?(File.expand_path(file))
+    rescue StandardError, SyntaxError
+      warn "Error while loading #{file}:\n"+ format_error($!)
+    end
+
+    def format_error(err)
+      "#{err.class}: #{err.message}\n    #{err.backtrace.join("\n    ")}"
+    end
   end
-  extend Pluggable
+  extend API
 end
 __END__
 # Usage: ripl [OPTIONS] [COMMAND] [ARGS]
