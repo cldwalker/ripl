@@ -41,8 +41,12 @@ class Ripl::Shell
     end
 
     def get_input
-      print @options[:prompt]
+      print prompt
       $stdin.gets.chomp
+    end
+
+    def prompt
+      @options[:prompt].respond_to?(:call) ? @options[:prompt].call : @options[:prompt]
     end
 
     def loop_once(input)

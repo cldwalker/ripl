@@ -1,7 +1,7 @@
 require 'readline'
 module Ripl::Readline
   def get_input
-    Readline.readline @options[:prompt], true
+    Readline.readline prompt, true
   end
 
   def history; Readline::HISTORY; end
