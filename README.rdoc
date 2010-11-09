@@ -68,6 +68,8 @@ extension, see Ripl::Shell::API and Ripl::Runner::API.
 If we want to add a config for this plugin, we can simply add a key to Ripl.config that matches the
 underscored version of the plugin name i.e. Ripl.config[:red_error].
 
+For available plugins, see Available Plugins below.
+
 == Create Custom Shells
 
 Creating and starting a custom shell is as simple as:
@@ -94,6 +96,12 @@ see {ripl-rails}[http://github.com/cldwalker/ripl-rails].
 Since ripl is highly customizable, it loads ~/.riplrc before it does anything. This ruby file should
 require and/or define plugins. Any ripl configurations via Ripl.config should also be done here.
 For an example riplrc, see {mine}[http://github.com/cldwalker/dotfiles/tree/master/.riplrc].
+
+== Available Plugins
+
+* {ripl-rails}[http://github.com/cldwalker/ripl-rails] : script/console for ripl
+* {ripl-color_error}[http://github.com/cldwalker/ripl-color_error] : colorize errors
+* {ripl-after_rc}[http://github.com/cldwalker/ripl-after_rc] : provide blocks to run after ~/.irbrc is loaded
 
 == Credits
 * janlelis for bug fix and tweaks
