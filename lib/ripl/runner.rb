@@ -4,11 +4,11 @@ module Ripl::Runner
   end
 
   module API
-    def run
+    def run(argv=ARGV)
       load_rc(Ripl.config[:riplrc])
       @riplrc = true
-      parse_options(ARGV)
-      ARGV[0] ? run_command(ARGV) : start
+      parse_options(argv)
+      argv[0] ? run_command(argv) : start
     end
 
     def parse_options(argv)
