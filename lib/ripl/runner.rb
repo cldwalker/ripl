@@ -26,6 +26,8 @@ module Ripl::Runner
           ENV['RIPL_IRBRC'] = 'false'
         when '-h', '--help'
           puts IO.readlines(__FILE__).grep(/^#/).map {|e| e.sub(/^#\s/,'') }; exit
+        when /^--?([^-]+)/
+          warn "ripl: invalid option `#{$1}'"
         end
       end
     end

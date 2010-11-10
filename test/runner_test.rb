@@ -72,5 +72,11 @@ describe "Runner" do
         actual.should =~ /Options:\n  -f/
       }
     end
+
+    it "with invalid options prints errors" do
+      capture_stderr {
+        ripl('--blah', '-z', :start=>true)
+      }.chomp.should == "ripl: invalid option `blah'\nripl: invalid option `z'"
+    end
   end
 end
