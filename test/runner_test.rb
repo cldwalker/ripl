@@ -16,6 +16,11 @@ describe "Runner" do
         $:[0].should == 'spec'
       end
 
+      it "and whitespace delimited argument adds to $LOAD_PATH" do
+        ripl("-I", "spec", :start=>true)
+        $:[0].should == 'spec'
+      end
+
       it "containing multiple paths adds to $LOAD_PATH" do
         ripl("-I=app:lib", :start=>true)
         $:[0,2].should == ['app', 'lib']
@@ -24,6 +29,12 @@ describe "Runner" do
       it "called more than once adds to $LOAD_PATH" do
         ripl("-Ilib", "-Ispec", :start=>true)
         $:[0,2].should == ['spec', 'lib']
+      end
+
+      it "with invalid argument doesn't add to $LOAD_PATH" do
+        previous_size = $:.size
+        ripl("-I", :start=>true)
+        $:.size.should == previous_size
       end
     end
 
@@ -38,10 +49,20 @@ describe "Runner" do
         ripl("-rrip", :start=>true)
       end
 
+      it "and whitespace delimited argument requires path" do
+        mock(Runner).require('rip')
+        ripl("-r", "rip", :start=>true)
+      end
+
       it "called more than once requires paths" do
         mock(Runner).require('rip')
         mock(Runner).require('dude')
         ripl("-rrip", "-rdude", :start=>true)
+      end
+
+      it "with invalid argument requires blank" do
+        mock(Runner).require('')
+        ripl('-r', :start=>true)
       end
     end
 

@@ -15,9 +15,9 @@ module Ripl::Runner
       while argv[0] =~ /^-/
         case argv.shift
         when /-I=?(.*)/
-          $LOAD_PATH.unshift(*$1.split(":"))
+          $LOAD_PATH.unshift(*($1.empty? ? argv.shift.to_s : $1).split(":"))
         when /-r=?(.*)/
-          require $1
+          require $1.empty? ? argv.shift.to_s : $1
         when '-d'
           $DEBUG = true
         when '-v', '--version'
@@ -63,7 +63,7 @@ __END__
 # Options:
 #   -f                  Supress loading ~/.irbrc
 #   -d, --debug         Set $DEBUG to true (same as `ruby -d')
-#   -I=PATH             Add to front of $LOAD_PATH. Delimit multiple paths with ':'
-#   -r, --require=FILE  Require file (same as `ruby -r')
+#   -I PATH             Add to front of $LOAD_PATH. Delimit multiple paths with ':'
+#   -r, --require FILE  Require file (same as `ruby -r')
 #   -v, --version       Print ripl version
 #   -h, --help          Print help
