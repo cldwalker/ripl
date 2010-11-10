@@ -14,6 +14,14 @@ module Helpers
     capture_stdout { Ripl::Runner.run(args) }
   end
 
+  def mock_riplrc(&block)
+    mock(Runner).load_rc(Ripl.config[:riplrc]) { block.call if block }
+  end
+
+  def reset_ripl
+    Ripl.instance_eval "@shell = @riplrc = nil"
+  end
+
   def capture_stdout(&block)
     original_stdout = $stdout
     $stdout = fake = StringIO.new

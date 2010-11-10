@@ -1,7 +1,66 @@
 require File.join(File.dirname(__FILE__), 'test_helper')
 
 describe "Runner" do
+  describe ".start" do
+    before { reset_ripl }
+
+    it "loads riplrc" do
+      mock_riplrc
+      mock(Ripl).shell(anything) { shell = Shell.new; mock(shell).loop; shell }
+      Ripl.start
+    end
+
+    it "sets a shell's options" do
+      mock_riplrc
+      mock(Shell).create(anything) {|e| shell = Shell.new(e); mock(shell).loop; shell }
+      Ripl.start(:prompt=>'$')
+      Ripl.shell.options[:prompt].should == '$'
+    end
+
+    it "overrides options set in riplrc" do
+      mock_riplrc { Ripl.config[:readline] = false }
+      mock(Shell).create(anything) {|e| shell = Shell.new(e); mock(shell).loop; shell }
+      Ripl.start(:readline=>true)
+      Ripl.shell.options[:readline].should == true
+    end
+  end
+
   describe ".run" do
+    describe "riplrc" do
+      before { reset_ripl }
+
+      it "sets a shell's options" do
+        mock_riplrc { Ripl.config[:blah] = true }
+        mock(Shell).create(anything) {|e| shell = Shell.new(e); mock(shell).loop; shell }
+        Runner.run([])
+        Ripl.shell.options[:blah].should == true
+      end
+
+      it "catches and prints error" do
+        mock(Runner).load(anything) { raise SyntaxError }
+        mock(Ripl).shell(anything) { shell = Shell.new; mock(shell).loop; shell }
+        capture_stderr { Runner.run([]) }.should =~ %r{^Error while loading ~/.riplrc:\nSyntaxError:}
+      end
+    end
+
+    describe "with subcommand" do
+      it "that is valid gets invoked with arguments" do
+        mock(Runner).exec('ripl-rails', '--blah')
+        ripl("rails", '--blah')
+      end
+
+      it "has global options before it parsed" do
+        mock(Runner).parse_options(anything) {|e| e.shift }
+        mock(Runner).exec('ripl-rails')
+        ripl("-f", "rails")
+      end
+
+      it "that is invalid aborts" do
+        mock(Runner).abort("`zzz' is not a ripl command.")
+        ripl 'zzz'
+      end
+    end
+
     describe "with -I option" do
       before { @old_load_path = $:.dup }
       after { $:.replace @old_load_path }
@@ -67,6 +126,7 @@ describe "Runner" do
     end
 
     it "with -f option doesn't load irbrc" do
+      reset_ripl
       mock(Shell).create(anything) {|e|
         shell = Shell.new(e)
         mock(shell).during_loop

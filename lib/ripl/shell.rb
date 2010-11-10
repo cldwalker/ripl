@@ -10,7 +10,7 @@ class Ripl::Shell
     new(options)
   end
 
-  attr_accessor :line, :binding, :result_prompt, :last_result
+  attr_accessor :line, :binding, :result_prompt, :last_result, :options
   def initialize(options={})
     @options = OPTIONS.merge options
     @name, @binding, @line = @options.values_at(:name, :binding, :line)
