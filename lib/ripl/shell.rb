@@ -35,7 +35,7 @@ class Ripl::Shell
       @input = get_input
       throw(:ripl_exit) if !@input || @input == 'exit'
       eval_input(@input)
-      puts(format_result(@result)) unless @error_raised
+      print_result(@result)
     end
 
     def get_input
@@ -63,6 +63,10 @@ class Ripl::Shell
 
     def print_eval_error(err)
       warn format_error(err)
+    end
+
+    def print_result(result)
+      puts(format_result(result)) unless @error_raised
     end
 
     def format_error(err); Ripl::Runner.format_error(err); end
