@@ -10,7 +10,7 @@ class Ripl::Shell
     new(options)
   end
 
-  attr_accessor :line, :binding, :result_prompt, :last_result, :options
+  attr_accessor :line, :binding, :result_prompt, :result, :options
   def initialize(options={})
     @options = OPTIONS.merge options
     @name, @binding, @line = @options.values_at(:name, :binding, :line)
@@ -19,7 +19,7 @@ class Ripl::Shell
 
   def loop
     before_loop
-    catch(:ripl_exit) { while(true) do; in_loop; end }
+    catch(:ripl_exit) { while(true) do; loop_once; end }
     after_loop
   end
 
@@ -30,12 +30,12 @@ class Ripl::Shell
       Ripl::Runner.load_rc(@irbrc) if @irbrc
     end
 
-    def in_loop
+    def loop_once
       @error_raised = nil
       @input = get_input
       throw(:ripl_exit) if !@input || @input == 'exit'
-      loop_once(@input)
-      puts(format_result(@last_result)) unless @error_raised
+      eval_input(@input)
+      puts(format_result(@result)) unless @error_raised
     end
 
     def get_input
@@ -47,9 +47,9 @@ class Ripl::Shell
       @options[:prompt].respond_to?(:call) ? @options[:prompt].call : @options[:prompt]
     end
 
-    def loop_once(input)
-      @last_result = loop_eval(input)
-      eval("_ = Ripl.shell.last_result", @binding)
+    def eval_input(input)
+      @result = loop_eval(input)
+      eval("_ = Ripl.shell.result", @binding)
     rescue Exception => e
       @error_raised = true
       print_eval_error(e)

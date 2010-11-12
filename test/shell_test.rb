@@ -11,13 +11,13 @@ describe "Shell" do
     before { mock(shell).before_loop }
     it "exits with exit" do
       mock(shell).get_input { 'exit' }
-      dont_allow(shell).loop_once
+      dont_allow(shell).eval_input
       shell.loop
     end
 
     it "exits with Control-D" do
       mock(shell).get_input { nil }
-      dont_allow(shell).loop_once
+      dont_allow(shell).eval_input
       shell.loop
     end
   end
@@ -32,17 +32,17 @@ describe "Shell" do
     end
   end
 
-  describe "#loop_once" do
-    before { @line = shell.line; shell.loop_once("10 ** 2") }
+  describe "#eval_input" do
+    before { @line = shell.line; shell.eval_input("10 ** 2") }
 
     describe "normally" do
-      it "sets last_result" do
-        shell.last_result.should == 100
+      it "sets result" do
+        shell.result.should == 100
       end
 
       it "sets _" do
-        shell.loop_once('_')
-        shell.last_result.should == 100
+        shell.eval_input('_')
+        shell.result.should == 100
       end
 
       it "increments line" do
@@ -53,7 +53,7 @@ describe "Shell" do
     describe "with error" do
       before {
         @line = shell.line
-        @stderr = capture_stderr { shell.loop_once('{') }
+        @stderr = capture_stderr { shell.eval_input('{') }
       }
 
       it "prints it" do
