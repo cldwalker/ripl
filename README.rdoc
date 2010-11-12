@@ -104,6 +104,7 @@ For an example riplrc, see {mine}[http://github.com/cldwalker/dotfiles/tree/mast
 * {ripl-color_error}[http://github.com/cldwalker/ripl-color_error] : colorize errors
 * {ripl-after_rc}[http://github.com/cldwalker/ripl-after_rc] : provide blocks to run after ~/.irbrc is loaded
 * {ripl-multi_line}[http://github.com/janlelis/ripl-multi_line] : evaluate multiple lines
+* {ripl-irb}[http://github.com/cldwalker/ripl-irb] : smooths transition from irb
 * {nirvana}[http://github.com/cldwalker/nirvana]: Not a plugin, rather a web shell built on top of ripl
 
 == Credits
