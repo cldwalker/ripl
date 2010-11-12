@@ -36,7 +36,7 @@ Note: Irb features not in ripl can be implemented as plugins.
 
 ripl is a light, flexible repl(shell) meant to lay the foundation for customizable ruby shells. It
 provides an environment for plugins to share and reuse best practices for shells. ripl can be
-easily customized for gems, applications and is even usable on the web (examples forthcoming).
+easily customized for gems, applications and is even usable on the web (see {nirvana}[http://github.com/cldwalker/nirvana]).
 
 == Usage
 
@@ -103,6 +103,7 @@ For an example riplrc, see {mine}[http://github.com/cldwalker/dotfiles/tree/mast
 * {ripl-color_error}[http://github.com/cldwalker/ripl-color_error] : colorize errors
 * {ripl-after_rc}[http://github.com/cldwalker/ripl-after_rc] : provide blocks to run after ~/.irbrc is loaded
 * {ripl-multi_line}[http://github.com/janlelis/ripl-multi_line] : evaluate multiple lines
+* {nirvana}[http://github.com/cldwalker/nirvana]: Not a plugin, rather a web shell built on top of ripl
 
 == Credits
 * janlelis for bug fix and tweaks
