@@ -26,7 +26,7 @@ Install the gem with:
   * Easy to create and invoke ripl subcommands
   * ~/.irbrc errors caught
 * Different from irb
-  * No multi-line evaluation
+  * No multi-line evaluation by default (there is a plugin. See Available Plugins below).
   * No irb subsessions or workspaces
   * No IRB.conf features i.e. preconfigured prompts and auto indent
 
@@ -102,6 +102,7 @@ For an example riplrc, see {mine}[http://github.com/cldwalker/dotfiles/tree/mast
 * {ripl-rails}[http://github.com/cldwalker/ripl-rails] : script/console for ripl
 * {ripl-color_error}[http://github.com/cldwalker/ripl-color_error] : colorize errors
 * {ripl-after_rc}[http://github.com/cldwalker/ripl-after_rc] : provide blocks to run after ~/.irbrc is loaded
+* {ripl-multi_line}[http://github.com/janlelis/ripl-multi_line] : evaluate multiple lines
 
 == Credits
 * janlelis for bug fix and tweaks
@@ -112,6 +113,3 @@ Some other irb alternatives to check out:
 * {ir}[http://github.com/raggi/ir]: nice and light
 * {irb2}[http://github.com/wycats/irb2]: yehuda katz's partial attempt at rewriting irb
 * {dietrb}[http://github.com/alloy/dietrb]: mac and ruby 1.9 specific
-
-== Todo
-* Everything (tests especially)!

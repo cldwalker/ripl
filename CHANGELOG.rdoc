@@ -1,3 +1,9 @@
+== 0.2.1
+* Add tests
+* Add more flexible -I and -r
+* Update Shell::API to be more plugin friendly
+* Handle invalid options
+
 == 0.2.0
 * Full support for plugins
 * Add history support for all shells
