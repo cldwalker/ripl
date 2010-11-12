@@ -21,6 +21,7 @@ Install the gem with:
 * Enhancements over irb
   * ~200 lines vs irb's 5000+ lines
   * Easily extendable with plugins
+  * Tests!
   * Customizable completion and completion of method arguments (from bond)
   * Easy to create custom shells for gems and apps i.e. Ripl.start
   * Easy to create and invoke ripl subcommands
