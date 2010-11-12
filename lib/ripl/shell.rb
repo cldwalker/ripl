@@ -19,7 +19,7 @@ class Ripl::Shell
 
   def loop
     before_loop
-    during_loop
+    catch(:ripl_exit) { while(true) do; in_loop; end }
     after_loop
   end
 
@@ -30,14 +30,12 @@ class Ripl::Shell
       Ripl::Runner.load_rc(@irbrc) if @irbrc
     end
 
-    def during_loop
-      while true do
-        @error_raised = nil
-        input = get_input
-        break if !input || input == 'exit'
-        loop_once(input)
-        puts(format_result(@last_result)) unless @error_raised
-      end
+    def in_loop
+      @error_raised = nil
+      @input = get_input
+      throw(:ripl_exit) if !@input || @input == 'exit'
+      loop_once(@input)
+      puts(format_result(@last_result)) unless @error_raised
     end
 
     def get_input

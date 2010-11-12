@@ -7,17 +7,18 @@ describe "Shell" do
     Ripl.shell(options)
   end
 
-  describe "#during_loop" do
+  describe "#loop" do
+    before { mock(shell).before_loop }
     it "exits with exit" do
       mock(shell).get_input { 'exit' }
       dont_allow(shell).loop_once
-      shell.during_loop
+      shell.loop
     end
 
     it "exits with Control-D" do
       mock(shell).get_input { nil }
       dont_allow(shell).loop_once
-      shell.during_loop
+      shell.loop
     end
   end
 

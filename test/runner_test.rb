@@ -129,7 +129,7 @@ describe "Runner" do
       reset_ripl
       mock(Shell).create(anything) {|e|
         shell = Shell.new(e)
-        mock(shell).during_loop
+        mock(shell).in_loop { throw :ripl_exit }
         dont_allow(Runner).load_rc(anything)
         shell
       }
