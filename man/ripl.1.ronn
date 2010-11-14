@@ -1,0 +1,174 @@
+ripl(1) -- Ruby Interactive Print Loop - A light, modular alternative to irb
+====================================
+
+## SYNOPSIS
+
+    ripl [-r|--require] [-I] [-f] [-d] [-h|--help] [-v|--version] COMMAND [ARGS]
+
+## DESCRIPTION
+
+ripl is a light, modular alternative to irb. Like irb, it loads ~/.irbrc, has autocompletion and
+keeps history in ~/.irb_history.  Unlike irb, it is highly customizable via plugins and supports
+commands.  This customizability makes it easy to build custom shells (i.e. for a gem or application)
+and complex shells (i.e. for the web).
+
+## COMING FROM IRB
+
+When first trying ripl, you may experience errors in your ~/.irbrc due to an irb-specific
+configuration. In order to have ripl and irb coexist peacefully, you should silence these errors.
+To silence them without touching your ~/.irbrc, install the ripl-irb gem. This ripl plugin fakes
+irb's existence, effectively ignoring irb-specific configuration. Otherwise, if you don't mind
+modifying ~/.irbrc, wrap your irb-specific configuration in a block as follow:
+
+    if defined? IRB
+      IRB.conf[:BLAH] = 'blah'
+      # ...
+    end
+
+## CONFIGURATION
+
+All ripl shells load the ruby file ~/.riplrc if it exists. In this file, plugins are required and
+configuration options are set. To configure ripl and its plugins, use Ripl.config. By default,
+Ripl.config is a hash with the following keys:
+
+* `:binding`:
+  Binding to use for eval(). Default is TOPLEVEL_BINDING.
+
+* `:completion`:
+  A hash that configures completion via Bond.start. See bond for more details.
+
+* `:history`:
+  A file used to store input history. Default is '~/.irb_history'.
+
+* `:irbrc`:
+  A ruby file to load at startup or false to not load anything. Default is '~/.irbrc'.
+
+* `:name`:
+  Name of the shell. Default is 'ripl'.
+
+* `:prompt`:
+  A string or lambda to generate string that prompts user for input. Default is '>> '.
+
+* `:readline`:
+  A boolean to enable Readline. Default is true.
+
+* `:result_prompt`:
+  A string that prefixes the result of an eval. Default is '=> '.
+
+Plugins can optionally provide their own config key(s) for use here. It is strongly recommended that
+a plugin start with an underscored version of its name i.e. Ripl::ColorError -> Ripl.config[:color_error].
+
+An example ~/.riplrc:
+
+      require 'ripl/multi_line'
+      require 'ripl/color_error'
+      Ripl.config[:color_error] = :blue
+
+## PLUGINS
+
+A ripl plugin is a module that is included into Ripl::Shell or Ripl::Runner.  Being simply modules,
+they can be packaged as gems and reused across shells as needed.  ripl highly encourages plugins by
+loading them as early as possible and allowing them to extend most of ripl's functionality. As
+mentioned in the `CONFIGURATION` section, a plugin can be configured via Ripl.config.
+
+To always use a plugin, require it in ~/.riplrc. To sometimes use it, require it from
+the commandline:
+
+    $ ripl -rripl/multi_line
+
+Plugins can also be required in the console but it is not recommended since plugins can depend on
+initialization that occurs before the console is started. For this same reason, plugins should not
+be required in ~/.irbrc.
+
+## CREATE PLUGINS
+
+For an example shell plugin, let's color error messages red:
+
+    # Place in ~/.riplrc
+    module Ripl
+      module RedError
+        def format_error(error)
+          "\e[31m#{super}\e[m"
+        end
+      end
+    end
+    Ripl::Shell.send :include, Ripl::RedError
+
+Note this plugin extends format_error() by invoking the original format_error() with super. To see
+what methods are available for extension, see Ripl::Shell::API and Ripl::Runner::API.
+
+Points to consider when creating plugins:
+
+* When adding functionality to a method, make sure to call `super` to preserve existing functionality.
+
+* When replacing functionality for a method, make sure the method's expectations are met i.e.
+setting a specific instance variable. Failure to do so, will `break` ripl for you and anyone else
+who uses your plugin!
+
+* Plugins can setup and teardown anything around a shell by extending Shell#before_loop and Shell#after_loop:
+
+    module Ripl::MyPlugin
+      def before_loop
+        super
+        Ripl.config[:my_plugin] ||= :web_scale
+      end
+
+      def after_loop
+        super
+        # Write to files
+        # close a connection
+        # ...
+      end
+    end
+
+* To add configuration for a plugin, add a key to Ripl.config that matches the underscored version
+of the plugin name i.e. Ripl::RedError -> Ripl.config[:red_error]. To set a default config value, see
+the previous example.
+
+* For more examples of plugins, see gems I've made that start with 'ripl-'.
+
+## CREATE CUSTOM SHELLS
+
+Creating and starting a custom shell is as simple as:
+
+    require 'ripl'
+    # Define plugins, load files, etc...
+    Ripl.start
+
+Ripl.start takes the same config keys mentioned in the `CONFIGURATION` section. For example if you wanted to
+start on a specific binding:
+
+    Ripl.start :binding => MyClass.send(:binding)
+
+Also, since all shells load ~/.riplrc, Ripl.start can be used to override undesirable global
+configuration for a custom shell.
+
+## COMMANDS
+
+A ripl command is a command passed to ripl that loads a custom shell. It's a convenient way to
+package and invoke custom shells. A ripl command can take standard ripl options as long as they are
+before the command:
+
+    # Load rails console without ~/.irbrc
+    $ ripl -f rails
+
+    # Load rails console with debugger
+    $ ripl -rrdebug rails
+
+To create a ripl command, create an executable in the format ripl-command and make sure it's in your
+shell's $PATH. For example, the file 'ripl-my_gem' would be invoked with 'ripl my_gem'. Any
+arguments to a ripl command can be parsed as the ripl command pleases i.e. into options and
+arguments. For an example command, see [ripl-rails](http://github.com/cldwalker/ripl-rails).
+
+## BUGS
+
+Please report bugs at _http://github.com/cldwalker/ripl/issues_.
+
+## COPYRIGHT
+
+`ripl` is Copyright (C) 2010 Gabriel Horner
+
+## SEE ALSO
+
+<http://github.com/cldwalker/ripl>, <http://github.com/cldwalker/bond>, <http://github.com/cldwalker/nirvana>,
+<http://github.com/cldwalker/ripl-irb>, <http://github.com/cldwalker/ripl-rails>, <http://github.com/janlelis/multi_line>
