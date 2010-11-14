@@ -1,6 +1,9 @@
 == Description
 
-Ruby Interactive Print Loop - A light, modular alternative to irb
+ripl is a light, modular alternative to irb. Like irb, it loads ~/.irbrc, has autocompletion and
+keeps history in ~/.irb_history.  Unlike irb, it is highly customizable via plugins and supports
+commands.  This customizability makes it easy to build custom shells (i.e. for a gem or application)
+and complex shells (i.e. for the {web}[http://github.com/cldwalker/nirvana]).
 
 == Install
 
@@ -8,7 +11,37 @@ Install the gem with:
 
     sudo gem install ripl
 
-== Features
+To make your first ripl experience smoother, also install these plugins:
+
+    # Adds multi-line evaluation
+    sudo gem install ripl-multi_line
+
+    # Ignore errors caused by irb-specific configuration in ~/.irbrc
+    sudo gem install ripl-irb
+
+    # Add to ~/.riplrc
+    require 'ripl/multi_line'
+    require 'ripl/irb'
+
+== Usage
+
+    $ ripl
+    >> ...
+
+== Coming from irb
+
+When first trying ripl, you may experience errors in your ~/.irbrc due to an irb-specific
+configuration. In order to have ripl and irb coexist peacefully, you should silence these errors.
+To silence them without touching your ~/.irbrc, install the ripl-irb gem. This ripl plugin fakes
+irb's existence, effectively ignoring irb-specific configuration. Otherwise, if you don't mind
+modifying ~/.irbrc, wrap your irb-specific configuration in a block as follow:
+
+    if defined? IRB
+      IRB.conf[:BLAH] = 'blah'
+      # ...
+    end
+
+== Comparison to Irb
 
 * Similar to irb
   * Reads ~/.irbrc on startup
@@ -21,10 +54,10 @@ Install the gem with:
 * Enhancements over irb
   * ~200 lines vs irb's 5000+ lines
   * Easily extendable with plugins
-  * Tests!
+  * Tests and documentation!
   * Customizable completion and completion of method arguments (from bond)
   * Easy to create custom shells for gems and apps i.e. Ripl.start
-  * Easy to create and invoke ripl subcommands
+  * Easy to create and invoke ripl commands
   * ~/.irbrc errors caught
 * Different from irb
   * No multi-line evaluation by default (there is a plugin. See Available Plugins below).
@@ -32,17 +65,6 @@ Install the gem with:
   * No IRB.conf features i.e. preconfigured prompts and auto indent
 
 Note: Irb features not in ripl can be implemented as plugins.
-
-== Philosophy
-
-ripl is a light, flexible repl(shell) meant to lay the foundation for customizable ruby shells. It
-provides an environment for plugins to share and reuse best practices for shells. ripl can be
-easily customized for gems, applications and is even usable on the web (see {nirvana}[http://github.com/cldwalker/nirvana]).
-
-== Usage
-
-    $ ripl
-    >> ...
 
 == Plugins
 
@@ -63,13 +85,19 @@ As an example plugin, let's color error messages red:
     Ripl::Shell.send :include, Ripl::RedError
 
 Note this plugin extends format_error() by invoking the original format_error() with super. This is
-possible for any method that is available for extension by plugins. To see methods are available for
+possible for any method that is available for extension by plugins. To see what methods are available for
 extension, see Ripl::Shell::API and Ripl::Runner::API.
 
 If we want to add a config for this plugin, we can simply add a key to Ripl.config that matches the
 underscored version of the plugin name i.e. Ripl.config[:red_error].
 
 For available plugins, see Available Plugins below.
+
+== Configuration
+
+Since ripl is highly customizable, it loads ~/.riplrc before it does anything. This ruby file should
+require and/or define plugins. Any ripl configurations via Ripl.config should also be done here.
+For an example riplrc, see {mine}[http://github.com/cldwalker/dotfiles/tree/master/.riplrc].
 
 == Create Custom Shells
 
@@ -92,12 +120,6 @@ $PATH. For example, the file 'ripl-my_gem' would be invoked with `ripl my_gem`. 
 command you can take arguments and parse your options as you please. For an example command,
 see {ripl-rails}[http://github.com/cldwalker/ripl-rails].
 
-== Customize ripl
-
-Since ripl is highly customizable, it loads ~/.riplrc before it does anything. This ruby file should
-require and/or define plugins. Any ripl configurations via Ripl.config should also be done here.
-For an example riplrc, see {mine}[http://github.com/cldwalker/dotfiles/tree/master/.riplrc].
-
 == Available Plugins
 
 * {ripl-rails}[http://github.com/cldwalker/ripl-rails] : script/console for ripl
@@ -105,7 +127,8 @@ For an example riplrc, see {mine}[http://github.com/cldwalker/dotfiles/tree/mast
 * {ripl-after_rc}[http://github.com/cldwalker/ripl-after_rc] : provide blocks to run after ~/.irbrc is loaded
 * {ripl-multi_line}[http://github.com/janlelis/ripl-multi_line] : evaluate multiple lines
 * {ripl-irb}[http://github.com/cldwalker/ripl-irb] : smooths transition from irb
-* {nirvana}[http://github.com/cldwalker/nirvana]: Not a plugin, rather a web shell built on top of ripl
+* {ripl-color_result}[http://github.com/janlelis/ripl-color_result] : colorizes results
+* {nirvana}[http://github.com/cldwalker/nirvana]: Not a plugin but rather a web shell built on top of ripl
 
 == Credits
 * janlelis for bug fix and tweaks
