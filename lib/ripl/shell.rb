@@ -1,5 +1,5 @@
 class Ripl::Shell
-  OPTIONS = {:name=>'ripl', :line=>1, :result_prompt=>'=> ', :prompt=>'>> ',
+  OPTIONS = {:name=>'ripl', :result_prompt=>'=> ', :prompt=>'>> ',
     :binding=>TOPLEVEL_BINDING, :irbrc=>'~/.irbrc'}
 
   def self.create(options={})
@@ -13,8 +13,8 @@ class Ripl::Shell
   attr_accessor :line, :binding, :result_prompt, :result, :options
   def initialize(options={})
     @options = OPTIONS.merge options
-    @name, @binding, @line = @options.values_at(:name, :binding, :line)
-    @irbrc = @options[:irbrc]
+    @name, @binding = @options.values_at(:name, :binding)
+    @irbrc, @line = @options[:irbrc], 1
   end
 
   def loop
