@@ -10,18 +10,18 @@ describe "Runner" do
       Ripl.start
     end
 
-    it "sets a shell's options" do
+    it "sets a shell's variables" do
       mock_riplrc
       mock(Shell).create(anything) {|e| shell = Shell.new(e); mock(shell).loop; shell }
-      Ripl.start(:prompt=>'$')
-      Ripl.shell.options[:prompt].should == '$'
+      Ripl.start(:name=>'shh')
+      Ripl.shell.name.should == 'shh'
     end
 
-    it "overrides options set in riplrc" do
-      mock_riplrc { Ripl.config[:readline] = false }
+    it "overrides config set in riplrc" do
+      mock_riplrc { Ripl.config[:name] = 'blah' }
       mock(Shell).create(anything) {|e| shell = Shell.new(e); mock(shell).loop; shell }
-      Ripl.start(:readline=>true)
-      Ripl.shell.options[:readline].should == true
+      Ripl.start(:name=>'dude')
+      Ripl.shell.name.should == 'dude'
     end
   end
 
@@ -29,11 +29,11 @@ describe "Runner" do
     describe "riplrc" do
       before { reset_ripl }
 
-      it "sets a shell's options" do
+      it "sets config" do
         mock_riplrc { Ripl.config[:blah] = true }
         mock(Shell).create(anything) {|e| shell = Shell.new(e); mock(shell).loop; shell }
         Runner.run([])
-        Ripl.shell.options[:blah].should == true
+        Ripl.config[:blah].should == true
       end
 
       it "catches and prints error" do

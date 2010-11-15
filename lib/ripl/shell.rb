@@ -10,11 +10,12 @@ class Ripl::Shell
     new(options)
   end
 
-  attr_accessor :line, :binding, :result_prompt, :result, :options
+  attr_accessor :line, :binding, :result_prompt, :result, :name
   def initialize(options={})
-    @options = OPTIONS.merge options
-    @name, @binding = @options.values_at(:name, :binding)
-    @irbrc, @line = @options[:irbrc], 1
+    options = OPTIONS.merge options
+    @name, @binding = options.values_at(:name, :binding)
+    @prompt, @result_prompt = options.values_at(:prompt, :result_prompt)
+    @irbrc, @line = options[:irbrc], 1
   end
 
   # Loops shell until user exits
@@ -61,8 +62,7 @@ class Ripl::Shell
 
     # @return [String]
     def prompt
-      @options[:prompt].respond_to?(:call) ? @options[:prompt].call :
-        @options[:prompt]
+      @prompt.respond_to?(:call) ? @prompt.call : @prompt
     end
 
     # Evals user input using @binding, @name and @line
@@ -89,7 +89,7 @@ class Ripl::Shell
 
     # @return [String] Formats result using result_prompt
     def format_result(result)
-      @options[:result_prompt] + result.inspect
+      @result_prompt + result.inspect
     end
 
     # Called after shell finishes looping.
