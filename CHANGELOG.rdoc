@@ -1,3 +1,8 @@
+== 0.2.3
+* Add Shell docs
+* Sync shell binding with completion binding
+* Removed Shell#options
+
 == 0.2.2
 * Add man page
 
