@@ -28,6 +28,15 @@ To make your first ripl experience smoother, also install these plugins:
     $ ripl
     >> ...
 
+To view ripl's man page:
+
+    # If installed with rubygems
+    $ gem install gem-man
+    $ gem man ripl
+
+    # If installed with rip, man page is automatically installed
+    $ man ripl
+
 == Coming from irb
 
 When first trying ripl, you may experience errors in your ~/.irbrc due to an irb-specific
