@@ -83,7 +83,9 @@ loading them as early as possible and allowing them to extend most of ripl's fun
 
 As an example plugin, let's color error messages red:
 
-    # Place in ~/.riplrc
+    require 'ripl'
+
+    # To try place in ~/.riplrc
     module Ripl
       module RedError
         def format_error(error)

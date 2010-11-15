@@ -112,7 +112,9 @@ For an example shell plugin, let\'s color error messages red:
 .
 .nf
 
-# Place in ~/\.riplrc
+require \'ripl\'
+
+# To try place in ~/\.riplrc
 module Ripl
   module RedError
     def format_error(error)
@@ -136,7 +138,7 @@ Points to consider when creating plugins:
 When adding functionality to a method, make sure to call \fBsuper\fR to preserve existing functionality\.
 .
 .IP "\(bu" 4
-When replacing functionality for a method, make sure the method\'s expectations are met i\.e\. setting a specific instance variable\. Failure to do so, will \fBbreak\fR ripl for you and anyone else who uses your plugin!
+When replacing functionality for a method, make sure the method\'s expectations are met i\.e\. setting a specific instance variable or calling certain methods\. Failure to do so can \fBbreak\fR ripl for you and anyone else who uses your plugin!
 .
 .IP "\(bu" 4
 Plugins can setup and teardown anything around a shell by extending Shell#before_loop and Shell#after_loop:
@@ -150,14 +152,12 @@ module Ripl::MyPlugin
 
 def before_loop
   super
-  Ripl\.config[:my_plugin] ||= :web_scale
+  # Open file, open connection \.\.\.
 end
 
 def after_loop
   super
-  # Write to files
-  # close a connection
-  # \.\.\.
+  # Write to file, close a connection \.\.\.
 end
 .
 .fi
@@ -168,7 +168,7 @@ end
 end
 .
 .IP "\(bu" 4
-To add configuration for a plugin, add a key to Ripl\.config that matches the underscored version of the plugin name i\.e\. Ripl::RedError \-> Ripl\.config[:red_error]\. To set a default config value, see the previous example\.
+To add configuration for a plugin, add a key to Ripl\.config that matches the underscored version of the plugin name i\.e\. Ripl::RedError \-> Ripl\.config[:red_error]\. To set a default config value, just set it after including the plugin into Ripl::Shell\.
 .
 .IP "\(bu" 4
 For more examples of plugins, see gems I\'ve made that start with \'ripl\-\'\.
