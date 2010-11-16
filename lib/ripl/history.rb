@@ -10,7 +10,7 @@ module Ripl::History
   end
 
   def before_loop
-    config[:history], @history = '~/.irb_history', []
+    @history = []
     super
     at_exit { write_history }
     File.exists?(history_file) &&
@@ -22,3 +22,4 @@ module Ripl::History
   end
 end
 Ripl::Shell.send :include, Ripl::History
+Ripl.config[:history] = '~/.irb_history'
