@@ -10,8 +10,7 @@ class Ripl::Shell
     new(options)
   end
 
-  attr_accessor :line, :binding, :result_prompt, :result, :name
-  attr_writer   :prompt
+  attr_accessor :line, :binding, :result, :name
   def initialize(options={})
     options = OPTIONS.merge options
     @name, @binding = options.values_at(:name, :binding)
@@ -49,6 +48,7 @@ class Ripl::Shell
   end
 
   module API
+    attr_accessor :prompt, :result_prompt
     # Sets up shell before looping by loading ~/.irbrc. Can be extended to
     # initialize plugins and their instance variables.
     def before_loop
@@ -96,7 +96,7 @@ class Ripl::Shell
 
     # @return [String] Formats result using result_prompt
     def format_result(result)
-      @result_prompt + result.inspect
+      result_prompt + result.inspect
     end
 
     # Called after shell finishes looping.
