@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv='content-type' value='text/html;charset=utf8'>
+  <meta name='generator' value='Ronn/v0.7.3 (http://github.com/rtomayko/ronn/tree/0.7.3)'>
+  <title>ripl(1) - Ruby Interactive Print Loop - A light, modular alternative to irb</title>
+  <style type='text/css' media='all'>
+  /* style: man */
+  body#manpage {margin:0}
+  .mp {max-width:100ex;padding:0 9ex 1ex 4ex}
+  .mp p,.mp pre,.mp ul,.mp ol,.mp dl {margin:0 0 20px 0}
+  .mp h2 {margin:10px 0 0 0}
+  .mp > p,.mp > pre,.mp > ul,.mp > ol,.mp > dl {margin-left:8ex}
+  .mp h3 {margin:0 0 0 4ex}
+  .mp dt {margin:0;clear:left}
+  .mp dt.flush {float:left;width:8ex}
+  .mp dd {margin:0 0 0 9ex}
+  .mp h1,.mp h2,.mp h3,.mp h4 {clear:left}
+  .mp pre {margin-bottom:20px}
+  .mp pre+h2,.mp pre+h3 {margin-top:22px}
+  .mp h2+pre,.mp h3+pre {margin-top:5px}
+  .mp img {display:block;margin:auto}
+  .mp h1.man-title {display:none}
+  .mp,.mp code,.mp pre,.mp tt,.mp kbd,.mp samp,.mp h3,.mp h4 {font-family:monospace;font-size:14px;line-height:1.42857142857143}
+  .mp h2 {font-size:16px;line-height:1.25}
+  .mp h1 {font-size:20px;line-height:2}
+  .mp {text-align:justify;background:#fff}
+  .mp,.mp code,.mp pre,.mp pre code,.mp tt,.mp kbd,.mp samp {color:#131211}
+  .mp h1,.mp h2,.mp h3,.mp h4 {color:#030201}
+  .mp u {text-decoration:underline}
+  .mp code,.mp strong,.mp b {font-weight:bold;color:#131211}
+  .mp em,.mp var {font-style:italic;color:#232221;text-decoration:none}
+  .mp a,.mp a:link,.mp a:hover,.mp a code,.mp a pre,.mp a tt,.mp a kbd,.mp a samp {color:#0000ff}
+  .mp b.man-ref {font-weight:normal;color:#434241}
+  .mp pre {padding:0 4ex}
+  .mp pre code {font-weight:normal;color:#434241}
+  .mp h2+pre,h3+pre {padding-left:0}
+  ol.man-decor,ol.man-decor li {margin:3px 0 10px 0;padding:0;float:left;width:33%;list-style-type:none;text-transform:uppercase;color:#999;letter-spacing:1px}
+  ol.man-decor {width:100%}
+  ol.man-decor li.tl {text-align:left}
+  ol.man-decor li.tc {text-align:center;letter-spacing:4px}
+  ol.man-decor li.tr {text-align:right;float:right}
+  </style>
+</head>
+<!--
+  The following styles are deprecated and will be removed at some point:
+  div#man, div#man ol.man, div#man ol.head, div#man ol.man.
+
+  The .man-page, .man-decor, .man-head, .man-foot, .man-title, and
+  .man-navigation should be used instead.
+-->
+<body id='manpage'>
+  <div class='mp' id='man'>
+
+  <div class='man-navigation' style='display:none'>
+    <a href="#NAME">NAME</a>
+    <a href="#SYNOPSIS">SYNOPSIS</a>
+    <a href="#DESCRIPTION">DESCRIPTION</a>
+    <a href="#COMING-FROM-IRB">COMING FROM IRB</a>
+    <a href="#CONFIGURATION">CONFIGURATION</a>
+    <a href="#PLUGINS">PLUGINS</a>
+    <a href="#CREATE-PLUGINS">CREATE PLUGINS</a>
+    <a href="#CREATE-CUSTOM-SHELLS">CREATE CUSTOM SHELLS</a>
+    <a href="#COMMANDS">COMMANDS</a>
+    <a href="#BUGS">BUGS</a>
+    <a href="#COPYRIGHT">COPYRIGHT</a>
+    <a href="#SEE-ALSO">SEE ALSO</a>
+    </div>
+
+  <ol class='man-decor man-head man head'>
+    <li class='tl'>ripl(1)</li>
+    <li class='tc'>Ripl Manual</li>
+    <li class='tr'>ripl(1)</li>
+  </ol>
+
+  <h2 id="NAME">NAME</h2>
+<p class="man-name">
+  <code>ripl</code> - <span class="man-whatis">Ruby Interactive Print Loop - A light, modular alternative to irb</span>
+</p>
+
+<h2 id="SYNOPSIS">SYNOPSIS</h2>
+
+<pre><code>ripl [-r|--require] [-I] [-f] [-d] [-h|--help] [-v|--version] COMMAND [ARGS]
+</code></pre>
+
+<h2 id="DESCRIPTION">DESCRIPTION</h2>
+
+<p>ripl is a light, modular alternative to irb. Like irb, it loads ~/.irbrc, has autocompletion and
+keeps history in ~/.irb_history.  Unlike irb, it is highly customizable via plugins and supports
+commands.  This customizability makes it easy to build custom shells (i.e. for a gem or application)
+and complex shells (i.e. for the web).</p>
+
+<h2 id="COMING-FROM-IRB">COMING FROM IRB</h2>
+
+<p>When first trying ripl, you may experience errors in your ~/.irbrc due to an irb-specific
+configuration. In order to have ripl and irb coexist peacefully, you should silence these errors.
+To silence them without touching your ~/.irbrc, install the ripl-irb gem. This ripl plugin fakes
+irb's existence, effectively ignoring irb-specific configuration. Otherwise, if you don't mind
+modifying ~/.irbrc, wrap your irb-specific configuration in a block as follow:</p>
+
+<pre><code>if defined? IRB
+  IRB.conf[:BLAH] = 'blah'
+  # ...
+end
+</code></pre>
+
+<h2 id="CONFIGURATION">CONFIGURATION</h2>
+
+<p>All ripl shells load the ruby file ~/.riplrc if it exists. In this file, plugins are required and
+configuration options are set. To configure ripl and its plugins, use Ripl.config. By default,
+Ripl.config is a hash with the following keys:</p>
+
+<dl>
+<dt><code>:binding</code></dt><dd><p>Binding to use for eval(). Default is TOPLEVEL_BINDING.</p></dd>
+<dt><code>:completion</code></dt><dd><p>A hash that configures completion via Bond.start. See bond for more details.</p></dd>
+<dt><code>:history</code></dt><dd><p>A file used to store input history. Default is '~/.irb_history'.</p></dd>
+<dt class="flush"><code>:irbrc</code></dt><dd><p>A ruby file to load at startup or false to not load anything. Default is '~/.irbrc'.</p></dd>
+<dt class="flush"><code>:name</code></dt><dd><p>Name of the shell. Default is 'ripl'.</p></dd>
+<dt class="flush"><code>:prompt</code></dt><dd><p>A string or lambda to generate string that prompts user for input. Default is '>> '.</p></dd>
+<dt><code>:readline</code></dt><dd><p>A boolean to enable Readline. Default is true.</p></dd>
+<dt><code>:result_prompt</code></dt><dd><p>A string that prefixes the result of an eval. Default is '=> '.</p></dd>
+</dl>
+
+
+<p>Plugins can optionally provide their own config key(s) for use here. It is strongly recommended that
+a plugin start with an underscored version of its name i.e. Ripl::ColorError -> Ripl.config[:color_error].</p>
+
+<p>An example ~/.riplrc:</p>
+
+<pre><code>  require 'ripl/multi_line'
+  require 'ripl/color_error'
+  Ripl.config[:color_error] = :blue
+</code></pre>
+
+<h2 id="PLUGINS">PLUGINS</h2>
+
+<p>A ripl plugin is a module that is included into Ripl::Shell or Ripl::Runner.  Being simply modules,
+they can be packaged as gems and reused across shells as needed.  ripl highly encourages plugins by
+loading them as early as possible and allowing them to extend most of ripl's functionality. As
+mentioned in the <code>CONFIGURATION</code> section, a plugin can be configured via Ripl.config.</p>
+
+<p>To always use a plugin, require it in ~/.riplrc. To sometimes use it, require it from
+the commandline:</p>
+
+<pre><code>$ ripl -rripl/multi_line
+</code></pre>
+
+<p>Plugins can also be required in the console but it is not recommended since plugins can depend on
+initialization that occurs before the console is started. For this same reason, plugins should not
+be required in ~/.irbrc.</p>
+
+<h2 id="CREATE-PLUGINS">CREATE PLUGINS</h2>
+
+<p>For an example shell plugin, let's color error messages red:</p>
+
+<pre><code>require 'ripl'
+
+# To try place in ~/.riplrc
+module Ripl
+  module RedError
+    def format_error(error)
+      "\e[31m#{super}\e[m"
+    end
+  end
+end
+Ripl::Shell.send :include, Ripl::RedError
+</code></pre>
+
+<p>Note this plugin extends format_error() by invoking the original format_error() with super. To see
+what methods are available for extension, see Ripl::Shell::API and Ripl::Runner::API.</p>
+
+<p>Points to consider when creating plugins:</p>
+
+<ul>
+<li><p>When adding functionality to a method, make sure to call <code>super</code> to preserve existing functionality.</p></li>
+<li><p>When replacing functionality for a method, make sure the method's expectations are met i.e.
+setting a specific instance variable or calling certain methods. Failure to do so can <code>break</code> ripl
+for you and anyone else who uses your plugin!</p></li>
+<li><p>Plugins can setup and teardown anything around a shell by extending Shell#before_loop and Shell#after_loop:</p>
+
+<p>  module Ripl::MyPlugin</p>
+
+<pre><code>def before_loop
+  super
+  # Open file, open connection ...
+end
+
+def after_loop
+  super
+  # Write to file, close a connection ...
+end
+</code></pre>
+
+<p>  end</p></li>
+<li><p>To add configuration for a plugin, add a key to Ripl.config that matches the underscored version
+of the plugin name i.e. Ripl::RedError -> Ripl.config[:red_error]. To set a default config value, just set it
+after including the plugin into Ripl::Shell.</p></li>
+<li><p>To add console commands for a plugin, make them methods in a module and include the module into Ripl::Commands.  For example:</p>
+
+<p>  module Ripl::SuperHistory</p>
+
+<pre><code># plugin hooks into history
+# then defines command
+module Commands
+  def history
+    # ...
+  end
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>  Ripl::Commands.send :include, Ripl::SuperHistory::Commands</p>
+
+<p>  >> history # use command in ripl</p></li>
+<li><p>For more examples of plugins, see gems I've made that start with 'ripl-'.</p></li>
+</ul>
+
+
+<h2 id="CREATE-CUSTOM-SHELLS">CREATE CUSTOM SHELLS</h2>
+
+<p>Creating and starting a custom shell is as simple as:</p>
+
+<pre><code>require 'ripl'
+# Define plugins, load files, etc...
+Ripl.start
+</code></pre>
+
+<p>Ripl.start takes the same config keys mentioned in the <code>CONFIGURATION</code> section. For example if you wanted to
+start on a specific binding:</p>
+
+<pre><code>Ripl.start :binding =&gt; MyClass.send(:binding)
+</code></pre>
+
+<p>Also, since all shells load ~/.riplrc, Ripl.start can be used to override undesirable global
+configuration for a custom shell.</p>
+
+<h2 id="COMMANDS">COMMANDS</h2>
+
+<p>A ripl command is a command passed to ripl that loads a custom shell. It's a convenient way to
+package and invoke custom shells. A ripl command can take standard ripl options as long as they are
+before the command:</p>
+
+<pre><code># Load rails console without ~/.irbrc
+$ ripl -f rails
+
+# Load rails console with debugger
+$ ripl -rrdebug rails
+</code></pre>
+
+<p>To create a ripl command, create an executable in the format ripl-command and make sure it's in your
+shell's $PATH. For example, the file 'ripl-my_gem' would be invoked with 'ripl my_gem'. Any
+arguments to a ripl command can be parsed as the ripl command pleases i.e. into options and
+arguments. For an example command, see <a href="http://github.com/cldwalker/ripl-rails">ripl-rails</a>.</p>
+
+<h2 id="BUGS">BUGS</h2>
+
+<p>Please report bugs at <a href="http://github.com/cldwalker/ripl/issues" data-bare-link="true">http://github.com/cldwalker/ripl/issues</a>.</p>
+
+<h2 id="COPYRIGHT">COPYRIGHT</h2>
+
+<p><code>ripl</code> is Copyright (C) 2010 Gabriel Horner</p>
+
+<h2 id="SEE-ALSO">SEE ALSO</h2>
+
+<p><a href="http://github.com/cldwalker/ripl" data-bare-link="true">http://github.com/cldwalker/ripl</a>, <a href="http://github.com/cldwalker/bond" data-bare-link="true">http://github.com/cldwalker/bond</a>, <a href="http://github.com/cldwalker/nirvana" data-bare-link="true">http://github.com/cldwalker/nirvana</a>,
+<a href="http://github.com/cldwalker/ripl-irb" data-bare-link="true">http://github.com/cldwalker/ripl-irb</a>, <a href="http://github.com/cldwalker/ripl-rails" data-bare-link="true">http://github.com/cldwalker/ripl-rails</a>, <a href="http://github.com/janlelis/multi_line" data-bare-link="true">http://github.com/janlelis/multi_line</a></p>
+
+
+  <ol class='man-decor man-foot man foot'>
+    <li class='tl'>CLDWALKER</li>
+    <li class='tc'>November 2010</li>
+    <li class='tr'>ripl(1)</li>
+  </ol>
+
+  </div>
+</body>
+</html>
