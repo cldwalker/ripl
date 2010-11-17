@@ -171,6 +171,37 @@ end
 To add configuration for a plugin, add a key to Ripl\.config that matches the underscored version of the plugin name i\.e\. Ripl::RedError \-> Ripl\.config[:red_error]\. To set a default config value, just set it after including the plugin into Ripl::Shell\.
 .
 .IP "\(bu" 4
+To add console commands for a plugin, make them methods in a module and include the module into Ripl::Commands\. For example:
+.
+.IP
+module Ripl::SuperHistory
+.
+.IP "" 4
+.
+.nf
+
+# plugin hooks into history
+# then defines command
+module Commands
+  def history
+    # \.\.\.
+  end
+end
+.
+.fi
+.
+.IP "" 0
+.
+.IP
+end
+.
+.IP
+Ripl::Commands\.send :include, Ripl::SuperHistory::Commands
+.
+.IP
+>> history # use command in ripl
+.
+.IP "\(bu" 4
 For more examples of plugins, see gems I\'ve made that start with \'ripl\-\'\.
 .
 .IP "" 0

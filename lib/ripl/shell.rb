@@ -11,6 +11,7 @@ class Ripl::Shell
   end
 
   attr_accessor :line, :binding, :result_prompt, :result, :name
+  attr_writer   :prompt
   def initialize(options={})
     options = OPTIONS.merge options
     @name, @binding = options.values_at(:name, :binding)
@@ -52,6 +53,12 @@ class Ripl::Shell
     # initialize plugins and their instance variables.
     def before_loop
       Ripl::Runner.load_rc(@irbrc) if @irbrc
+      add_commands(loop_eval("self"))
+    end
+
+    def add_commands(obj)
+      ![Symbol, Fixnum].include?(obj.class) ? obj.extend(Ripl::Commands) :
+        obj.class.send(:include, Ripl::Commands)
     end
 
     # @return [String, nil] Prints #prompt and returns input given by user

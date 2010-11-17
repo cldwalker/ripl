@@ -134,6 +134,7 @@ describe "Runner" do
         shell
       }
       ripl("-f")
+      Ripl.config[:irbrc] = '~/.irbrc'
     end
 
     it "with -d option sets $DEBUG" do

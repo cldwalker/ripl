@@ -104,8 +104,8 @@ Points to consider when creating plugins:
 * When adding functionality to a method, make sure to call `super` to preserve existing functionality.
 
 * When replacing functionality for a method, make sure the method's expectations are met i.e.
-setting a specific instance variable or calling certain methods. Failure to do so can `break` ripl
-for you and anyone else who uses your plugin!
+  setting a specific instance variable or calling certain methods. Failure to do so can `break` ripl
+  for you and anyone else who uses your plugin!
 
 * Plugins can setup and teardown anything around a shell by extending Shell#before_loop and Shell#after_loop:
 
@@ -122,8 +122,24 @@ for you and anyone else who uses your plugin!
     end
 
 * To add configuration for a plugin, add a key to Ripl.config that matches the underscored version
-of the plugin name i.e. Ripl::RedError -> Ripl.config[:red_error]. To set a default config value, just set it
-after including the plugin into Ripl::Shell.
+  of the plugin name i.e. Ripl::RedError -> Ripl.config[:red_error]. To set a default config value, just set it
+  after including the plugin into Ripl::Shell.
+
+* To add console commands for a plugin, make them methods in a module and include the module into Ripl::Commands.  For example:
+
+    module Ripl::SuperHistory
+      # plugin hooks into history
+      # then defines command
+      module Commands
+        def history
+          # ...
+        end
+      end
+    end
+
+    Ripl::Commands.send :include, Ripl::SuperHistory::Commands
+
+    \>\> history # use command in ripl
 
 * For more examples of plugins, see gems I've made that start with 'ripl-'.
 
@@ -162,7 +178,7 @@ arguments. For an example command, see [ripl-rails](http://github.com/cldwalker/
 
 ## BUGS
 
-Please report bugs at _http://github.com/cldwalker/ripl/issues_.
+Please report bugs at <http://github.com/cldwalker/ripl/issues>.
 
 ## COPYRIGHT
 

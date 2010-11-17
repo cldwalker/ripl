@@ -32,6 +32,22 @@ describe "Shell" do
     end
   end
 
+  describe "#before_loop" do
+    before_all { Ripl::Commands.send(:define_method, :ping) { 'pong' } }
+    it "adds commands to main from Commands" do
+      stub(Ripl::Runner).load_rc
+      Ripl.shell.before_loop
+      Ripl.shell.loop_eval("ping").should == 'pong'
+    end
+
+    it "adds commands to fixnum from Commands" do
+      stub(Ripl::Runner).load_rc
+      Ripl.shell.binding = 1.send(:binding)
+      Ripl.shell.before_loop
+      Ripl.shell.loop_eval("ping").should == 'pong'
+    end
+  end
+
   describe "#eval_input" do
     before { @line = shell.line; shell.eval_input("10 ** 2") }
 

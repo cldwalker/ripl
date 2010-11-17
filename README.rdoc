@@ -67,6 +67,7 @@ modifying ~/.irbrc, wrap your irb-specific configuration in a block as follow:
   * Customizable completion and completion of method arguments (from bond)
   * Easy to create custom shells for gems and apps i.e. Ripl.start
   * Easy to create and invoke ripl commands
+  * Create console commands in a simple, modular way
   * ~/.irbrc errors caught
 * Different from irb
   * No multi-line evaluation by default (there is a plugin. See Available Plugins below).

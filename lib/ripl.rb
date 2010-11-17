@@ -8,6 +8,7 @@ module Ripl
   def self.shell(options={})
     @shell ||= Shell.create(config.merge(options))
   end
+  module Commands; end
 end
 
 require 'ripl/shell'
