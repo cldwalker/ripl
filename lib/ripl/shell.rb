@@ -27,26 +27,6 @@ class Ripl::Shell
 
   def config; Ripl.config; end
 
-  # Runs through one loop iteration: gets input, evals and prints result
-  def loop_once
-    @error_raised = nil
-    @input = get_input
-    throw(:ripl_exit) if !@input || @input == 'exit'
-    eval_input(@input)
-    print_result(@result)
-  end
-
-  # Sets @result to result of evaling input and print unexpected errors
-  def eval_input(input)
-    @result = loop_eval(input)
-    eval("_ = Ripl.shell.result", @binding)
-  rescue Exception => e
-    @error_raised = true
-    print_eval_error(e)
-  ensure
-    @line += 1
-  end
-
   module API
     attr_accessor :prompt, :result_prompt
     # Sets up shell before looping by loading ~/.irbrc. Can be extended to
@@ -59,6 +39,26 @@ class Ripl::Shell
     def add_commands(obj)
       ![Symbol, Fixnum].include?(obj.class) ? obj.extend(Ripl::Commands) :
         obj.class.send(:include, Ripl::Commands)
+    end
+
+    # Runs through one loop iteration: gets input, evals and prints result
+    def loop_once
+      @error_raised = nil
+      @input = get_input
+      throw(:ripl_exit) if !@input || @input == 'exit'
+      eval_input(@input)
+      print_result(@result)
+    end
+
+    # Sets @result to result of evaling input and print unexpected errors
+    def eval_input(input)
+      @result = loop_eval(input)
+      eval("_ = Ripl.shell.result", @binding)
+    rescue Exception => e
+      @error_raised = true
+      print_eval_error(e)
+    ensure
+      @line += 1
     end
 
     # @return [String, nil] Prints #prompt and returns input given by user
