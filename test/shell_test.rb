@@ -85,4 +85,15 @@ describe "Shell" do
       end
     end
   end
+
+  describe "API#" do
+    Shell::API.instance_methods.delete_if {|e| e[/=$/]}.each do |meth|
+      it "#{meth} is accessible to plugins" do
+        mod = Object.const_set "Ping_#{meth}", Module.new
+        mod.send(:define_method, meth) { "pong_#{meth}" }
+        Shell.send :include, mod
+        shell.send(meth).should == "pong_#{meth}"
+      end
+    end
+  end
 end
