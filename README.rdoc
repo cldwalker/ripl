@@ -136,9 +136,11 @@ see {ripl-rails}[http://github.com/cldwalker/ripl-rails].
 
 * {ripl-rails}[http://github.com/cldwalker/ripl-rails] : script/console for ripl
 * {ripl-color_error}[http://github.com/cldwalker/ripl-color_error] : colorize errors
-* {ripl-after_rc}[http://github.com/cldwalker/ripl-after_rc] : provide blocks to run after ~/.irbrc is loaded
 * {ripl-multi_line}[http://github.com/janlelis/ripl-multi_line] : evaluate multiple lines
+* {ripl-after_rc}[http://github.com/cldwalker/ripl-after_rc] : provide blocks to run after ~/.irbrc is loaded
 * {ripl-irb}[http://github.com/cldwalker/ripl-irb] : smooths transition from irb
+* {ripl-commands}[http://github.com/cldwalker/ripl-commands] : adds ripl commands similar to irb's commands
+* {ripl-color_streams}[http://github.com/janlelis/ripl-color_streams] : colorizes stderr + stdout
 * {ripl-color_result}[http://github.com/janlelis/ripl-color_result] : colorizes results
 * {nirvana}[http://github.com/cldwalker/nirvana]: Not a plugin but rather a web shell built on top of ripl
 
