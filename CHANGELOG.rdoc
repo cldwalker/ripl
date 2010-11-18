@@ -1,3 +1,8 @@
+== 0.2.4
+* Add modular console commands with Ripl::Commands
+* Add Shell#result_prompt for plugins
+* Re-enable Shell#eval_input and #loop_once for plugins
+
 == 0.2.3
 * Add Shell docs
 * Sync shell binding with completion binding
