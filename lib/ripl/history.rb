@@ -3,7 +3,13 @@ module Ripl::History
     @history_file ||= File.expand_path(config[:history])
   end
 
-  def history; @history; end
+  def history
+   if config[:readline]
+     Readline::HISTORY
+   else
+     @history
+   end
+  end
 
   def get_input
     (@history << super)[-1]

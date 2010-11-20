@@ -3,7 +3,7 @@ class Ripl::Shell
     :binding=>TOPLEVEL_BINDING, :irbrc=>'~/.irbrc'}
 
   def self.create(options={})
-    require 'ripl/readline' if options[:readline]
+    require 'readline' if options[:readline]
     require 'ripl/completion'
     new(options)
   rescue LoadError
@@ -63,8 +63,12 @@ class Ripl::Shell
 
     # @return [String, nil] Prints #prompt and returns input given by user
     def get_input
-      print prompt
-      $stdin.gets.chomp
+      if config[:readline]
+        Readline.readline prompt, true
+      else
+        print prompt
+        $stdin.gets.chomp
+      end
     end
 
     # @return [String]
