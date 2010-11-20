@@ -23,12 +23,18 @@ describe "Shell" do
   end
 
   describe "#prompt" do
-    it "as a string" do
+    it "from a string" do
       shell(:prompt=>'> ').prompt.should == '> '
     end
 
-    it "as a lambda" do
+    it "from a lambda" do
       shell(:prompt=>lambda { "#{10 + 10}> " }).prompt.should == '20> '
+    end
+
+    it "rescues from a failed lambda" do
+      capture_stderr {
+        shell(:prompt=>lambda { wtf }).prompt.should == Shell::OPTIONS[:prompt]
+      }.should =~ /ripl error while creating.*NameError.*`wtf'/m
     end
   end
 

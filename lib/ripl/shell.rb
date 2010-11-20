@@ -70,6 +70,9 @@ class Ripl::Shell
     # @return [String]
     def prompt
       @prompt.respond_to?(:call) ? @prompt.call : @prompt
+    rescue StandardError, SyntaxError
+      warn "ripl error while creating prompt:\n"+ format_error($!)
+      OPTIONS[:prompt]
     end
 
     # Evals user input using @binding, @name and @line
