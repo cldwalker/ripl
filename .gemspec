@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.executables        = %w(ripl)
   s.add_dependency 'bond', '~> 0.3.3'
   s.add_development_dependency 'bacon', '>= 1.1.0'
-  s.add_development_dependency 'rr', '= 0.10.10'
+  s.add_development_dependency 'rr', '>= 1.0.0'
   s.add_development_dependency 'bacon-bits'
   s.files = Dir.glob(%w[{lib,test}/**/*.rb bin/* [A-Z]*.{txt,rdoc} ext/**/*.{rb,c} **/deps.rip]) + %w{Rakefile .gemspec}
   s.files += Dir.glob('man/*')
