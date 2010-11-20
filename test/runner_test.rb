@@ -39,7 +39,7 @@ describe "Runner" do
       it "catches and prints error" do
         mock(Runner).load(anything) { raise SyntaxError }
         mock(Ripl).shell(anything) { shell = Shell.new; mock(shell).loop; shell }
-        capture_stderr { Runner.run([]) }.should =~ %r{^Error while loading ~/.riplrc:\nSyntaxError:}
+        capture_stderr { Runner.run([]) }.should =~ %r{^ripl: Error while loading ~/.riplrc:\nSyntaxError:}
       end
     end
 

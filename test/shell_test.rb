@@ -34,7 +34,7 @@ describe "Shell" do
     it "rescues from a failed lambda" do
       capture_stderr {
         shell(:prompt=>lambda { wtf }).prompt.should == Shell::OPTIONS[:prompt]
-      }.should =~ /ripl error while creating.*NameError.*`wtf'/m
+      }.should =~ /ripl: Error while creating.*NameError.*`wtf'/m
     end
   end
 

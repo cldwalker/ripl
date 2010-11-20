@@ -71,7 +71,7 @@ class Ripl::Shell
     def prompt
       @prompt.respond_to?(:call) ? @prompt.call : @prompt
     rescue StandardError, SyntaxError
-      warn "ripl error while creating prompt:\n"+ format_error($!)
+      warn "ripl: Error while creating prompt:\n"+ format_error($!)
       OPTIONS[:prompt]
     end
 
