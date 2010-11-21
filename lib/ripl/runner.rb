@@ -5,7 +5,8 @@ module Ripl::Runner
 
   module API
     def run(argv=ARGV)
-      load_rc(Ripl.config[:riplrc]) if argv.delete('-F').nil?
+      ENV['RIPLRC'] = 'false' if argv.delete('-F')
+      load_rc(Ripl.config[:riplrc]) unless ENV['RIPLRC'] == 'false'
       @run = true
       parse_options(argv)
       argv[0] ? run_command(argv) : start
@@ -40,7 +41,7 @@ module Ripl::Runner
     end
 
     def start(options={})
-      load_rc(Ripl.config[:riplrc]) if !@run
+      load_rc(Ripl.config[:riplrc]) if !@run && ENV['RIPLRC'] != 'false'
       Ripl.config[:irbrc] = ENV['RIPL_IRBRC'] != 'false' if ENV['RIPL_IRBRC']
       Ripl.shell(options).loop
     end

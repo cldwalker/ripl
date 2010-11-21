@@ -49,10 +49,11 @@ describe "Runner" do
         ripl("rails", '--blah')
       end
 
-      it "has global options before it parsed" do
-        mock(Runner).parse_options(anything) {|e| e.shift }
+      it "has global option before it parsed" do
         mock(Runner).exec('ripl-rails')
-        ripl("-f", "rails")
+        dont_allow(Runner).load_rc(anything)
+        ripl("-F", "rails", :riplrc=>false)
+        ENV.delete('RIPLRC')
       end
 
       it "that is invalid aborts" do
@@ -132,6 +133,7 @@ describe "Runner" do
         dont_allow(Runner).load_rc(anything)
       }
       ripl("-f")
+      ENV.delete('RIPL_IRBRC')
       Ripl.config[:irbrc] = '~/.irbrc'
     end
 
@@ -143,7 +145,7 @@ describe "Runner" do
         mock(shell).loop_once { throw :ripl_exit }
       }
       ripl("-F", :riplrc => false)
-      Ripl.config[:riplrc] = '~/.riplrc'
+      ENV.delete('RIPLRC')
     end
 
     it "with -d option sets $DEBUG" do
