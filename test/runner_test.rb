@@ -127,14 +127,23 @@ describe "Runner" do
 
     it "with -f option doesn't load irbrc" do
       reset_ripl
-      mock(Shell).create(anything) {|e|
-        shell = Shell.new(e)
+      mock_shell { |shell|
         mock(shell).loop_once { throw :ripl_exit }
         dont_allow(Runner).load_rc(anything)
-        shell
       }
       ripl("-f")
       Ripl.config[:irbrc] = '~/.irbrc'
+    end
+
+    it "with -F option doesn't load riplrc" do
+      reset_ripl
+      dont_allow(Runner).load_rc(anything)
+      mock_shell { |shell|
+        mock(shell).before_loop
+        mock(shell).loop_once { throw :ripl_exit }
+      }
+      ripl("-F", :riplrc => false)
+      Ripl.config[:riplrc] = '~/.riplrc'
     end
 
     it "with -d option sets $DEBUG" do

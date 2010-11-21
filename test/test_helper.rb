@@ -9,7 +9,7 @@ include Ripl
 module Helpers
   def ripl(*args)
     options = args[-1].is_a?(Hash) ? args.pop : {}
-    mock(Runner).load_rc(Ripl.config[:riplrc])
+    mock_riplrc unless options[:riplrc] == false
     mock(Runner).start if options[:start]
     capture_stdout { Ripl::Runner.run(args) }
   end
@@ -19,7 +19,11 @@ module Helpers
   end
 
   def mock_shell(&block)
-    mock(Shell).create(anything) {|e| shell = Shell.new(e); mock(shell).loop; shell }
+    mock(Shell).create(anything) {|e|
+      shell = Shell.new(e)
+      block ? block.call(shell) : mock(shell).loop
+      shell
+    }
   end
 
   def reset_ripl

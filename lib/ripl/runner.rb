@@ -5,8 +5,8 @@ module Ripl::Runner
 
   module API
     def run(argv=ARGV)
-      load_rc(Ripl.config[:riplrc])
-      @riplrc = true
+      load_rc(Ripl.config[:riplrc]) if argv.delete('-F').nil?
+      @run = true
       parse_options(argv)
       argv[0] ? run_command(argv) : start
     end
@@ -40,7 +40,7 @@ module Ripl::Runner
     end
 
     def start(options={})
-      load_rc(Ripl.config[:riplrc]) unless @riplrc
+      load_rc(Ripl.config[:riplrc]) if !@run
       Ripl.config[:irbrc] = ENV['RIPL_IRBRC'] != 'false' if ENV['RIPL_IRBRC']
       Ripl.shell(options).loop
     end
@@ -61,7 +61,8 @@ __END__
 # Usage: ripl [OPTIONS] [COMMAND] [ARGS]
 #
 # Options:
-#   -f                  Supress loading ~/.irbrc
+#   -f                  Suppress loading ~/.irbrc
+#   -F                  Suppress loading ~/.riplrc
 #   -d, --debug         Set $DEBUG to true (same as `ruby -d')
 #   -I PATH             Add to front of $LOAD_PATH. Delimit multiple paths with ':'
 #   -r, --require FILE  Require file (same as `ruby -r')
