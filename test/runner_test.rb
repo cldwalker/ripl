@@ -6,20 +6,20 @@ describe "Runner" do
 
     it "loads riplrc" do
       mock_riplrc
-      mock(Ripl).shell(anything) { shell = Shell.new; mock(shell).loop; shell }
+      mock_shell
       Ripl.start
     end
 
     it "sets a shell's variables" do
       mock_riplrc
-      mock(Shell).create(anything) {|e| shell = Shell.new(e); mock(shell).loop; shell }
+      mock_shell
       Ripl.start(:name=>'shh')
       Ripl.shell.name.should == 'shh'
     end
 
     it "overrides config set in riplrc" do
       mock_riplrc { Ripl.config[:name] = 'blah' }
-      mock(Shell).create(anything) {|e| shell = Shell.new(e); mock(shell).loop; shell }
+      mock_shell
       Ripl.start(:name=>'dude')
       Ripl.shell.name.should == 'dude'
     end
@@ -31,14 +31,14 @@ describe "Runner" do
 
       it "sets config" do
         mock_riplrc { Ripl.config[:blah] = true }
-        mock(Shell).create(anything) {|e| shell = Shell.new(e); mock(shell).loop; shell }
+        mock_shell
         Runner.run([])
         Ripl.config[:blah].should == true
       end
 
       it "catches and prints error" do
         mock(Runner).load(anything) { raise SyntaxError }
-        mock(Ripl).shell(anything) { shell = Shell.new; mock(shell).loop; shell }
+        mock_shell
         capture_stderr { Runner.run([]) }.should =~ %r{^ripl: Error while loading ~/.riplrc:\nSyntaxError:}
       end
     end

@@ -15,7 +15,11 @@ module Helpers
   end
 
   def mock_riplrc(&block)
-    mock(Runner).load_rc(Ripl.config[:riplrc]) { block.call if block }
+    mock(Runner).load_rc(Ripl.config[:riplrc], &block)
+  end
+
+  def mock_shell(&block)
+    mock(Shell).create(anything) {|e| shell = Shell.new(e); mock(shell).loop; shell }
   end
 
   def reset_ripl
