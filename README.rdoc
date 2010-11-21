@@ -61,7 +61,7 @@ modifying ~/.irbrc, wrap your irb-specific configuration in a block as follow:
   * 6 common commandline options: -f, -r, -I, -d, -h, -v
   * IRB.conf -> Ripl.config
 * Enhancements over irb
-  * ~230 lines vs irb's 5000+ lines
+  * ~250 lines (doc included) vs irb's 5000+ lines
   * Easily extendable with plugins
   * Tests and documentation!
   * Customizable completion and completion of method arguments (from bond)

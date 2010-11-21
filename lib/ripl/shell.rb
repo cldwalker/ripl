@@ -61,6 +61,8 @@ class Ripl::Shell
       @line += 1
     end
 
+    # When extending this method, ensure your plugin disables readline:
+    # Readline.config[:readline] = false.
     # @return [String, nil] Prints #prompt and returns input given by user
     def get_input
       print prompt
