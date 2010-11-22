@@ -1,9 +1,17 @@
 module Ripl::Runner
-  def self.included(mod)
-    mod.extend(self)
-  end
+  OPTIONS = [
+    ['-f', 'Suppress loading ~/.irbrc'],
+    ['-F', 'Suppress loading ~/.riplrc'],
+    ['-d, --debug', "Set $DEBUG to true (same as `ruby -d')"],
+    ['-I PATH', "Add to front of $LOAD_PATH. Delimit multiple paths with ':'"],
+    ['-r, --require FILE', "Require file (same as `ruby -r')"],
+    ['-v, --version', 'Print ripl version'],
+    ['-h, --help', 'Print help']
+  ]
 
   module API
+    def options; OPTIONS; end
+
     def run(argv=ARGV)
       ENV['RIPLRC'] = 'false' if argv.delete('-F')
       load_rc(Ripl.config[:riplrc]) unless ENV['RIPLRC'] == 'false'
@@ -26,11 +34,19 @@ module Ripl::Runner
         when '-f'
           ENV['RIPL_IRBRC'] = 'false'
         when '-h', '--help'
-          puts IO.readlines(__FILE__).grep(/^#/).map {|e| e.sub(/^#\s/,'') }; exit
-        when /^--?([^-]+)/
-          warn "ripl: invalid option `#{$1}'"
+          name_max = options.map {|e| e[0].length }.max
+          desc_max = options.map {|e| e[1].length }.max
+          puts "Usage: ripl [OPTIONS] [COMMAND] [ARGS]", "\nOptions:",
+            options.map {|k,v| "  %-*s  %-*s" % [name_max, k, desc_max, v] }
+          exit
+        when /^(--?[^-]+)/
+          invalid_option($1, argv)
         end
       end
+    end
+
+    def invalid_option(option, argv)
+      warn "ripl: invalid option `#{option.sub(/^-+/, '')}'"
     end
 
     def run_command(argv)
@@ -58,14 +74,3 @@ module Ripl::Runner
   end
   extend API
 end
-__END__
-# Usage: ripl [OPTIONS] [COMMAND] [ARGS]
-#
-# Options:
-#   -f                  Suppress loading ~/.irbrc
-#   -F                  Suppress loading ~/.riplrc
-#   -d, --debug         Set $DEBUG to true (same as `ruby -d')
-#   -I PATH             Add to front of $LOAD_PATH. Delimit multiple paths with ':'
-#   -r, --require FILE  Require file (same as `ruby -r')
-#   -v, --version       Print ripl version
-#   -h, --help          Print help

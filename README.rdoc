@@ -78,7 +78,7 @@ Note: Irb features not in ripl can be implemented as plugins.
 
 == Plugins
 
-A ripl plugin is a module that is included into Ripl::Shell or Ripl::Runner. Being simply modules,
+A ripl plugin is a module that is included into Ripl::Shell or extended into Ripl::Runner. Being simply modules,
 they can be packaged as gems and reused across shells as needed.  ripl highly encourages plugins by
 loading them as early as possible and allowing them to extend most of ripl's functionality.
 
