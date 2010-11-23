@@ -12,7 +12,7 @@ module Ripl::History
   def before_loop
     @history = []
     super
-    at_exit { write_history }
+    Kernel.at_exit { write_history }
     File.exists?(history_file) &&
       IO.readlines(history_file).each {|e| history << e.chomp }
   end

@@ -42,6 +42,7 @@ describe "Shell" do
     before_all { Ripl::Commands.send(:define_method, :ping) { 'pong' } }
     it "adds commands to main from Commands" do
       stub(Ripl::Runner).load_rc
+      stub(Kernel).at_exit
       Ripl.shell.before_loop
       Ripl.shell.loop_eval("ping").should == 'pong'
     end
@@ -49,6 +50,7 @@ describe "Shell" do
     it "adds commands to fixnum from Commands" do
       stub(Ripl::Runner).load_rc
       Ripl.shell.binding = 1.send(:binding)
+      stub(Kernel).at_exit
       Ripl.shell.before_loop
       Ripl.shell.loop_eval("ping").should == 'pong'
     end
