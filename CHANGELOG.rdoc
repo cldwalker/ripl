@@ -1,3 +1,8 @@
+== 0.2.5
+* Add -F option
+* Extendable commandline options
+* Rescue failing dynamic prompts
+
 == 0.2.4
 * Add modular console commands with Ripl::Commands
 * Add Shell#result_prompt for plugins
