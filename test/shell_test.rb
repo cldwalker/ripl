@@ -15,6 +15,12 @@ describe "Shell" do
       shell.loop
     end
 
+    it "exits with quit" do
+      mock(shell).get_input { 'quit' }
+      dont_allow(shell).eval_input
+      shell.loop
+    end
+
     it "exits with Control-D" do
       mock(shell).get_input { nil }
       dont_allow(shell).eval_input

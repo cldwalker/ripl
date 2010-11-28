@@ -45,7 +45,7 @@ class Ripl::Shell
     def loop_once
       @error_raised = nil
       @input = get_input
-      throw(:ripl_exit) if !@input || @input == 'exit'
+      throw(:ripl_exit) if [nil, 'exit', 'quit'].include?(@input)
       eval_input(@input)
       print_result(@result)
     end
