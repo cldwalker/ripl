@@ -28,6 +28,12 @@ describe "Shell" do
     end
   end
 
+  it "#loop_once handles Control-C" do
+    mock(shell).get_input { raise Interrupt }
+    dont_allow(shell).eval_input
+    capture_stdout { shell.loop_once }.should == "\n"
+  end
+
   describe "#prompt" do
     it "from a string" do
       shell(:prompt=>'> ').prompt.should == '> '

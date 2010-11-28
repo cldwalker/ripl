@@ -48,7 +48,12 @@ class Ripl::Shell
       throw(:ripl_exit) if [nil, 'exit', 'quit'].include?(@input)
       eval_input(@input)
       print_result(@result)
+    rescue Interrupt
+      handle_interrupt
     end
+
+    # Handles interrupt (Control-C) by printing a newline
+    def handle_interrupt; puts; end
 
     # Sets @result to result of evaling input and print unexpected errors
     def eval_input(input)
