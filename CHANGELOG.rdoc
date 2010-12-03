@@ -1,3 +1,8 @@
+== 0.2.6
+* Add ctrl-c handling
+* Clean up api to extend options
+* Allow exit with 'quit'
+
 == 0.2.5
 * Add -F option
 * Extendable commandline options
