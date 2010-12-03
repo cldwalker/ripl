@@ -16,11 +16,7 @@ module Ripl::Runner
 
   module API
     def run(argv=ARGV)
-      ENV['RIPLRC'] = 'false' if argv.delete('-F')
-      load_rc(Ripl.config[:riplrc]) unless ENV['RIPLRC'] == 'false'
-      @run = true
-      parse_options(argv)
-      argv[0] ? run_command(argv) : start
+      argv[0].to_s[/^[^-]/] ? run_command(argv) : start(:argv=>argv)
     end
 
     def parse_options(argv)
@@ -35,7 +31,7 @@ module Ripl::Runner
         when '-v', '--version'
           puts Ripl::VERSION; exit
         when '-f'
-          ENV['RIPL_IRBRC'] = 'false'
+          Ripl.config[:irbrc] = false
         when '-h', '--help'
           name_max = OPTIONS.map {|e| e[0].length }.max
           desc_max = OPTIONS.map {|e| e[1].length }.max
@@ -60,8 +56,9 @@ module Ripl::Runner
     end
 
     def start(options={})
-      load_rc(Ripl.config[:riplrc]) if !@run && ENV['RIPLRC'] != 'false'
-      Ripl.config[:irbrc] = ENV['RIPL_IRBRC'] != 'false' if ENV['RIPL_IRBRC']
+      argv = options.delete(:argv) || ARGV
+      load_rc(Ripl.config[:riplrc]) unless argv.delete('-F')
+      parse_options(argv)
       Ripl.shell(options).loop
     end
 
