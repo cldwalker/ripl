@@ -157,15 +157,15 @@ describe "Runner" do
     end
 
     it "with -v option prints version" do
-      should.raise(SystemExit) { ripl("-v").should == Ripl::VERSION }
+      mock(Runner).exit
+      ripl("-v", :start=>true).chomp.should == Ripl::VERSION
     end
 
     it "with -h option prints help" do
-      should.raise(SystemExit) {
-        actual = ripl("-v")
-        actual.should =~ /^Usage: ripl/
-        actual.should =~ /Options:\n  -f/
-      }
+      mock(Runner).exit
+      actual = ripl("-h", :start=>true)
+      actual.should =~ /^Usage: ripl/
+      actual.should =~ /Options:\n  -f/
     end
 
     it "with invalid options prints errors" do
