@@ -34,7 +34,7 @@ class Ripl::Shell
     # initialize plugins and their instance variables.
     def before_loop
       Ripl::Runner.load_rc(@irbrc) if @irbrc
-      add_commands(loop_eval("self"))
+      add_commands(eval("self", @binding))
     end
 
     def add_commands(obj)
