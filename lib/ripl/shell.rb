@@ -1,6 +1,7 @@
 class Ripl::Shell
   OPTIONS = {:name=>'ripl', :result_prompt=>'=> ', :prompt=>'>> ',
     :binding=>TOPLEVEL_BINDING, :irbrc=>'~/.irbrc'}
+  EXIT_WORDS = [nil, 'exit', 'quit']
 
   def self.create(options={})
     require 'ripl/readline' if options[:readline]
@@ -45,7 +46,7 @@ class Ripl::Shell
     def loop_once
       @error_raised = nil
       @input = get_input
-      throw(:ripl_exit) if [nil, 'exit', 'quit'].include?(@input)
+      throw(:ripl_exit) if EXIT_WORDS.include?(@input)
       eval_input(@input)
       print_result(@result)
     rescue Interrupt
