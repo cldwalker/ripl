@@ -173,5 +173,32 @@ describe "Runner" do
         ripl('--blah', '-z', :start=>true)
       }.chomp.should == "ripl: invalid option `blah'\nripl: invalid option `z'"
     end
+
+    describe "with plugin" do
+      before_all do
+        Moo = Module.new do
+          def parse_option(option, argv)
+            option == '--moo' ? puts("MOOOO") : super
+          end
+        end
+        Runner.extend Moo
+        Runner.add_options ['--moo', 'just moos']
+      end
+
+      it "parses plugin option" do
+        ripl("--moo", :start=>true).chomp.should == 'MOOOO'
+      end
+
+      it "displays plugin option in --help" do
+        mock(Runner).exit
+        ripl("--help", :start=>true).should =~ /--moo\s*just moos/
+      end
+
+      it "handles invalid option" do
+        capture_stderr {
+          ripl('--blah', :start=>true)
+        }.chomp.should == "ripl: invalid option `blah'"
+      end
+    end
   end
 end

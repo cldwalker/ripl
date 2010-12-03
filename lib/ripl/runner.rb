@@ -9,9 +9,12 @@ module Ripl::Runner
     ['-h, --help', 'Print help']
   ]
 
-  module API
-    def options; OPTIONS; end
+  # Adds commandline options for --help
+  def self.add_options(*options)
+    OPTIONS.concat(options)
+  end
 
+  module API
     def run(argv=ARGV)
       ENV['RIPLRC'] = 'false' if argv.delete('-F')
       load_rc(Ripl.config[:riplrc]) unless ENV['RIPLRC'] == 'false'
@@ -34,18 +37,18 @@ module Ripl::Runner
         when '-f'
           ENV['RIPL_IRBRC'] = 'false'
         when '-h', '--help'
-          name_max = options.map {|e| e[0].length }.max
-          desc_max = options.map {|e| e[1].length }.max
+          name_max = OPTIONS.map {|e| e[0].length }.max
+          desc_max = OPTIONS.map {|e| e[1].length }.max
           puts "Usage: ripl [OPTIONS] [COMMAND] [ARGS]", "\nOptions:",
-            options.map {|k,v| "  %-*s  %-*s" % [name_max, k, desc_max, v] }
+            OPTIONS.map {|k,v| "  %-*s  %-*s" % [name_max, k, desc_max, v] }
           exit
         when /^(--?[^-]+)/
-          invalid_option($1, argv)
+          parse_option($1, argv)
         end
       end
     end
 
-    def invalid_option(option, argv)
+    def parse_option(option, argv)
       warn "ripl: invalid option `#{option.sub(/^-+/, '')}'"
     end
 
