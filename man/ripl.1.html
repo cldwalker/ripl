@@ -134,10 +134,11 @@ a plugin start with an underscored version of its name i.e. Ripl::ColorError -> 
 
 <h2 id="PLUGINS">PLUGINS</h2>
 
-<p>A ripl plugin is a module that is included into Ripl::Shell or Ripl::Runner.  Being simply modules,
-they can be packaged as gems and reused across shells as needed.  ripl highly encourages plugins by
-loading them as early as possible and allowing them to extend most of ripl's functionality. As
-mentioned in the <code>CONFIGURATION</code> section, a plugin can be configured via Ripl.config.</p>
+<p>A ripl plugin is a module that is included into Ripl::Shell or extended into Ripl::Runner.  Being
+simply modules, they can be packaged as gems and reused across shells as needed.  ripl highly
+encourages plugins by loading them as early as possible and allowing them to extend most of ripl's
+functionality. As mentioned in the <code>CONFIGURATION</code> section, a plugin can be configured via
+Ripl.config.</p>
 
 <p>To always use a plugin, require it in ~/.riplrc. To sometimes use it, require it from
 the commandline:</p>
@@ -269,7 +270,7 @@ arguments. For an example command, see <a href="http://github.com/cldwalker/ripl
 
   <ol class='man-decor man-foot man foot'>
     <li class='tl'>CLDWALKER</li>
-    <li class='tc'>November 2010</li>
+    <li class='tc'>December 2010</li>
     <li class='tr'>ripl(1)</li>
   </ol>
 

@@ -66,10 +66,11 @@ An example ~/.riplrc:
 
 ## PLUGINS
 
-A ripl plugin is a module that is included into Ripl::Shell or Ripl::Runner.  Being simply modules,
-they can be packaged as gems and reused across shells as needed.  ripl highly encourages plugins by
-loading them as early as possible and allowing them to extend most of ripl's functionality. As
-mentioned in the `CONFIGURATION` section, a plugin can be configured via Ripl.config.
+A ripl plugin is a module that is included into Ripl::Shell or extended into Ripl::Runner.  Being
+simply modules, they can be packaged as gems and reused across shells as needed.  ripl highly
+encourages plugins by loading them as early as possible and allowing them to extend most of ripl's
+functionality. As mentioned in the `CONFIGURATION` section, a plugin can be configured via
+Ripl.config.
 
 To always use a plugin, require it in ~/.riplrc. To sometimes use it, require it from
 the commandline:

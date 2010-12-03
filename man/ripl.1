@@ -1,7 +1,7 @@
 .\" generated with Ronn/v0.7.3
 .\" http://github.com/rtomayko/ronn/tree/0.7.3
 .
-.TH "RIPL" "1" "November 2010" "CLDWALKER" "Ripl Manual"
+.TH "RIPL" "1" "December 2010" "CLDWALKER" "Ripl Manual"
 .
 .SH "NAME"
 \fBripl\fR \- Ruby Interactive Print Loop \- A light, modular alternative to irb
@@ -87,7 +87,7 @@ An example ~/\.riplrc:
 .IP "" 0
 .
 .SH "PLUGINS"
-A ripl plugin is a module that is included into Ripl::Shell or Ripl::Runner\. Being simply modules, they can be packaged as gems and reused across shells as needed\. ripl highly encourages plugins by loading them as early as possible and allowing them to extend most of ripl\'s functionality\. As mentioned in the \fBCONFIGURATION\fR section, a plugin can be configured via Ripl\.config\.
+A ripl plugin is a module that is included into Ripl::Shell or extended into Ripl::Runner\. Being simply modules, they can be packaged as gems and reused across shells as needed\. ripl highly encourages plugins by loading them as early as possible and allowing them to extend most of ripl\'s functionality\. As mentioned in the \fBCONFIGURATION\fR section, a plugin can be configured via Ripl\.config\.
 .
 .P
 To always use a plugin, require it in ~/\.riplrc\. To sometimes use it, require it from the commandline:

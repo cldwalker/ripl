@@ -63,7 +63,7 @@ modifying ~/.irbrc, wrap your irb-specific configuration in a block as follow:
   * IRB.conf -> Ripl.config
   * Handles Ctrl-C quietly
 * Enhancements over irb
-  * ~250 lines (doc included) vs irb's 5000+ lines
+  * ~260 lines (doc included) vs irb's 5000+ lines
   * Easily extendable with plugins
   * Tests and documentation!
   * Customizable completion and completion of method arguments (from bond)
