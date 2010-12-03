@@ -2,8 +2,9 @@
 
 ripl is a light, modular alternative to irb. Like irb, it loads ~/.irbrc, has autocompletion and
 keeps history in ~/.irb_history.  Unlike irb, it is highly customizable via plugins and supports
-commands.  This customizability makes it easy to build custom shells (i.e. for a gem or application)
-and complex shells (i.e. for the {web}[http://github.com/cldwalker/nirvana]).
+commands i.e. {ripl-play}[http://github.com/cldwalker/ripl-play].  This customizability makes it
+easy to build custom shells (i.e. for a gem or application) and complex shells (i.e. for the
+{web}[http://github.com/cldwalker/nirvana]).
 
 == Install
 
@@ -57,9 +58,10 @@ modifying ~/.irbrc, wrap your irb-specific configuration in a block as follow:
   * Appends to ~/.irb_history on exit
   * Autocompletion (from bond)
   * _ for last result
-  * Type 'exit' or Ctrl-D to exit
+  * Type 'exit', 'quit' or press Ctrl-D to exit
   * 6 common commandline options: -f, -r, -I, -d, -h, -v
   * IRB.conf -> Ripl.config
+  * Handles Ctrl-C quietly
 * Enhancements over irb
   * ~250 lines (doc included) vs irb's 5000+ lines
   * Easily extendable with plugins
@@ -68,11 +70,15 @@ modifying ~/.irbrc, wrap your irb-specific configuration in a block as follow:
   * Easy to create custom shells for gems and apps i.e. Ripl.start
   * Easy to create and invoke ripl commands
   * Create console commands in a simple, modular way
+  * Custom commandline options can be added via a plugin
   * ~/.irbrc errors caught
 * Different from irb
-  * No multi-line evaluation by default (there is a plugin. See Available Plugins below).
-  * No irb subsessions or workspaces
-  * No IRB.conf features i.e. preconfigured prompts and auto indent
+  * No multi-line evaluation by default (but there is a plugin,
+    {ripl-multi_line}[http://github.com/janlelis/ripl-multi_line]).
+  * No irb subsessions or workspaces (though ripl has jumps via
+    {ripl-commands}[http://github.com/cldwalker/ripl-commands])
+  * Some IRB.conf features aren't supported (see {ripl-irb}[http://github.com/cldwalker/ripl-irb]
+    for details)
 
 Note: Irb features not in ripl can be implemented as plugins.
 
@@ -103,7 +109,7 @@ extension, see Ripl::Shell::API and Ripl::Runner::API.
 If we want to add a config for this plugin, we can simply add a key to Ripl.config that matches the
 underscored version of the plugin name i.e. Ripl.config[:red_error].
 
-For available plugins, see Available Plugins below.
+For available plugins, see Ripl Plugins below.
 
 == Configuration
 
@@ -132,20 +138,29 @@ $PATH. For example, the file 'ripl-my_gem' would be invoked with `ripl my_gem`. 
 command you can take arguments and parse your options as you please. For an example command,
 see {ripl-rails}[http://github.com/cldwalker/ripl-rails].
 
-== Available Plugins
+== Credits
+* janlelis for bug fix and tweaks
+
+== Ripl Plugins
 
 * {ripl-rails}[http://github.com/cldwalker/ripl-rails] : script/console for ripl
 * {ripl-color_error}[http://github.com/cldwalker/ripl-color_error] : colorize errors
 * {ripl-multi_line}[http://github.com/janlelis/ripl-multi_line] : evaluate multiple lines
+* {ripl-play}[http://github.com/cldwalker/ripl-play] : play back and record input into ripl
 * {ripl-after_rc}[http://github.com/cldwalker/ripl-after_rc] : provide blocks to run after ~/.irbrc is loaded
 * {ripl-irb}[http://github.com/cldwalker/ripl-irb] : smooths transition from irb
 * {ripl-commands}[http://github.com/cldwalker/ripl-commands] : adds ripl commands similar to irb's commands
 * {ripl-color_streams}[http://github.com/janlelis/ripl-color_streams] : colorizes stderr + stdout
 * {ripl-color_result}[http://github.com/janlelis/ripl-color_result] : colorizes results
-* {nirvana}[http://github.com/cldwalker/nirvana]: Not a plugin but rather a web shell built on top of ripl
+* {ripl-auto_indent}[http://github.com/janlelis/ripl-auto_indent] : auto indents multi-line input
+* {ripl-hirb}[http://github.com/cldwalker/hirb] : comes with hirb to make it a proper riplzen
+* {ripl-misc}[http://github.com/cldwalker/ripl-misc] : a playground for ripl plugins
 
-== Credits
-* janlelis for bug fix and tweaks
+== Ripl Shells
+Shells built on top of ripl:
+
+* {nirvana}[http://github.com/cldwalker/nirvana]: A ruby web shell complete with autocomplete
+* {fresh}[http://github.com/janlelis/fresh]: An interesting ruby/system hybrid shell
 
 == irb alternatives
 Some other irb alternatives to check out:
