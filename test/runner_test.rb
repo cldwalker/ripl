@@ -143,6 +143,7 @@ describe "Runner" do
 
     it "with -f option doesn't load irbrc" do
       reset_ripl
+      reset_config
       stub(Kernel).at_exit()
       mock_shell { |shell|
         mock(shell).loop_once { throw :ripl_exit }

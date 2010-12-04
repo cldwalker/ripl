@@ -52,6 +52,7 @@ describe "Shell" do
 
   describe "#before_loop" do
     before_all { Ripl::Commands.send(:define_method, :ping) { 'pong' } }
+    before { reset_config }
     it "adds commands to main from Commands" do
       stub(Ripl::Runner).load_rc
       stub(Kernel).at_exit

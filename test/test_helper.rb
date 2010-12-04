@@ -27,7 +27,11 @@ module Helpers
   end
 
   def reset_ripl
-    Ripl.instance_eval "@shell = @riplrc = nil"
+    Ripl.instance_eval "@config = @shell = @riplrc = nil"
+  end
+
+  def reset_config
+    Ripl.config.merge! :history => '~/.irb_history', :completion => {}
   end
 
   def capture_stdout(&block)
