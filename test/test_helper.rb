@@ -10,7 +10,7 @@ module Helpers
   def ripl(*args)
     options = args[-1].is_a?(Hash) ? args.pop : {}
     mock_riplrc unless options[:riplrc] == false
-    mock(Runner).start if options[:start]
+    mock(Ripl.shell).loop unless options[:loop] == false
     capture_stdout { Ripl::Runner.run(args) }
   end
 

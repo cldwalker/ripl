@@ -45,20 +45,19 @@ describe "Runner" do
 
     describe "with subcommand" do
       it "that is valid gets invoked with arguments" do
-        mock(Runner).exec('ripl-rails', '--blah')
-        ripl("rails", '--blah')
+        mock(Runner).exec('ripl-rails', 'blah') { Ripl.start }
+        ripl("rails", 'blah')
       end
 
-      it "has global option before it parsed" do
-        mock(Runner).exec('ripl-rails')
+      it "has global option parsed" do
+        mock(Runner).exec('ripl-rails', '-F') { Ripl.start :argv => ['-F'] }
         dont_allow(Runner).load_rc(anything)
-        ripl("-F", "rails", :riplrc=>false)
-        ENV.delete('RIPLRC')
+        ripl("rails", "-F", :riplrc=>false)
       end
 
       it "that is invalid aborts" do
         mock(Runner).abort("`zzz' is not a ripl command.")
-        ripl 'zzz'
+        ripl 'zzz', :riplrc => false, :loop => false
       end
     end
 
@@ -67,33 +66,33 @@ describe "Runner" do
       after { $:.replace @old_load_path }
 
       it "and equal sign adds to $LOAD_PATH" do
-        ripl("-I=blah", :start=>true)
+        ripl("-I=blah")
         $:[0].should == 'blah'
       end
 
       it "and no equal sign adds to $LOAD_PATH" do
-        ripl("-Ispec", :start=>true)
+        ripl("-Ispec")
         $:[0].should == 'spec'
       end
 
       it "and whitespace delimited argument adds to $LOAD_PATH" do
-        ripl("-I", "spec", :start=>true)
+        ripl("-I", "spec")
         $:[0].should == 'spec'
       end
 
       it "containing multiple paths adds to $LOAD_PATH" do
-        ripl("-I=app:lib", :start=>true)
+        ripl("-I=app:lib")
         $:[0,2].should == ['app', 'lib']
       end
 
       it "called more than once adds to $LOAD_PATH" do
-        ripl("-Ilib", "-Ispec", :start=>true)
+        ripl("-Ilib", "-Ispec")
         $:[0,2].should == ['spec', 'lib']
       end
 
       it "with invalid argument doesn't add to $LOAD_PATH" do
         previous_size = $:.size
-        ripl("-I", :start=>true)
+        ripl("-I")
         $:.size.should == previous_size
       end
     end
@@ -101,28 +100,28 @@ describe "Runner" do
     describe "with -r option" do
       it "and equal sign requires path" do
         mock(Runner).require('rip')
-        ripl("-r=rip", :start=>true)
+        ripl("-r=rip")
       end
 
       it "and no equal sign requires path" do
         mock(Runner).require('rip')
-        ripl("-rrip", :start=>true)
+        ripl("-rrip")
       end
 
       it "and whitespace delimited argument requires path" do
         mock(Runner).require('rip')
-        ripl("-r", "rip", :start=>true)
+        ripl("-r", "rip")
       end
 
       it "called more than once requires paths" do
         mock(Runner).require('rip')
         mock(Runner).require('dude')
-        ripl("-rrip", "-rdude", :start=>true)
+        ripl("-rrip", "-rdude")
       end
 
       it "with invalid argument requires blank" do
         mock(Runner).require('')
-        ripl('-r', :start=>true)
+        ripl('-r')
       end
     end
 
@@ -133,8 +132,7 @@ describe "Runner" do
         mock(shell).loop_once { throw :ripl_exit }
         dont_allow(Runner).load_rc(anything)
       }
-      ripl("-f")
-      ENV.delete('RIPL_IRBRC')
+      ripl("-f", :loop => false)
       Ripl.config[:irbrc] = '~/.irbrc'
     end
 
@@ -146,31 +144,30 @@ describe "Runner" do
         mock(shell).before_loop
         mock(shell).loop_once { throw :ripl_exit }
       }
-      ripl("-F", :riplrc => false)
-      ENV.delete('RIPLRC')
+      ripl("-F", :riplrc => false, :loop => false)
     end
 
     it "with -d option sets $DEBUG" do
-      ripl("-d", :start=>true)
+      ripl("-d")
       $DEBUG.should == true
       $DEBUG = nil
     end
 
     it "with -v option prints version" do
       mock(Runner).exit
-      ripl("-v", :start=>true).chomp.should == Ripl::VERSION
+      ripl("-v").chomp.should == Ripl::VERSION
     end
 
     it "with -h option prints help" do
       mock(Runner).exit
-      actual = ripl("-h", :start=>true)
+      actual = ripl("-h")
       actual.should =~ /^Usage: ripl/
       actual.should =~ /Options:\n  -f/
     end
 
     it "with invalid options prints errors" do
       capture_stderr {
-        ripl('--blah', '-z', :start=>true)
+        ripl('--blah', '-z')
       }.chomp.should == "ripl: invalid option `blah'\nripl: invalid option `z'"
     end
 
@@ -186,17 +183,17 @@ describe "Runner" do
       end
 
       it "parses plugin option" do
-        ripl("--moo", :start=>true).chomp.should == 'MOOOO'
+        ripl("--moo").chomp.should == 'MOOOO'
       end
 
       it "displays plugin option in --help" do
         mock(Runner).exit
-        ripl("--help", :start=>true).should =~ /--moo\s*just moos/
+        ripl("--help").should =~ /--moo\s*just moos/
       end
 
       it "handles invalid option" do
         capture_stderr {
-          ripl('--blah', :start=>true)
+          ripl('--blah')
         }.chomp.should == "ripl: invalid option `blah'"
       end
     end
