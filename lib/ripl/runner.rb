@@ -24,24 +24,22 @@ module Ripl::Runner
         case argv.shift
         when /-I=?(.*)/
           $LOAD_PATH.unshift(*($1.empty? ? argv.shift.to_s : $1).split(":"))
-        when /-r=?(.*)/
-          require $1.empty? ? argv.shift.to_s : $1
-        when '-d'
-          $DEBUG = true
-        when '-v', '--version'
-          puts Ripl::VERSION; exit
-        when '-f'
-          Ripl.config[:irbrc] = false
-        when '-h', '--help'
-          name_max = OPTIONS.map {|e| e[0].length }.max
-          desc_max = OPTIONS.map {|e| e[1].length }.max
-          puts "Usage: ripl [OPTIONS] [COMMAND] [ARGS]", "\nOptions:",
-            OPTIONS.map {|k,v| "  %-*s  %-*s" % [name_max, k, desc_max, v] }
-          exit
-        when /^(--?[^-]+)/
-          parse_option($1, argv)
+        when /-r=?(.*)/        then require($1.empty? ? argv.shift.to_s : $1)
+        when '-d'              then $DEBUG = true
+        when '-v', '--version' then puts(Ripl::VERSION); exit
+        when '-f'              then Ripl.config[:irbrc] = false
+        when '-h', '--help'    then puts(help); exit
+        when /^(--?[^-]+)/     then parse_option($1, argv)
         end
       end
+    end
+
+    def help
+      return("ripl #{$1} [OPTIONS] [ARGS]") if $0[/ripl-(\w+)/]
+      name_max = OPTIONS.map {|e| e[0].length }.max
+      desc_max = OPTIONS.map {|e| e[1].length }.max
+      ["Usage: ripl [COMMAND] [OPTIONS] [ARGS]", "\nOptions:",
+        OPTIONS.map {|k,v| "  %-*s  %-*s" % [name_max, k, desc_max, v] }]
     end
 
     def parse_option(option, argv)

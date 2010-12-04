@@ -44,11 +44,15 @@ describe "Runner" do
     end
 
     describe "with subcommand" do
+      def set_dollar_zero(val)
+        $progname = $0
+        alias $0 $progname
+        $0 = val
+      end
+
       def mock_exec(*args)
         mock(Runner).exec('ripl-rails', *args) do
-          $progname = $0
-          alias $0 $progname
-          $0 = 'ripl-rails'
+          set_dollar_zero 'ripl-rails'
           ARGV.replace(args)
           Ripl.start
         end
@@ -71,10 +75,17 @@ describe "Runner" do
         ripl("rails", "-r=blah")
       end
 
+      it "has automatic --help" do
+        mock_exec '--help'
+        mock(Runner).exit
+        ripl("rails", "--help").chomp.should == "ripl rails [OPTIONS] [ARGS]"
+      end
+
       it "that is invalid aborts" do
         mock(Runner).abort("`zzz' is not a ripl command.")
         ripl 'zzz', :riplrc => false, :loop => false
       end
+      after_all { set_dollar_zero 'ripl' }
     end
 
     describe "with -I option" do
