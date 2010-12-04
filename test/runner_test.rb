@@ -44,15 +44,31 @@ describe "Runner" do
     end
 
     describe "with subcommand" do
-      it "that is valid gets invoked with arguments" do
-        mock(Runner).exec('ripl-rails', 'blah') { Ripl.start }
+      def mock_exec(*args)
+        mock(Runner).exec('ripl-rails', *args) do
+          $progname = $0
+          alias $0 $progname
+          $0 = 'ripl-rails'
+          ARGV.replace(args)
+          Ripl.start
+        end
+      end
+
+      it "gets invoked with arguments" do
+        mock_exec 'blah'
         ripl("rails", 'blah')
       end
 
-      it "has global option parsed" do
-        mock(Runner).exec('ripl-rails', '-F') { Ripl.start :argv => ['-F'] }
+      it "has -F global option parsed" do
+        mock_exec '-F'
         dont_allow(Runner).load_rc(anything)
         ripl("rails", "-F", :riplrc=>false)
+      end
+
+      it "has other global option parsed" do
+        mock_exec '-r=blah'
+        mock(Runner).require('blah')
+        ripl("rails", "-r=blah")
       end
 
       it "that is invalid aborts" do
