@@ -144,12 +144,13 @@ see {ripl-rails}[http://github.com/cldwalker/ripl-rails].
 == Ripl Plugins
 
 * {ripl-rails}[http://github.com/cldwalker/ripl-rails] : script/console for ripl
-* {ripl-color_error}[http://github.com/cldwalker/ripl-color_error] : colorize errors
 * {ripl-multi_line}[http://github.com/janlelis/ripl-multi_line] : evaluate multiple lines
 * {ripl-play}[http://github.com/cldwalker/ripl-play] : play back and record input into ripl
+* {ripl-debug}[http://github.com/cldwalker/ripl-debug] : automatically debugs a failed eval
 * {ripl-after_rc}[http://github.com/cldwalker/ripl-after_rc] : provide blocks to run after ~/.irbrc is loaded
 * {ripl-irb}[http://github.com/cldwalker/ripl-irb] : smooths transition from irb
 * {ripl-commands}[http://github.com/cldwalker/ripl-commands] : adds ripl commands similar to irb's commands
+* {ripl-color_error}[http://github.com/cldwalker/ripl-color_error] : colorize errors
 * {ripl-color_streams}[http://github.com/janlelis/ripl-color_streams] : colorizes stderr + stdout
 * {ripl-color_result}[http://github.com/janlelis/ripl-color_result] : colorizes results
 * {ripl-auto_indent}[http://github.com/janlelis/ripl-auto_indent] : auto indents multi-line input
