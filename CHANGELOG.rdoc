@@ -1,3 +1,7 @@
+== 0.2.7
+* Fix and (change order of) option parsing for ripl commands
+* Add default help for a ripl command
+
 == 0.2.6
 * Add ctrl-c handling
 * Clean up api to extend options
