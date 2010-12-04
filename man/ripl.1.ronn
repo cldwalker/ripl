@@ -3,7 +3,7 @@ ripl(1) -- Ruby Interactive Print Loop - A light, modular alternative to irb
 
 ## SYNOPSIS
 
-    ripl [-r|--require] [-I] [-f] [-d] [-h|--help] [-v|--version] COMMAND [ARGS]
+    ripl [COMMAND] [-r|--require] [-I] [-f] [-d] [-h|--help] [-v|--version] [ARGS]
 
 ## DESCRIPTION
 
@@ -155,7 +155,7 @@ Creating and starting a custom shell is as simple as:
 Ripl.start takes the same config keys mentioned in the `CONFIGURATION` section. For example if you wanted to
 start on a specific binding:
 
-    Ripl.start :binding => MyClass.send(:binding)
+    Ripl.start :binding => MyClass.instance_eval{ binding }
 
 Also, since all shells load ~/.riplrc, Ripl.start can be used to override undesirable global
 configuration for a custom shell.
@@ -167,10 +167,10 @@ package and invoke custom shells. A ripl command can take standard ripl options 
 before the command:
 
     # Load rails console without ~/.irbrc
-    $ ripl -f rails
+    $ ripl rails -f
 
     # Load rails console with debugger
-    $ ripl -rrdebug rails
+    $ ripl rails -rrdebug
 
 To create a ripl command, create an executable in the format ripl-command and make sure it's in your
 shell's $PATH. For example, the file 'ripl-my_gem' would be invoked with 'ripl my_gem'. Any

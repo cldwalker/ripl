@@ -80,7 +80,7 @@
 
 <h2 id="SYNOPSIS">SYNOPSIS</h2>
 
-<pre><code>ripl [-r|--require] [-I] [-f] [-d] [-h|--help] [-v|--version] COMMAND [ARGS]
+<pre><code>ripl [COMMAND] [-r|--require] [-I] [-f] [-d] [-h|--help] [-v|--version] [ARGS]
 </code></pre>
 
 <h2 id="DESCRIPTION">DESCRIPTION</h2>
@@ -230,7 +230,7 @@ Ripl.start
 <p>Ripl.start takes the same config keys mentioned in the <code>CONFIGURATION</code> section. For example if you wanted to
 start on a specific binding:</p>
 
-<pre><code>Ripl.start :binding =&gt; MyClass.send(:binding)
+<pre><code>Ripl.start :binding =&gt; MyClass.instance_eval{ binding }
 </code></pre>
 
 <p>Also, since all shells load ~/.riplrc, Ripl.start can be used to override undesirable global
@@ -243,10 +243,10 @@ package and invoke custom shells. A ripl command can take standard ripl options 
 before the command:</p>
 
 <pre><code># Load rails console without ~/.irbrc
-$ ripl -f rails
+$ ripl rails -f
 
 # Load rails console with debugger
-$ ripl -rrdebug rails
+$ ripl rails -rrdebug
 </code></pre>
 
 <p>To create a ripl command, create an executable in the format ripl-command and make sure it's in your

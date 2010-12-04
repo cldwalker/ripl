@@ -10,7 +10,7 @@
 .
 .nf
 
-ripl [\-r|\-\-require] [\-I] [\-f] [\-d] [\-h|\-\-help] [\-v|\-\-version] COMMAND [ARGS]
+ripl [COMMAND] [\-r|\-\-require] [\-I] [\-f] [\-d] [\-h|\-\-help] [\-v|\-\-version] [ARGS]
 .
 .fi
 .
@@ -228,7 +228,7 @@ Ripl\.start takes the same config keys mentioned in the \fBCONFIGURATION\fR sect
 .
 .nf
 
-Ripl\.start :binding => MyClass\.send(:binding)
+Ripl\.start :binding => MyClass\.instance_eval{ binding }
 .
 .fi
 .
@@ -245,10 +245,10 @@ A ripl command is a command passed to ripl that loads a custom shell\. It\'s a c
 .nf
 
 # Load rails console without ~/\.irbrc
-$ ripl \-f rails
+$ ripl rails \-f
 
 # Load rails console with debugger
-$ ripl \-rrdebug rails
+$ ripl rails \-rrdebug
 .
 .fi
 .
