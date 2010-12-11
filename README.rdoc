@@ -143,8 +143,9 @@ see {ripl-rails}[http://github.com/cldwalker/ripl-rails].
 
 == Ripl Plugins
 
-* {ripl-rails}[http://github.com/cldwalker/ripl-rails] : script/console for ripl
 * {ripl-multi_line}[http://github.com/janlelis/ripl-multi_line] : evaluate multiple lines
+* {ripl-rails}[http://github.com/cldwalker/ripl-rails] : console for rails
+* {ripl-rack}[http://github.com/cldwalker/ripl-rack] : console for rack
 * {ripl-play}[http://github.com/cldwalker/ripl-play] : play back and record input into ripl
 * {ripl-debug}[http://github.com/cldwalker/ripl-debug] : automatically debugs a failed eval
 * {ripl-after_rc}[http://github.com/cldwalker/ripl-after_rc] : provide blocks to run after ~/.irbrc is loaded
