@@ -55,7 +55,7 @@ module Ripl::Runner
 
     def start(options={})
       argv = options.delete(:argv) || ARGV
-      load_rc(Ripl.config[:riplrc]) unless argv.delete('-F')
+      load_rc(Ripl.config[:riplrc]) unless argv.delete('-F') || options[:riplrc] == false
       parse_options(argv) if $0[/ripl$|ripl-\w+$/]
       Ripl.shell(options).loop
     end

@@ -10,6 +10,12 @@ describe "Runner" do
       Ripl.start
     end
 
+    it "doesn't load riplrc" do
+      mock_shell
+      dont_allow(Runner).load_rc(anything)
+      Ripl.start :riplrc => false
+    end
+
     it "sets a shell's variables" do
       mock_riplrc
       mock_shell
