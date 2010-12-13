@@ -23,6 +23,13 @@ describe "Runner" do
       Ripl.shell.name.should == 'shh'
     end
 
+    it "passes options to Ripl.config" do
+      mock_riplrc
+      mock_shell
+      Ripl.start(:history=>'~/.mah_history')
+      Ripl.config[:history].should == '~/.mah_history'
+    end
+
     it "overrides config set in riplrc" do
       mock_riplrc { Ripl.config[:name] = 'blah' }
       mock_shell

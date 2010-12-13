@@ -6,7 +6,7 @@ module Ripl
   def self.start(*args); Runner.start(*args); end
 
   def self.shell(options={})
-    @shell ||= Shell.create(config.merge(options))
+    @shell ||= Shell.create(config.merge!(options))
   end
   module Commands; end
 end
