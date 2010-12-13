@@ -1,3 +1,7 @@
+== 0.2.8
+* Allow completion to be optional
+* Save commandline args to Ripl::Runner.argv
+
 == 0.2.7
 * Fix and (change order of) option parsing for ripl commands
 * Add default help for a ripl command
