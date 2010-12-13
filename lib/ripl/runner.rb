@@ -15,6 +15,7 @@ module Ripl::Runner
   end
 
   module API
+    attr_reader :argv
     def run(argv=ARGV)
       argv[0].to_s[/^[^-]/] ? run_command(argv) : start(:argv=>argv)
     end
@@ -54,7 +55,8 @@ module Ripl::Runner
     end
 
     def start(options={})
-      argv = options.delete(:argv) || ARGV
+      @argv = options.delete(:argv) || ARGV
+      argv = @argv.dup
       load_rc(Ripl.config[:riplrc]) unless argv.delete('-F') || options[:riplrc] == false
       parse_options(argv) if $0[/ripl$|ripl-\w+$/]
       Ripl.shell(options).loop

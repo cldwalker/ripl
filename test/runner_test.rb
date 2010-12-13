@@ -82,6 +82,12 @@ describe "Runner" do
         ripl("rails", "-F", :riplrc=>false)
       end
 
+      it "saves arguments passed to it" do
+        mock_exec 'blah', '-F'
+        ripl("rails", "blah", "-F", :riplrc=>false)
+        Ripl::Runner.argv.should == ['blah', '-F']
+      end
+
       it "has other global option parsed" do
         mock_exec '-r=blah'
         mock(Runner).require('blah')
