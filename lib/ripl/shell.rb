@@ -5,7 +5,7 @@ class Ripl::Shell
 
   def self.create(options={})
     require 'ripl/readline' if options[:readline]
-    require 'ripl/completion'
+    require 'ripl/completion' if options[:completion]
     new(options)
   rescue LoadError
     new(options)

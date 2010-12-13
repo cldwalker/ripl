@@ -7,4 +7,4 @@ module Ripl::Completion
   end
 end
 Ripl::Shell.send :include, Ripl::Completion
-(Ripl.config[:completion] ||= {})[:eval_binding] = lambda { Ripl.shell.binding }
+Ripl.config[:completion][:eval_binding] = lambda { Ripl.shell.binding }
