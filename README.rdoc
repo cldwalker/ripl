@@ -164,6 +164,7 @@ Shells built on top of ripl:
 
 * {nirvana}[http://github.com/cldwalker/nirvana]: A ruby web shell complete with autocomplete
 * {fresh}[http://github.com/janlelis/fresh]: An interesting ruby/system hybrid shell
+* {ripl-johnson}[http://github.com/cldwalker/ripl-johnson]: A js shell based on johnson (firefox tracemonkey)
 
 == Irb Alternatives
 Some other irb alternatives to check out:
