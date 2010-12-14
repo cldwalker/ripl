@@ -202,6 +202,9 @@ Ripl::Commands\.send :include, Ripl::SuperHistory::Commands
 >> history # use command in ripl
 .
 .IP "\(bu" 4
+For plugins with console commands, commands aren\'t immediately recognized if the plugin is required within ripl\. To fix this: Ripl\.shell\.add_commands(self)\.
+.
+.IP "\(bu" 4
 For more examples of plugins, see gems I\'ve made that start with \'ripl\-\'\.
 .
 .IP "" 0

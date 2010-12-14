@@ -214,6 +214,8 @@ end
 <p>  Ripl::Commands.send :include, Ripl::SuperHistory::Commands</p>
 
 <p>  >> history # use command in ripl</p></li>
+<li><p>For plugins with console commands, commands aren't immediately recognized if the plugin is required within ripl.
+To fix this: Ripl.shell.add_commands(self).</p></li>
 <li><p>For more examples of plugins, see gems I've made that start with 'ripl-'.</p></li>
 </ul>
 

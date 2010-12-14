@@ -142,6 +142,9 @@ Points to consider when creating plugins:
 
     \>\> history # use command in ripl
 
+* For plugins with console commands, commands aren't immediately recognized if the plugin is required within ripl.
+  To fix this: Ripl.shell.add_commands(self).
+
 * For more examples of plugins, see gems I've made that start with 'ripl-'.
 
 ## CREATE CUSTOM SHELLS
