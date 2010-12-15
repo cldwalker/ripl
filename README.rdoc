@@ -156,6 +156,7 @@ see {ripl-rails}[http://github.com/cldwalker/ripl-rails].
 * {ripl-color_result}[http://github.com/janlelis/ripl-color_result] : colorizes results
 * {ripl-auto_indent}[http://github.com/janlelis/ripl-auto_indent] : auto indents multi-line input
 * {ripl-hirb}[http://github.com/cldwalker/hirb] : comes with hirb to make it a proper riplzen
+* {ripl-hijack}[http://github.com/cldwalker/ripl-hijack] : ripl console to a ruby process
 * {ripl-misc}[http://github.com/cldwalker/ripl-misc] : a playground for ripl plugins
 * {ripl-profiles}[https://github.com/janlelis/ripl-profiles]: load ripl profiles with a --profile option
 
