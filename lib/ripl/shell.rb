@@ -22,6 +22,7 @@ class Ripl::Shell
   # Loops shell until user exits
   def loop
     before_loop
+    add_commands(eval("self", @binding))
     catch(:ripl_exit) { while(true) do; loop_once; end }
     after_loop
   end
@@ -34,7 +35,6 @@ class Ripl::Shell
     # initialize plugins and their instance variables.
     def before_loop
       Ripl::Runner.load_rc(@irbrc) if @irbrc
-      add_commands(eval("self", @binding))
     end
 
     def add_commands(obj)
