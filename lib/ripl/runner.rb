@@ -15,7 +15,7 @@ module Ripl::Runner
   end
 
   module API
-    attr_reader :argv
+    attr_reader :argv, :stdin
     def run(argv=ARGV)
       argv[0].to_s[/^[^-]/] ? run_command(argv) : start(:argv=>argv)
     end
@@ -55,6 +55,14 @@ module Ripl::Runner
     end
 
     def start(options={})
+      if !$stdin.tty?
+        @stdin = $stdin.read
+        $stdin.reopen '/dev/tty'
+      end
+      if options[:stdin]
+        @stdin = options.delete(:stdin)
+      end
+      
       @argv = options.delete(:argv) || ARGV
       argv = @argv.dup
       load_rc(Ripl.config[:riplrc]) unless argv.delete('-F') || options[:riplrc] == false
