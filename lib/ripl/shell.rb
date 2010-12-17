@@ -21,13 +21,18 @@ class Ripl::Shell
 
   # Loops shell until user exits
   def loop
+    @running = true
     before_loop
     add_commands(eval("self", @binding))
     catch(:ripl_exit) { while(true) do; loop_once; end }
     after_loop
+  ensure
+    @running = false
   end
 
   def config; Ripl.config; end
+
+  def running?; @running; end
 
   module API
     attr_accessor :prompt, :result_prompt
