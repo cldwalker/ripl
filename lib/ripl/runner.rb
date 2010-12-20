@@ -64,7 +64,7 @@ module Ripl::Runner
 
     def load_rc(file)
       load file if File.exists?(File.expand_path(file))
-    rescue StandardError, SyntaxError
+    rescue StandardError, SyntaxError, LoadError
       warn "ripl: Error while loading #{file}:\n"+ format_error($!)
     end
 
