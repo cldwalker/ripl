@@ -5,6 +5,12 @@ module Ripl
 
   def self.start(*args); Runner.start(*args); end
 
+  def self.plugins
+    file =  File.symlink?(__FILE__) ? File.readlink(__FILE__) : __FILE__
+    $".map {|e| e[/ripl\/[^\/]+$/] }.compact -
+      Dir["#{File.dirname(file)}/ripl/*.rb"].map {|e| e[/ripl\/[^\/]+$/] }
+  end
+
   def self.shell(options={})
     @shell ||= Shell.create(config.merge!(options))
   end

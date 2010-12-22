@@ -3,6 +3,7 @@ require 'bond'
 module Ripl::Completion
   def before_loop
     super
+    (config[:completion][:gems] ||= []).concat Ripl.plugins
     Bond.restart config[:completion]
   end
 end
