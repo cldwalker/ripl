@@ -1,8 +1,4 @@
 class Ripl::Shell
-  OPTIONS = {:name=>'ripl', :result_prompt=>'=> ', :prompt=>'>> ',
-    :binding=>TOPLEVEL_BINDING, :irbrc=>'~/.irbrc'}
-  EXIT_WORDS = [nil, 'exit', 'quit']
-
   def self.create(options={})
     require 'ripl/readline' if options[:readline]
     require 'ripl/completion' if options[:completion]
@@ -10,6 +6,12 @@ class Ripl::Shell
   rescue LoadError
     new(options)
   end
+
+  class <<self; public :include; end
+
+  OPTIONS = {:name=>'ripl', :result_prompt=>'=> ', :prompt=>'>> ',
+    :binding=>TOPLEVEL_BINDING, :irbrc=>'~/.irbrc'}
+  EXIT_WORDS = [nil, 'exit', 'quit']
 
   attr_accessor :line, :binding, :result, :name
   def initialize(options={})

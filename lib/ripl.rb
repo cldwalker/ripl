@@ -14,7 +14,10 @@ module Ripl
   def self.shell(options={})
     @shell ||= Shell.create(config.merge!(options))
   end
-  module Commands; end
+
+  module Commands
+    class<<self; public :include; end
+  end
 end
 
 require 'ripl/shell'

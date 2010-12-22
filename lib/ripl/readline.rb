@@ -6,4 +6,4 @@ module Ripl::Readline
 
   def history; Readline::HISTORY; end
 end
-Ripl::Shell.send :include, Ripl::Readline
+Ripl::Shell.include Ripl::Readline

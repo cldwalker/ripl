@@ -21,5 +21,5 @@ module Ripl::History
     File.open(history_file, 'w') {|f| f.write Array(history).join("\n") }
   end
 end
-Ripl::Shell.send :include, Ripl::History
+Ripl::Shell.include Ripl::History
 Ripl.config[:history] = '~/.irb_history'

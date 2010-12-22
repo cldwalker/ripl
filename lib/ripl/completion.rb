@@ -7,5 +7,5 @@ module Ripl::Completion
     Bond.restart config[:completion]
   end
 end
-Ripl::Shell.send :include, Ripl::Completion
+Ripl::Shell.include Ripl::Completion
 Ripl.config[:completion][:eval_binding] = lambda { Ripl.shell.binding }
