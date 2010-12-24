@@ -17,7 +17,7 @@ and complex shells (i.e. for the web).
 When first trying ripl, you may experience errors in your ~/.irbrc due to an irb-specific
 configuration. In order to have ripl and irb coexist peacefully, you should silence these errors.
 To silence them without touching your ~/.irbrc, install the ripl-irb gem. This ripl plugin fakes
-irb's existence, effectively ignoring irb-specific configuration. Otherwise, if you don't mind
+irb's existence and points to ripl equivalents for your irb configurations. Otherwise, if you don't mind
 modifying ~/.irbrc, wrap your irb-specific configuration in a block as follow:
 
     if defined? IRB
@@ -95,7 +95,7 @@ For an example shell plugin, let's color error messages red:
         end
       end
     end
-    Ripl::Shell.send :include, Ripl::RedError
+    Ripl::Shell.include Ripl::RedError
 
 Note this plugin extends format_error() by invoking the original format_error() with super. To see
 what methods are available for extension, see Ripl::Shell::API and Ripl::Runner::API.
@@ -138,9 +138,15 @@ Points to consider when creating plugins:
       end
     end
 
-    Ripl::Commands.send :include, Ripl::SuperHistory::Commands
+    Ripl::Commands.include Ripl::SuperHistory::Commands
 
     \>\> history # use command in ripl
+
+* To define custom autocompletion for a plugin and its commands, create a completion file in
+  lib/ripl/completions/plugin_name i.e. ripl-super_history plugin -> lib/ripl/completions/super_history.rb.
+  The syntax of this file is explained [in bond's docs](http://tagaholic.me/bond/doc/Bond/Rc.html).
+  To autocomplete a console command, define a :method completion. For an example plugin that uses this, see
+  [ripl-commands](http://github.com/cldwalker/ripl-commands).
 
 * For plugins with console commands, commands aren't immediately recognized if the plugin is required within ripl.
   To fix this: Ripl.shell.add_commands(self).

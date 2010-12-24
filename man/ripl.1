@@ -18,7 +18,7 @@ ripl [COMMAND] [\-r|\-\-require] [\-I] [\-f] [\-d] [\-h|\-\-help] [\-v|\-\-versi
 ripl is a light, modular alternative to irb\. Like irb, it loads ~/\.irbrc, has autocompletion and keeps history in ~/\.irb_history\. Unlike irb, it is highly customizable via plugins and supports commands\. This customizability makes it easy to build custom shells (i\.e\. for a gem or application) and complex shells (i\.e\. for the web)\.
 .
 .SH "COMING FROM IRB"
-When first trying ripl, you may experience errors in your ~/\.irbrc due to an irb\-specific configuration\. In order to have ripl and irb coexist peacefully, you should silence these errors\. To silence them without touching your ~/\.irbrc, install the ripl\-irb gem\. This ripl plugin fakes irb\'s existence, effectively ignoring irb\-specific configuration\. Otherwise, if you don\'t mind modifying ~/\.irbrc, wrap your irb\-specific configuration in a block as follow:
+When first trying ripl, you may experience errors in your ~/\.irbrc due to an irb\-specific configuration\. In order to have ripl and irb coexist peacefully, you should silence these errors\. To silence them without touching your ~/\.irbrc, install the ripl\-irb gem\. This ripl plugin fakes irb\'s existence and points to ripl equivalents for your irb configurations\. Otherwise, if you don\'t mind modifying ~/\.irbrc, wrap your irb\-specific configuration in a block as follow:
 .
 .IP "" 4
 .
@@ -122,7 +122,7 @@ module Ripl
     end
   end
 end
-Ripl::Shell\.send :include, Ripl::RedError
+Ripl::Shell\.include Ripl::RedError
 .
 .fi
 .
@@ -196,10 +196,13 @@ end
 end
 .
 .IP
-Ripl::Commands\.send :include, Ripl::SuperHistory::Commands
+Ripl::Commands\.include Ripl::SuperHistory::Commands
 .
 .IP
 >> history # use command in ripl
+.
+.IP "\(bu" 4
+To define custom autocompletion for a plugin and its commands, create a completion file in lib/ripl/completions/plugin_name i\.e\. ripl\-super_history plugin \-> lib/ripl/completions/super_history\.rb\. The syntax of this file is explained in bond\'s docs \fIhttp://tagaholic\.me/bond/doc/Bond/Rc\.html\fR\. To autocomplete a console command, define a :method completion\. For an example plugin that uses this, see ripl\-commands \fIhttp://github\.com/cldwalker/ripl\-commands\fR\.
 .
 .IP "\(bu" 4
 For plugins with console commands, commands aren\'t immediately recognized if the plugin is required within ripl\. To fix this: Ripl\.shell\.add_commands(self)\.

@@ -43,7 +43,7 @@ To view ripl's man page:
 When first trying ripl, you may experience errors in your ~/.irbrc due to an irb-specific
 configuration. In order to have ripl and irb coexist peacefully, you should silence these errors.
 To silence them without touching your ~/.irbrc, install the ripl-irb gem. This ripl plugin fakes
-irb's existence, effectively ignoring irb-specific configuration. Otherwise, if you don't mind
+irb's existence and points to ripl equivalents for your irb configurations. Otherwise, if you don't mind
 modifying ~/.irbrc, wrap your irb-specific configuration in a block as follow:
 
     if defined? IRB
@@ -63,7 +63,7 @@ modifying ~/.irbrc, wrap your irb-specific configuration in a block as follow:
   * IRB.conf -> Ripl.config
   * Handles Ctrl-C quietly
 * Enhancements over irb
-  * ~260 lines (doc included) vs irb's 5000+ lines
+  * ~270 lines (doc included) vs irb's 5000+ lines
   * Easily extendable with plugins
   * Tests and documentation!
   * Customizable completion and completion of method arguments (from bond)
@@ -100,7 +100,7 @@ As an example plugin, let's color error messages red:
         end
       end
     end
-    Ripl::Shell.send :include, Ripl::RedError
+    Ripl::Shell.include Ripl::RedError
 
 Note this plugin extends format_error() by invoking the original format_error() with super. This is
 possible for any method that is available for extension by plugins. To see what methods are available for
@@ -159,6 +159,8 @@ see {ripl-rails}[http://github.com/cldwalker/ripl-rails].
 * {ripl-hijack}[http://github.com/cldwalker/ripl-hijack] : ripl console to a ruby process
 * {ripl-misc}[http://github.com/cldwalker/ripl-misc] : a playground for ripl plugins
 * {ripl-profiles}[https://github.com/janlelis/ripl-profiles]: load ripl profiles with a --profile option
+* {ripl-short_errors}[https://github.com/janlelis/ripl-misc/blob/master/lib/ripl/short_errors.rb]:
+  display short backtrace
 
 == Ripl Shells
 Shells built on top of ripl:
@@ -166,6 +168,11 @@ Shells built on top of ripl:
 * {nirvana}[http://github.com/cldwalker/nirvana]: A ruby web shell complete with autocomplete
 * {fresh}[http://github.com/janlelis/fresh]: An interesting ruby/system hybrid shell
 * {ripl-johnson}[http://github.com/cldwalker/ripl-johnson]: A js shell based on johnson (firefox tracemonkey)
+
+== More Ripl Links
+
+* {ripl screencast}[http://www.rubypulse.com/ep0.51_ripl.html]
+* {overview of ripl features}[http://rbjl.net/44-ripl-why-should-you-use-an-irb-alternative]
 
 == Irb Alternatives
 Some other irb alternatives to check out:
