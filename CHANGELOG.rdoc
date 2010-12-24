@@ -1,3 +1,8 @@
+== 0.2.9
+* Add autoloaded plugin completions
+* Make Shell#include public for plugins
+* Rescue LoadError in .rc files
+
 == 0.2.8
 * Allow completion to be optional
 * Save commandline args to Ripl::Runner.argv
