@@ -3,7 +3,7 @@ require 'fileutils'
 
 HISTORY_FILE = File.dirname(__FILE__) + '/ripl_history'
 
-describe "History" do
+describe "History with readline" do
   def shell(options={})
     Ripl.shell(options.merge(:history => HISTORY_FILE))
   end
