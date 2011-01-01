@@ -28,10 +28,24 @@ describe "Shell" do
     end
   end
 
-  it "#loop_once handles Control-C" do
-    mock(shell).get_input { raise Interrupt }
-    dont_allow(shell).eval_input
-    capture_stdout { shell.loop_once }.should == "\n"
+  describe "#loop_once" do
+    it "handles Control-C" do
+      mock(shell).get_input { raise Interrupt }
+      dont_allow(shell).eval_input
+      capture_stdout { shell.loop_once }.should == "\n"
+    end
+
+    it "prints result" do
+      mock(shell).get_input { '"m" * 2' }
+      capture_stdout { shell.loop_once }.should == %[=> "mm"\n]
+    end
+
+    it "prints error" do
+      mock(shell).get_input { "raise 'blah'" }
+      capture_stderr {
+        capture_stdout { shell.loop_once }.should == ""
+      }.should =~ /RuntimeError/
+    end
   end
 
   describe "#prompt" do
@@ -105,9 +119,9 @@ describe "Shell" do
     end
   end
 
-  describe "API#" do
+  describe "API" do
     Shell::API.instance_methods.delete_if {|e| e[/=$/]}.each do |meth|
-      it "#{meth} is accessible to plugins" do
+      it "##{meth} is accessible to plugins" do
         mod = Object.const_set "Ping_#{meth}", Module.new
         mod.send(:define_method, meth) { "pong_#{meth}" }
         Shell.send :include, mod
