@@ -181,7 +181,8 @@ for you and anyone else who uses your plugin!</p></li>
 
 <p>  module Ripl::MyPlugin</p>
 
-<pre><code>def before_loop
+<pre><code># When requiring a plugin within ripl, this callback isn't called
+def before_loop
   super
   # Open file, open connection ...
 end
@@ -277,7 +278,7 @@ arguments. For an example command, see <a href="http://github.com/cldwalker/ripl
 
   <ol class='man-decor man-foot man foot'>
     <li class='tl'>CLDWALKER</li>
-    <li class='tc'>December 2010</li>
+    <li class='tc'>January 2011</li>
     <li class='tr'>ripl(1)</li>
   </ol>
 

@@ -1,7 +1,7 @@
 .\" generated with Ronn/v0.7.3
 .\" http://github.com/rtomayko/ronn/tree/0.7.3
 .
-.TH "RIPL" "1" "December 2010" "CLDWALKER" "Ripl Manual"
+.TH "RIPL" "1" "January 2011" "CLDWALKER" "Ripl Manual"
 .
 .SH "NAME"
 \fBripl\fR \- Ruby Interactive Print Loop \- A light, modular alternative to irb
@@ -150,6 +150,7 @@ module Ripl::MyPlugin
 .
 .nf
 
+# When requiring a plugin within ripl, this callback isn\'t called
 def before_loop
   super
   # Open file, open connection \.\.\.

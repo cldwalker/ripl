@@ -111,6 +111,7 @@ Points to consider when creating plugins:
 * Plugins can setup and teardown anything around a shell by extending Shell#before_loop and Shell#after_loop:
 
     module Ripl::MyPlugin
+      # When requiring a plugin within ripl, this callback isn't called
       def before_loop
         super
         # Open file, open connection ...
