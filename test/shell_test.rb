@@ -8,7 +8,7 @@ describe "Shell" do
   end
 
   describe "#loop" do
-    before { mock(shell).before_loop }
+    before { mock(shell).before_loop; mock(shell).after_loop }
     it "exits with exit" do
       mock(shell).get_input { 'exit' }
       dont_allow(shell).eval_input
@@ -55,7 +55,6 @@ describe "Shell" do
     before { reset_config }
     it "adds commands to main from Commands" do
       stub(Ripl::Runner).load_rc
-      stub(Kernel).at_exit
       Ripl.shell.before_loop
       Ripl.shell.loop_eval("ping").should == 'pong'
     end
@@ -63,7 +62,6 @@ describe "Shell" do
     it "adds commands to fixnum from Commands" do
       stub(Ripl::Runner).load_rc
       Ripl.shell.binding = 1.send(:binding)
-      stub(Kernel).at_exit
       Ripl.shell.before_loop
       Ripl.shell.loop_eval("ping").should == 'pong'
     end

@@ -180,7 +180,6 @@ describe "Runner" do
     it "with -f option doesn't load irbrc" do
       reset_ripl
       reset_config
-      stub(Kernel).at_exit()
       mock_shell { |shell|
         mock(shell).loop_once { throw :ripl_exit }
         dont_allow(Runner).load_rc(anything)
@@ -193,9 +192,9 @@ describe "Runner" do
       reset_ripl
       dont_allow(Runner).load_rc(anything)
       mock_shell { |shell|
-        stub(Kernel).at_exit
         mock(shell).before_loop
         mock(shell).loop_once { throw :ripl_exit }
+        mock(shell).after_loop
       }
       ripl("-F", :riplrc => false, :loop => false)
     end

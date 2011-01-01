@@ -12,10 +12,11 @@ module Ripl::History
   def before_loop
     @history = []
     super
-    Kernel.at_exit { write_history }
     File.exists?(history_file) &&
       IO.readlines(history_file).each {|e| history << e.chomp }
   end
+
+  def after_loop; write_history; end
 
   def write_history
     File.open(history_file, 'w') {|f| f.write Array(history).join("\n") }
