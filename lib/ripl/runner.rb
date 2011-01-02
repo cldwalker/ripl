@@ -5,7 +5,7 @@ module Ripl::Runner
     ['-d, --debug', "Set $DEBUG to true (same as `ruby -d')"],
     ['-I PATH', "Add to front of $LOAD_PATH. Delimit multiple paths with ':'"],
     ['-r, --require FILE', "Require file (same as `ruby -r')"],
-    ['-v, --version', 'Print ripl version'],
+    ['-v, --version', 'Print version'],
     ['-h, --help', 'Print help']
   ]
 
@@ -15,7 +15,7 @@ module Ripl::Runner
   end
 
   module API
-    attr_reader :argv
+    attr_accessor :argv, :app
     def run(argv=ARGV)
       argv[0].to_s[/^[^-]/] ? run_command(argv) : start(:argv=>argv)
     end
@@ -36,36 +36,36 @@ module Ripl::Runner
     end
 
     def help
-      return("ripl #{$1} [OPTIONS] [ARGS]") if $0[/ripl-(\w+)/]
+      return("#{app} #{$1} [OPTIONS] [ARGS]") if $0[/#{app}-(\w+)/]
       name_max = OPTIONS.map {|e| e[0].length }.max
       desc_max = OPTIONS.map {|e| e[1].length }.max
-      ["Usage: ripl [COMMAND] [OPTIONS] [ARGS]", "\nOptions:",
+      ["Usage: #{app} [COMMAND] [OPTIONS] [ARGS]", "\nOptions:",
         OPTIONS.map {|k,v| "  %-*s  %-*s" % [name_max, k, desc_max, v] }]
     end
 
     def parse_option(option, argv)
-      warn "ripl: invalid option `#{option.sub(/^-+/, '')}'"
+      warn "#{app}: invalid option `#{option.sub(/^-+/, '')}'"
     end
 
     def run_command(argv)
-      exec "ripl-#{argv.shift}", *argv
+      exec "#{app}-#{argv.shift}", *argv
     rescue Errno::ENOENT
-      raise unless $!.message =~ /No such file or directory.*ripl-(\w+)/
-      abort "`#{$1}' is not a ripl command."
+      raise unless $!.message =~ /No such file or directory.*#{app}-(\w+)/
+      abort "`#{$1}' is not a #{app} command."
     end
 
     def start(options={})
       @argv = options.delete(:argv) || ARGV
       argv = @argv.dup
       load_rc(Ripl.config[:riplrc]) unless argv.delete('-F') || options[:riplrc] == false
-      parse_options(argv) if $0[/ripl$|ripl-\w+$/]
+      parse_options(argv) if $0[/#{app}$|#{app}-\w+$/]
       Ripl.shell(options).loop
     end
 
     def load_rc(file)
       load file if File.exists?(File.expand_path(file))
     rescue StandardError, SyntaxError, LoadError
-      warn "ripl: Error while loading #{file}:\n"+ format_error($!)
+      warn "#{app}: Error while loading #{file}:\n"+ format_error($!)
     end
 
     def format_error(err)
@@ -73,4 +73,5 @@ module Ripl::Runner
     end
   end
   extend API
+  self.app = 'ripl'
 end
