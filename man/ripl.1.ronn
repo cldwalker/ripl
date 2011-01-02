@@ -3,7 +3,7 @@ ripl(1) -- Ruby Interactive Print Loop - A light, modular alternative to irb
 
 ## SYNOPSIS
 
-    ripl [COMMAND] [-r|--require] [-I] [-f] [-d] [-h|--help] [-v|--version] [ARGS]
+    ripl [COMMAND] [ARGS] [-r|--require] [-I] [-f] [-d] [-h|--help] [-v|--version]
 
 ## DESCRIPTION
 
@@ -183,9 +183,12 @@ before the command:
     $ ripl rails -rrdebug
 
 To create a ripl command, create an executable in the format ripl-command and make sure it's in your
-shell's $PATH. For example, the file 'ripl-my_gem' would be invoked with 'ripl my_gem'. Any
-arguments to a ripl command can be parsed as the ripl command pleases i.e. into options and
-arguments. For an example command, see [ripl-rails](http://github.com/cldwalker/ripl-rails).
+shell's $PATH. For example, the file 'ripl-my_gem' would be invoked with 'ripl my_gem'. A ripl
+command can take arguments, local options and global options (i.e. -f). To avoid conflicts between
+local and global options, local options *must be parsed and deleted* by the command before
+Ripl.start is invoked.  For example commands, see
+[ripl-rails](http://github.com/cldwalker/ripl-rails) and
+[ripl-play](http://github.com/cldwalker/ripl-play).
 
 ## BUGS
 

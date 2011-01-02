@@ -59,10 +59,10 @@ class Ripl::Runner
     end
 
     def help
-      return("#{app} #{$1} [OPTIONS] [ARGS]") if $0[/#{app}-(\w+)/]
+      return("#{app} #{$1} [ARGS] [OPTIONS]") if $0[/#{app}-(\w+)/]
       name_max = OPTIONS.map {|e| e[0].length }.max
       desc_max = OPTIONS.map {|e| e[1].length }.max
-      ["Usage: #{app} [COMMAND] [OPTIONS] [ARGS]", "\nOptions:",
+      ["Usage: #{app} [COMMAND] [ARGS] [OPTIONS]", "\nOptions:",
         OPTIONS.map {|k,v| "  %-*s  %-*s" % [name_max, k, desc_max, v] }]
     end
 

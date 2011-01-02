@@ -80,7 +80,7 @@
 
 <h2 id="SYNOPSIS">SYNOPSIS</h2>
 
-<pre><code>ripl [COMMAND] [-r|--require] [-I] [-f] [-d] [-h|--help] [-v|--version] [ARGS]
+<pre><code>ripl [COMMAND] [ARGS] [-r|--require] [-I] [-f] [-d] [-h|--help] [-v|--version]
 </code></pre>
 
 <h2 id="DESCRIPTION">DESCRIPTION</h2>
@@ -258,9 +258,12 @@ $ ripl rails -rrdebug
 </code></pre>
 
 <p>To create a ripl command, create an executable in the format ripl-command and make sure it's in your
-shell's $PATH. For example, the file 'ripl-my_gem' would be invoked with 'ripl my_gem'. Any
-arguments to a ripl command can be parsed as the ripl command pleases i.e. into options and
-arguments. For an example command, see <a href="http://github.com/cldwalker/ripl-rails">ripl-rails</a>.</p>
+shell's $PATH. For example, the file 'ripl-my_gem' would be invoked with 'ripl my_gem'. A ripl
+command can take arguments, local options and global options (i.e. -f). To avoid conflicts between
+local and global options, local options <em>must be parsed and deleted</em> by the command before
+Ripl.start is invoked.  For example commands, see
+<a href="http://github.com/cldwalker/ripl-rails">ripl-rails</a> and
+<a href="http://github.com/cldwalker/ripl-play">ripl-play</a>.</p>
 
 <h2 id="BUGS">BUGS</h2>
 

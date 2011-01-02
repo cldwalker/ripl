@@ -109,7 +109,7 @@ describe "Runner" do
       it "has automatic --help" do
         mock_exec '--help'
         mock(Runner).exit
-        ripl("rails", "--help").chomp.should == "ripl rails [OPTIONS] [ARGS]"
+        ripl("rails", "--help").chomp.should == "ripl rails [ARGS] [OPTIONS]"
       end
 
       it "that is invalid aborts" do
