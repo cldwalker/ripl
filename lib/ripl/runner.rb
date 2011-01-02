@@ -1,4 +1,4 @@
-module Ripl::Runner
+class Ripl::Runner
   OPTIONS = [
     ['-f', 'Suppress loading ~/.irbrc'],
     ['-F', 'Suppress loading ~/.riplrc'],
@@ -8,18 +8,40 @@ module Ripl::Runner
     ['-v, --version', 'Print version'],
     ['-h, --help', 'Print help']
   ]
+  class <<self; attr_accessor :argv, :app; end
+  self.app = 'ripl'
 
   # Adds commandline options for --help
   def self.add_options(*options)
     OPTIONS.concat(options)
   end
 
-  module API
-    attr_accessor :argv, :app
-    def run(argv=ARGV)
-      argv[0].to_s[/^[^-]/] ? run_command(argv) : start(:argv=>argv)
-    end
+  def self.run(argv=ARGV)
+    argv[0].to_s[/^[^-]/] ? run_command(argv) : start(:argv=>argv)
+  end
 
+  def self.run_command(argv)
+    exec "#{app}-#{argv.shift}", *argv
+  rescue Errno::ENOENT
+    raise unless $!.message =~ /No such file or directory.*#{app}-(\w+)/
+    abort "`#{$1}' is not a #{app} command."
+  end
+
+  def self.start(options={})
+    @argv = options.delete(:argv) || ARGV
+    argv = @argv.dup
+    load_rc(Ripl.config[:riplrc]) unless argv.delete('-F') || options[:riplrc] == false
+    parse_options(argv) if $0[/#{app}$|#{app}-\w+$/]
+    Ripl.shell(options).loop
+  end
+
+  def self.load_rc(file)
+    load file if File.exists?(File.expand_path(file))
+  rescue StandardError, SyntaxError, LoadError
+    warn "#{app}: Error while loading #{file}:\n"+ format_error($!)
+  end
+
+  module API
     def parse_options(argv)
       while argv[0] =~ /^-/
         case argv.shift
@@ -47,31 +69,9 @@ module Ripl::Runner
       warn "#{app}: invalid option `#{option.sub(/^-+/, '')}'"
     end
 
-    def run_command(argv)
-      exec "#{app}-#{argv.shift}", *argv
-    rescue Errno::ENOENT
-      raise unless $!.message =~ /No such file or directory.*#{app}-(\w+)/
-      abort "`#{$1}' is not a #{app} command."
-    end
-
-    def start(options={})
-      @argv = options.delete(:argv) || ARGV
-      argv = @argv.dup
-      load_rc(Ripl.config[:riplrc]) unless argv.delete('-F') || options[:riplrc] == false
-      parse_options(argv) if $0[/#{app}$|#{app}-\w+$/]
-      Ripl.shell(options).loop
-    end
-
-    def load_rc(file)
-      load file if File.exists?(File.expand_path(file))
-    rescue StandardError, SyntaxError, LoadError
-      warn "#{app}: Error while loading #{file}:\n"+ format_error($!)
-    end
-
     def format_error(err)
       "#{err.class}: #{err.message}\n    #{err.backtrace.join("\n    ")}"
     end
   end
   extend API
-  self.app = 'ripl'
 end

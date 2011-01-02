@@ -250,4 +250,16 @@ describe "Runner" do
       end
     end
   end
+
+  describe "API" do
+    Runner::API.instance_methods.each do |meth|
+      it "##{meth} is accessible to plugins" do
+        mod = Object.const_set "Ping_#{meth}", Module.new
+        mod.send(:define_method, meth) { "pong_#{meth}" }
+        Runner.extend mod
+        Runner.send(meth).should == "pong_#{meth}"
+      end
+    end
+    after_all { Runner.extend Runner::API }
+  end
 end
