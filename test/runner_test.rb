@@ -94,10 +94,16 @@ describe "Runner" do
         Ripl::Runner.argv.should == ['blah', '-F']
       end
 
-      it "has other global option parsed" do
+      it "has global option parsed" do
         mock_exec '-r=blah'
         mock(Runner).require('blah')
         ripl("rails", "-r=blah")
+      end
+
+      it "has global option parsed after arguments" do
+        mock_exec 'test', '-r=blah'
+        mock(Runner).require('blah')
+        ripl("rails", "test", "-r=blah", :riplrc=>false)
       end
 
       it "has automatic --help" do
