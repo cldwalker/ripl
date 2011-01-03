@@ -4,7 +4,7 @@ ripl is a light, modular alternative to irb. Like irb, it loads ~/.irbrc, has au
 keeps history in ~/.irb_history.  Unlike irb, it is highly customizable via plugins and supports
 commands i.e. {ripl-play}[http://github.com/cldwalker/ripl-play].  This customizability makes it
 easy to build custom shells (i.e. for a gem or application) and complex shells (i.e. for the
-{web}[http://github.com/cldwalker/nirvana]).
+{web}[http://github.com/cldwalker/nirvana]). In other words, ripl is also a shell framework.
 
 == Install
 
