@@ -222,6 +222,8 @@ To autocomplete a console command, define a :method completion. For an example p
 <a href="http://github.com/cldwalker/ripl-commands">ripl-commands</a>.</p></li>
 <li><p>For plugins with console commands, commands aren't immediately recognized if the plugin is required within ripl.
 To fix this: Ripl.shell.add_commands(self).</p></li>
+<li><p>A plugin should not have Ripl.shell in the top-level i.e. touch Ripl.shell when it's required. Doing
+this can make commandline options buggy.</p></li>
 <li><p>For more examples of plugins, see gems I've made that start with 'ripl-'.</p></li>
 </ul>
 

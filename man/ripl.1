@@ -209,6 +209,9 @@ To define custom autocompletion for a plugin and its commands, create a completi
 For plugins with console commands, commands aren\'t immediately recognized if the plugin is required within ripl\. To fix this: Ripl\.shell\.add_commands(self)\.
 .
 .IP "\(bu" 4
+A plugin should not have Ripl\.shell in the top\-level i\.e\. touch Ripl\.shell when it\'s required\. Doing this can make commandline options buggy\.
+.
+.IP "\(bu" 4
 For more examples of plugins, see gems I\'ve made that start with \'ripl\-\'\.
 .
 .IP "" 0

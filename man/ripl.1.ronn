@@ -152,6 +152,9 @@ Points to consider when creating plugins:
 * For plugins with console commands, commands aren't immediately recognized if the plugin is required within ripl.
   To fix this: Ripl.shell.add_commands(self).
 
+* A plugin should not have Ripl.shell in the top-level i.e. touch Ripl.shell when it's required. Doing
+  this can make commandline options buggy.
+
 * For more examples of plugins, see gems I've made that start with 'ripl-'.
 
 ## CREATE CUSTOM SHELLS
