@@ -17,7 +17,7 @@ class Ripl::Runner
   end
 
   def self.run(argv=ARGV)
-    argv[0].to_s[/^[^-]/] ? run_command(argv) : start(:argv=>argv)
+    argv[0].to_s[/^[^-]/] ? run_command(argv) : start(:argv => argv)
   end
 
   def self.run_command(argv)

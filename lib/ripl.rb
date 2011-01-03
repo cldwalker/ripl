@@ -1,6 +1,6 @@
 module Ripl
   def self.config
-    @config ||= {:readline=>true, :riplrc=>'~/.riplrc', :completion=>{}}
+    @config ||= {:readline => true, :riplrc => '~/.riplrc', :completion => {}}
   end
 
   def self.start(*args); Runner.start(*args); end

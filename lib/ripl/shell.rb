@@ -9,8 +9,8 @@ class Ripl::Shell
 
   class <<self; public :include; end
 
-  OPTIONS = {:name=>'ripl', :result_prompt=>'=> ', :prompt=>'>> ',
-    :binding=>TOPLEVEL_BINDING, :irbrc=>'~/.irbrc'}
+  OPTIONS = {:name => 'ripl', :result_prompt => '=> ', :prompt => '>> ',
+    :binding => TOPLEVEL_BINDING, :irbrc=>'~/.irbrc'}
   EXIT_WORDS = [nil, 'exit', 'quit']
 
   attr_accessor :line, :binding, :result, :name
