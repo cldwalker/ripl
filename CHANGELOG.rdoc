@@ -1,3 +1,8 @@
+== 0.3.0
+* Add Runner#app to allow any executable to use Runner
+* Parse global options after args in a subcommand
+* Change Runner to a class
+
 == 0.2.9
 * Add autoloaded plugin completions
 * Make Shell#include public for plugins
