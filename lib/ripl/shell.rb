@@ -1,5 +1,6 @@
 class Ripl::Shell
   def self.create(options={})
+    require 'readline'  if options[:readline]
     require 'ripl/readline' if options[:readline]
     require 'ripl/completion' if options[:completion]
     new(options)

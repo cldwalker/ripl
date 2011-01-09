@@ -1,4 +1,3 @@
-require 'readline'
 module Ripl::Readline
   def get_input
     Readline.readline prompt, true
