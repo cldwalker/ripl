@@ -50,7 +50,7 @@ Ripl.config is a hash with the following keys:
   A string or lambda to generate string that prompts user for input. Default is '>> '.
 
 * `:readline`:
-  A boolean to enable Readline. Default is true.
+  A boolean or string to enable Readline. Default is true. If a string, requires the readline-like library.
 
 * `:result_prompt`:
   A string that prefixes the result of an eval. Default is '=> '.
