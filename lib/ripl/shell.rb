@@ -77,7 +77,7 @@ class Ripl::Shell
     # @return [String, nil] Prints #prompt and returns input given by user
     def get_input
       print prompt
-      $stdin.gets.chomp
+      (input = $stdin.gets) ? input.chomp : input
     end
 
     # @return [String]
