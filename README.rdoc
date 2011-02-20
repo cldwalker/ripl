@@ -152,6 +152,7 @@ see {ripl-rails}[http://github.com/cldwalker/ripl-rails].
 
 == Credits
 * janlelis for bug fix and tweaks
+* godfat and JoshCheek for bug fixes
 
 == Ripl Plugins
 
