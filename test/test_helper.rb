@@ -30,6 +30,13 @@ module Helpers
     Ripl.instance_eval "@config = @shell = @riplrc = nil"
   end
 
+  def reset_shell
+    Ripl.send(:remove_const, :Shell)
+    $".delete $".grep(/shell\.rb/)[0]
+    require 'ripl/shell'
+    Ripl::Shell.include Ripl::History
+  end
+
   def reset_config
     Ripl.config.merge! :history => '~/.irb_history', :completion => {}
   end

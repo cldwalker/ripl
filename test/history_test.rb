@@ -4,10 +4,11 @@ require 'fileutils'
 HISTORY_FILE = File.dirname(__FILE__) + '/ripl_history'
 
 describe "History with readline" do
-  def shell(options={})
-    Ripl.shell(options.merge(:history => HISTORY_FILE))
+  def shell
+    Ripl.shell(:history => HISTORY_FILE, :readline => false, :completion => false)
   end
 
+  before_all { reset_shell }
   before do
     reset_ripl
     if defined? Readline
@@ -18,7 +19,7 @@ describe "History with readline" do
 
   it "#after_loop saves history" do
     inputs = %w{blih blah}
-    inputs.each {|e| shell.history << e }
+    shell.instance_variable_set '@history', inputs
     shell.after_loop
     File.read(HISTORY_FILE).should == inputs.join("\n")
   end
