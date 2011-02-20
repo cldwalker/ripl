@@ -19,7 +19,7 @@ module Ripl::History
   def write_history
     File.open(history_file, 'w') {|f| f.write Array(history).join("\n") }
   end
-  alias_method :after_loop, :write_history
+  def after_loop; write_history; end
 end
 Ripl::Shell.include Ripl::History
 Ripl.config[:history] = '~/.irb_history'
