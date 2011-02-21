@@ -176,6 +176,7 @@ see {ripl-rails}[http://github.com/cldwalker/ripl-rails].
   display short backtrace
 * {ripl-rocket}[https://github.com/janlelis/ripl-rocket]: outputs ripl result as a hash rocket
 * {ripl-padrino}[https://github.com/achiu/ripl-padrino]: console for padrino
+* {ripltools}[https://github.com/janlelis/ripltools]: a collection of ripl plugins
 
 == Ripl Shells
 Shells built on top of ripl:
