@@ -177,6 +177,7 @@ see {ripl-rails}[http://github.com/cldwalker/ripl-rails].
 * {ripl-rocket}[https://github.com/janlelis/ripl-rocket]: outputs ripl result as a hash rocket
 * {ripl-padrino}[https://github.com/achiu/ripl-padrino]: console for padrino
 * {ripltools}[https://github.com/janlelis/ripltools]: a collection of ripl plugins
+* {ripl-rc}[https://github.com/godfat/ripl-rc]: ripl plugins for debugging, class-based coloring and more
 
 == Ripl Shells
 Shells built on top of ripl:
