@@ -112,7 +112,7 @@ describe "Runner" do
       it "has global option parsed after arguments" do
         mock_exec 'test', '-r=blah'
         mock(Runner).require('blah')
-        ripl("rails", "test", "-r=blah", :riplrc=>false)
+        ripl("rails", "test", "-r=blah")
       end
 
       it "has automatic --help" do
