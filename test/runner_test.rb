@@ -2,6 +2,7 @@ require File.join(File.dirname(__FILE__), 'test_helper')
 
 describe "Runner" do
   describe ".start" do
+    before_all { ARGV.replace [] }
     before { reset_ripl }
 
     it "loads riplrc" do
@@ -35,6 +36,14 @@ describe "Runner" do
       mock_shell
       Ripl.start(:name=>'dude')
       Ripl.shell.name.should == 'dude'
+    end
+
+    it "prints warning if argument not parsed" do
+      mock_riplrc
+      mock_shell
+      capture_stderr {
+        Ripl.start :argv =>%w{-Idir command}
+      }.should =~ /Unused arguments.*command/
     end
   end
 

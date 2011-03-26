@@ -33,6 +33,7 @@ class Ripl::Runner
     load_rc(Ripl.config[:riplrc]) unless argv.delete('-F') || options[:riplrc] == false
     argv.each {|e| e[/^-/] ? break : argv.shift } if $0[/#{app}-\w+$/]
     parse_options(argv) if $0[/#{app}$|#{app}-\w+$/]
+    warn "#{app}: Unused arguments: #{argv.inspect}" if !argv.empty?
     Ripl.shell(options).loop
   end
 
