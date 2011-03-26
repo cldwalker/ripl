@@ -1,3 +1,6 @@
+== 0.3.3
+* Warn about unused arguments
+
 == 0.3.2
 * Open #write_history to plugins
 * Fix 1.9 tests
