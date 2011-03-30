@@ -103,6 +103,8 @@ class Ripl::Shell
     # Prints result using #format_result
     def print_result(result)
       puts(format_result(result)) unless @error_raised
+    rescue StandardError, SyntaxError
+      warn "ripl: Error while printing result:\n"+ format_error($!)
     end
 
     # Formats errors raised by eval of user input
