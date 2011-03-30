@@ -157,6 +157,7 @@ see {ripl-rails}[http://github.com/cldwalker/ripl-rails].
 == Ripl Plugins
 
 * {ripl-multi_line}[http://github.com/janlelis/ripl-multi_line] : evaluate multiple lines
+* {ripl-ripper}[http://github.com/cldwalker/ripl-ripper] : evaluate multiple lines with ripper
 * {ripl-rails}[http://github.com/cldwalker/ripl-rails] : console for rails
 * {ripl-rack}[http://github.com/cldwalker/ripl-rack] : console for rack
 * {ripl-play}[http://github.com/cldwalker/ripl-play] : play back and record input into ripl
