@@ -51,7 +51,7 @@ class Ripl::Runner
           $LOAD_PATH.unshift(*($1.empty? ? argv.shift.to_s : $1).split(":"))
         when /-r=?(.*)/        then require($1.empty? ? argv.shift.to_s : $1)
         when '-d'              then $DEBUG = true
-        when '-v', '--version' then puts(Ripl::VERSION); exit
+        when '-v', '--version' then puts(Object.const_get(app.capitalize)::VERSION); exit
         when '-f'              then Ripl.config[:irbrc] = false
         when '-h', '--help'    then puts(help); exit
         when /^(--?[^-]+)/     then parse_option($1, argv)

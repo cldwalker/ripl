@@ -1,6 +1,12 @@
 require File.join(File.dirname(__FILE__), 'test_helper')
 
 describe "Runner" do
+  def set_dollar_zero(val)
+    $progname = $0
+    alias $0 $progname
+    $0 = val
+  end
+
   describe ".start" do
     before_all { ARGV.replace [] }
     before { reset_ripl }
@@ -72,12 +78,6 @@ describe "Runner" do
     end
 
     describe "with subcommand" do
-      def set_dollar_zero(val)
-        $progname = $0
-        alias $0 $progname
-        $0 = val
-      end
-
       def mock_exec(*args)
         mock(Runner).exec('ripl-rails', *args) do
           set_dollar_zero 'ripl-rails'
@@ -264,6 +264,25 @@ describe "Runner" do
         }.chomp.should == "ripl: invalid option `blah'"
       end
     end
+  end
+
+  describe "subclass" do
+    before_all {
+      Tuxedo = Class.new(Ripl::Runner)
+      Tuxedo.app = 'tuxedo'
+      Tuxedo.const_set(:VERSION, '0.0.1')
+      set_dollar_zero 'tuxedo'
+    }
+
+    it "with -v option prints version" do
+      mock(Tuxedo).exit
+      mock(Tuxedo).load_rc(Ripl.config[:riplrc])
+      mock(Ripl.shell).loop
+      capture_stdout {
+        Tuxedo.run(['-v'])
+      }.chomp.should == Tuxedo::VERSION
+    end
+    after_all { set_dollar_zero 'ripl' }
   end
 
   describe "API" do
