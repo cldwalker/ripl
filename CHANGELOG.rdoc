@@ -1,3 +1,6 @@
+== 0.3.5
+* Fix subclassed runner printing version
+
 == 0.3.4
 * Rescue failure while printing result
 
