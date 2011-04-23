@@ -3,6 +3,6 @@ module Ripl::Readline
     Readline.readline prompt, true
   end
 
-  def before_loop; @history = Readline::HISTORY; end
+  def before_loop; @history = Readline::HISTORY; super; end
 end
 Ripl::Shell.include Ripl::Readline
