@@ -4,6 +4,7 @@ module Ripl
   end
 
   def self.start(*args); Runner.start(*args); end
+  def self.started?; instance_variable_defined? :@shell; end
 
   def self.plugins
     file =  File.symlink?(__FILE__) ? File.readlink(__FILE__) : __FILE__
