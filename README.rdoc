@@ -200,3 +200,4 @@ Some other irb alternatives to check out:
 * {ir}[http://github.com/raggi/ir]: nice and light
 * {irb2}[http://github.com/wycats/irb2]: yehuda katz's partial attempt at rewriting irb
 * {dietrb}[http://github.com/alloy/dietrb]: mac and ruby 1.9 specific
+* {pry}[http://github.com/banister/pry]: featureful but heavy
