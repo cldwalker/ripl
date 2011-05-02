@@ -8,6 +8,12 @@ class Ripl::Runner
     ['-v, --version', 'Print version'],
     ['-h, --help', 'Print help']
   ]
+  MESSAGES = {
+    'run_command' => "`%s' is not a %s command.",
+    'start' => "Unused arguments",
+    'load_rc' => 'Error while loading %s',
+    'parse_option' => 'invalid option'
+  }
   class <<self; attr_accessor :argv, :app; end
   self.app = 'ripl'
 
@@ -24,7 +30,7 @@ class Ripl::Runner
     exec "#{app}-#{argv.shift}", *argv
   rescue Errno::ENOENT
     raise unless $!.message =~ /No such file or directory.*#{app}-(\w+)/
-    abort "`#{$1}' is not a #{app} command."
+    abort MESSAGES['run_command'] % [$1, app]
   end
 
   def self.start(options={})
@@ -33,14 +39,14 @@ class Ripl::Runner
     load_rc(Ripl.config[:riplrc]) unless argv.delete('-F') || options[:riplrc] == false
     argv.each {|e| e[/^-/] ? break : argv.shift } if $0[/#{app}-\w+$/]
     parse_options(argv) if $0[/#{app}$|#{app}-\w+$/]
-    warn "#{app}: Unused arguments: #{argv.inspect}" if !argv.empty?
+    warn "#{app}: #{MESSAGES['start']}: #{argv.inspect}" if !argv.empty?
     Ripl.shell(options).loop
   end
 
   def self.load_rc(file)
     load file if File.exists?(File.expand_path(file))
   rescue StandardError, SyntaxError, LoadError
-    warn "#{app}: Error while loading #{file}:\n"+ format_error($!)
+    warn "#{app}: #{MESSAGES['load_rc'] % file}:\n"+ format_error($!)
   end
 
   module API
@@ -68,7 +74,7 @@ class Ripl::Runner
     end
 
     def parse_option(option, argv)
-      warn "#{app}: invalid option `#{option.sub(/^-+/, '')}'"
+      warn "#{app}: #{MESSAGES['parse_option']} `#{option.sub(/^-+/, '')}'"
     end
 
     def format_error(err)

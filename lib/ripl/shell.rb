@@ -34,6 +34,8 @@ class Ripl::Shell
   def config; Ripl.config; end
 
   module API
+    MESSAGES = {'prompt' => 'Error while creating prompt',
+      'print_result' => 'Error while printing result'}
     attr_accessor :prompt, :result_prompt
     # Sets up shell before looping by loading ~/.irbrc. Can be extended to
     # initialize plugins and their instance variables.
@@ -84,7 +86,7 @@ class Ripl::Shell
     def prompt
       @prompt.respond_to?(:call) ? @prompt.call : @prompt
     rescue StandardError, SyntaxError
-      warn "ripl: Error while creating prompt:\n"+ format_error($!)
+      warn "ripl: #{MESSAGES['prompt']}:\n"+ format_error($!)
       OPTIONS[:prompt]
     end
 
@@ -104,7 +106,7 @@ class Ripl::Shell
     def print_result(result)
       puts(format_result(result)) unless @error_raised
     rescue StandardError, SyntaxError
-      warn "ripl: Error while printing result:\n"+ format_error($!)
+      warn "ripl: #{MESSAGES['print_result']}:\n"+ format_error($!)
     end
 
     # Formats errors raised by eval of user input
