@@ -36,6 +36,7 @@ class Ripl::Shell
   module API
     MESSAGES = {'prompt' => 'Error while creating prompt',
       'print_result' => 'Error while printing result'}
+
     attr_accessor :prompt, :result_prompt
     # Sets up shell before looping by loading ~/.irbrc. Can be extended to
     # initialize plugins and their instance variables.

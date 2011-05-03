@@ -1,25 +1,30 @@
 class Ripl::Runner
-  OPTIONS = [
-    ['-f', 'Suppress loading ~/.irbrc'],
-    ['-F', 'Suppress loading ~/.riplrc'],
-    ['-d, --debug', "Set $DEBUG to true (same as `ruby -d')"],
-    ['-I PATH', "Add to front of $LOAD_PATH. Delimit multiple paths with ':'"],
-    ['-r, --require FILE', "Require file (same as `ruby -r')"],
-    ['-v, --version', 'Print version'],
-    ['-h, --help', 'Print help']
-  ]
+  OPTIONS_ARR = %w{-f -F -d -I -r -v -h}
+  OPTIONS = {
+    '-f' => ['-f', 'Suppress loading ~/.irbrc'],
+    '-F' => ['-F', 'Suppress loading ~/.riplrc'],
+    '-d' => ['-d, --debug', "Set $DEBUG to true (same as `ruby -d')"],
+    '-I' => ['-I PATH', "Add to front of $LOAD_PATH. Delimit multiple paths with ':'"],
+    '-r' => ['-r, --require FILE', "Require file (same as `ruby -r')"],
+    '-v' => ['-v, --version', 'Print version'],
+    '-h' => ['-h, --help', 'Print help']
+  }
   MESSAGES = {
     'run_command' => "`%s' is not a %s command.",
     'start' => "Unused arguments",
     'load_rc' => 'Error while loading %s',
     'parse_option' => 'invalid option'
   }
+
   class <<self; attr_accessor :argv, :app; end
   self.app = 'ripl'
 
   # Adds commandline options for --help
   def self.add_options(*options)
-    OPTIONS.concat(options)
+    options.each {|e|
+      OPTIONS[e[0][/-\w+/]] = e
+      OPTIONS_ARR << e[0][/-\w+/]
+    }
   end
 
   def self.run(argv=ARGV)
@@ -67,10 +72,10 @@ class Ripl::Runner
 
     def help
       return("#{app} #{$1} [ARGS] [OPTIONS]") if $0[/#{app}-(\w+)/]
-      name_max = OPTIONS.map {|e| e[0].length }.max
-      desc_max = OPTIONS.map {|e| e[1].length }.max
-      ["Usage: #{app} [COMMAND] [ARGS] [OPTIONS]", "\nOptions:",
-        OPTIONS.map {|k,v| "  %-*s  %-*s" % [name_max, k, desc_max, v] }]
+      name_max = OPTIONS.values.map {|e| e[0].length }.max
+      desc_max = OPTIONS.values.map {|e| e[1].length }.max
+      ["Usage: #{app} [COMMAND] [ARGS] [OPTIONS]", "\nOptions:", OPTIONS_ARR.
+        map {|e| n,d = OPTIONS[e]; "  %-*s  %-*s" % [name_max, n, desc_max, d] }]
     end
 
     def parse_option(option, argv)
