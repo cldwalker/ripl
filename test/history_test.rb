@@ -45,17 +45,16 @@ describe "History with readline" do
     shell.history.should == ['pong_write_history']
   end
 
-  it "#history is overwritable in #write_history even if readline is enabled" do
+  it "#history is overridable in #write_history when readline is enabled" do
     stub(Shell).include(is_a(Module)){} # try to avoid side-effect...
     require 'ripl/readline'
     SandboxShell = Shell.dup
     SandboxShell.send :include, Ripl::Readline
     sandbox_shell = SandboxShell.create(:readline => true)
 
-    mod = Object.const_set "Update_write_history", Module.new
-    mod.send(:define_method, 'write_history') { @history = ['updated_history'] }
-
+    mod = Module.new { def write_history() @history = ['updated_history']  end }
     SandboxShell.send :include, mod
+
     sandbox_shell.after_loop
     sandbox_shell.history.should == ['updated_history']
   end
