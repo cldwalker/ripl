@@ -27,11 +27,11 @@ class Ripl::Shell
   # Loops shell until user exits
   def loop
     before_loop
-    catch(:ripl_exit) { while(true) do; loop_once; end }
+    catch(:ripl_exit) { loop_once while(true) }
     after_loop
   end
 
-  def config; Ripl.config; end
+  def config() Ripl.config end
 
   module API
     MESSAGES = {'prompt' => 'Error while creating prompt',
@@ -62,7 +62,7 @@ class Ripl::Shell
     end
 
     # Handles interrupt (Control-C) by printing a newline
-    def handle_interrupt; puts; end
+    def handle_interrupt() puts end
 
     # Sets @result to result of evaling input and print unexpected errors
     def eval_input(input)
@@ -113,7 +113,7 @@ class Ripl::Shell
     # Formats errors raised by eval of user input
     # @param [Exception]
     # @return [String]
-    def format_error(err); Ripl::Runner.format_error(err); end
+    def format_error(err) Ripl::Runner.format_error(err) end
 
     # @return [String] Formats result using result_prompt
     def format_result(result)
