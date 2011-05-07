@@ -75,7 +75,7 @@ modifying ~/.irbrc, wrap your irb-specific configuration in a block as follow:
   * IRB.conf -> Ripl.config
   * Handles Ctrl-C quietly
 * Enhancements over irb
-  * ~270 lines (doc included) vs irb's 5000+ lines
+  * ~290 lines (doc included) vs irb's 5000+ lines
   * Easily extendable with plugins
   * Tests and documentation!
   * Customizable completion and completion of method arguments (from bond)
@@ -84,6 +84,7 @@ modifying ~/.irbrc, wrap your irb-specific configuration in a block as follow:
   * Create console commands in a simple, modular way
   * Custom commandline options can be added via a plugin
   * ~/.irbrc errors caught
+  * Well-integrated internationalization (see {ripl-i18n}[http://github.com/cldwalker/ripl-i18n])
 * Different from irb
   * No multi-line evaluation by default (but there is a plugin,
     {ripl-multi_line}[http://github.com/janlelis/ripl-multi_line]).
@@ -151,8 +152,8 @@ command you can take arguments and parse your options as you please. For an exam
 see {ripl-rails}[http://github.com/cldwalker/ripl-rails].
 
 == Credits
-* janlelis for bug fix and tweaks
-* godfat and JoshCheek for bug fixes
+* janlelis and godfat for bug fix and tweaks
+* JoshCheek for bug fixes
 
 == Ripl Plugins
 
