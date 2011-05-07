@@ -294,6 +294,16 @@ describe "Runner" do
         Runner.send(meth).should == "pong_#{meth}"
       end
     end
+
+    it "Runner::MESSAGES only calls #[]" do
+      str = File.read(File.dirname(__FILE__)+'/../lib/ripl/runner.rb')
+      str.scan(/MESSAGES\S+/).all? {|e| e[/MESSAGES\[/] }.should == true
+    end
+
+    it "Runner::OPTIONS only calls #[] and values" do
+      str = File.read(File.dirname(__FILE__)+'/../lib/ripl/runner.rb')
+      str.scan(/OPTIONS[^_\] ]\S+/).all? {|e| e[/OPTIONS(\[|\.values)/] }.should == true
+    end
     after_all { Runner.extend Runner::API }
   end
 end

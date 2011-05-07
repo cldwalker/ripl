@@ -136,5 +136,10 @@ describe "Shell" do
         shell.send(meth).should == "pong_#{meth}"
       end
     end
+
+    it "Shell::MESSAGES only calls #[]" do
+      str = File.read(File.dirname(__FILE__)+'/../lib/ripl/shell.rb')
+      str.scan(/MESSAGES\S+/).all? {|e| e[/MESSAGES\[/] }.should == true
+    end
   end
 end
