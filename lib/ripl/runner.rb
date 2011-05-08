@@ -10,9 +10,9 @@ class Ripl::Runner
     '-h' => ['-h, --help', 'Print help']
   }
   MESSAGES = {
-    'run_command' => "`%s' is not a %s command.",
-    'start' => "Unused arguments",
-    'load_rc' => 'Error while loading %s',
+    'usage' => 'Usage', 'options' => 'Options', 'args' => 'ARGS',
+    'command' => 'COMMAND', 'run_command' => "`%s' is not a %s command.",
+    'start' => "Unused arguments", 'load_rc' => 'Error while loading %s',
     'parse_option' => 'invalid option'
   }
 
@@ -74,7 +74,9 @@ class Ripl::Runner
       return("#{app} #{$1} [ARGS] [OPTIONS]") if $0[/#{app}-(\w+)/]
       name_max = OPTIONS.values.map {|e| e[0].length }.max
       desc_max = OPTIONS.values.map {|e| e[1].length }.max
-      ["Usage: #{app} [COMMAND] [ARGS] [OPTIONS]", "\nOptions:", OPTIONS_ARR.
+      m = MESSAGES
+      ["%s: #{app} [%s] [%s] [%s]" % ( [m['usage'], m['command'], m['args'],
+        m['options'].upcase] ), "\n#{m['options']}:", OPTIONS_ARR.
         map {|e| n,d = OPTIONS[e]; "  %-*s  %-*s" % [name_max, n, desc_max, d] }]
     end
 
