@@ -195,6 +195,7 @@ Shells built on top of ripl:
 
 * {ripl screencast}[http://www.rubypulse.com/ep0.51_ripl.html]
 * {overview of ripl features}[http://rbjl.net/44-ripl-why-should-you-use-an-irb-alternative]
+* {slides at euroko about ruby consoles}[http://rbjl.net/irbtools+ripl.pdf]
 
 == Irb Alternatives
 Some other irb alternatives to check out:
