@@ -16,7 +16,7 @@ class Ripl::Shell
     :binding => TOPLEVEL_BINDING, :irbrc=>'~/.irbrc'}
   EXIT_WORDS = [nil, 'exit', 'quit']
 
-  attr_accessor :line, :binding, :result, :name
+  attr_accessor :line, :binding, :result, :name, :input
   def initialize(options={})
     options = OPTIONS.merge options
     @name, @binding = options.values_at(:name, :binding)
@@ -27,7 +27,7 @@ class Ripl::Shell
   # Loops shell until user exits
   def loop
     before_loop
-    catch(:ripl_exit) { loop_once while(true) }
+    in_loop
     after_loop
   end
 
@@ -43,6 +43,10 @@ class Ripl::Shell
     def before_loop
       Ripl::Runner.load_rc(@irbrc) if @irbrc
       add_commands(eval("self", @binding))
+    end
+
+    def in_loop
+      catch(:ripl_exit) { loop_once while(true) }
     end
 
     def add_commands(obj)
