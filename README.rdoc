@@ -181,6 +181,7 @@ see {ripl-rails}[http://github.com/cldwalker/ripl-rails].
 * {ripl-padrino}[https://github.com/achiu/ripl-padrino]: console for padrino
 * {ripltools}[https://github.com/janlelis/ripltools]: a collection of ripl plugins
 * {ripl-rc}[https://github.com/godfat/ripl-rc]: ripl plugins for debugging, class-based coloring and more
+* {ripl-em}[https://github.com/cldwalker/ripl-em]: interact with EM libraries asynchronously
 
 == Ripl Shells
 Shells built on top of ripl:
