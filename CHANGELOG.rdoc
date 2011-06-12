@@ -1,3 +1,6 @@
+== 0.4.2
+* Make Shell#input= and Shell#in_loop available
+
 == 0.4.1
 * More support for internationalization
 
