@@ -37,6 +37,14 @@ describe "History with readline" do
     shell.history.to_a.should == []
   end
 
+  it "#read_history is accessible to plugins in #before_loop" do
+    mod = Object.const_set "Ping_read_history", Module.new
+    mod.send(:define_method, 'read_history') { @history = ['pong_read_history'] }
+    Shell.send :include, mod
+    shell.before_loop
+    shell.history.should == ['pong_read_history']
+  end
+
   it "#write_history is accessible to plugins in #after_loop" do
     mod = Object.const_set "Ping_write_history", Module.new
     mod.send(:define_method, 'write_history') { @history = ['pong_write_history'] }
