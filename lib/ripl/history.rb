@@ -10,7 +10,7 @@ module Ripl::History
   end
 
   def read_history
-    File.exists?(history_file) &&
+    File.exists?(history_file) && history.empty? &&
       IO.readlines(history_file).each {|e| history << e.chomp }
   end
 
