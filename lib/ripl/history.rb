@@ -9,15 +9,15 @@ module Ripl::History
     (@history << super)[-1]
   end
 
-  def before_loop
-    super
-    File.exists?(history_file) &&
+  def read_history
+    File.exists?(history_file) && history.empty? &&
       IO.readlines(history_file).each {|e| history << e.chomp }
   end
 
   def write_history
     File.open(history_file, 'w') {|f| f.write Array(history).join("\n") }
   end
+  def before_loop() read_history end
   def after_loop() write_history end
 end
 Ripl::Shell.include Ripl::History

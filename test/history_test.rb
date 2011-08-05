@@ -31,10 +31,27 @@ describe "History with readline" do
     shell.history.to_a.should == %w{check the mike}
   end
 
+  it "#before_loop loads previous history only when it's empty" do
+    File.open(HISTORY_FILE, 'w') {|f| f.write "check\nthe\nmike" }
+    stub(Ripl::Runner).load_rc
+    history = %w{already there}
+    shell.instance_variable_set(:@history, history.dup)
+    shell.before_loop
+    shell.history.to_a.should == history
+  end
+
   it "#before_loop has empty history if no history file exists" do
     stub(Ripl::Runner).load_rc
     shell.before_loop
     shell.history.to_a.should == []
+  end
+
+  it "#read_history is accessible to plugins in #before_loop" do
+    mod = Object.const_set "Ping_read_history", Module.new
+    mod.send(:define_method, 'read_history') { @history = ['pong_read_history'] }
+    Shell.send :include, mod
+    shell.before_loop
+    shell.history.should == ['pong_read_history']
   end
 
   it "#write_history is accessible to plugins in #after_loop" do
