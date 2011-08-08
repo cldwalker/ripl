@@ -155,6 +155,12 @@ see {ripl-rails}[http://github.com/cldwalker/ripl-rails].
 * janlelis and godfat for bug fix and tweaks
 * JoshCheek for bug fixes
 
+== Bugs/Issues
+Please report them {on github}[http://github.com/cldwalker/ripl/issues].
+
+== Contributing
+{See here}[http://tagaholic.me/contributing.html]
+
 == Ripl Plugins
 
 * {ripl-multi_line}[http://github.com/janlelis/ripl-multi_line] : evaluate multiple lines

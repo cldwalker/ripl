@@ -1,3 +1,6 @@
+== 0.5.0
+* Minor changes to History#read_history
+
 == 0.4.2
 * Make Shell#input= and Shell#in_loop available
 
