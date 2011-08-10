@@ -50,6 +50,7 @@ describe "History with readline" do
     mod = Object.const_set "Ping_read_history", Module.new
     mod.send(:define_method, 'read_history') { @history = ['pong_read_history'] }
     Shell.send :include, mod
+    stub(Ripl::Runner).load_rc
     shell.before_loop
     shell.history.should == ['pong_read_history']
   end
