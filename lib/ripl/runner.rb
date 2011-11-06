@@ -85,7 +85,8 @@ class Ripl::Runner
     end
 
     def format_error(err)
-      "#{err.class}: #{err.message}\n    #{err.backtrace.join("\n    ")}"
+      stack = err.backtrace.take_while {|line| line !~ %r{/ripl/\S+\.rb} }
+      "#{err.class}: #{err.message}\n    #{stack.join("\n    ")}"
     end
   end
   extend API

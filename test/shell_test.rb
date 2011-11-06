@@ -54,6 +54,12 @@ describe "Shell" do
         capture_stdout { shell.loop_once }.should == ""
       }.should =~ /RuntimeError/
     end
+
+    it "prints error from eval with no ripl internals in backtrace" do
+      mock(shell).get_input { "raise 'blah'" }
+      capture_stderr { shell.loop_once }.
+        should.not =~ %r{lib/ripl/}
+    end
   end
 
   describe "#prompt" do
