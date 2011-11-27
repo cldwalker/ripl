@@ -189,6 +189,7 @@ Please report them {on github}[http://github.com/cldwalker/ripl/issues].
 * {ripltools}[https://github.com/janlelis/ripltools]: a collection of ripl plugins
 * {ripl-rc}[https://github.com/godfat/ripl-rc]: ripl plugins for debugging, class-based coloring and more
 * {ripl-em}[https://github.com/cldwalker/ripl-em]: interact with EM libraries asynchronously
+* {ripl-readline-em}[https://github.com/pmahoney/ripl-readline-em]: another async EM interface
 
 == Ripl Shells
 Shells built on top of ripl:
