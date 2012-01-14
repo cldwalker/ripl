@@ -46,6 +46,12 @@ describe "History with readline" do
     shell.history.to_a.should == []
   end
 
+  it "#get_input adds to history" do
+    mock($stdin).gets { 'blarg' }
+    capture_stdout { shell.get_input }
+    shell.history.should == ['blarg']
+  end
+
   it "#read_history is accessible to plugins in #before_loop" do
     mod = Object.const_set "Ping_read_history", Module.new
     mod.send(:define_method, 'read_history') { @history = ['pong_read_history'] }

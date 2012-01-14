@@ -6,7 +6,7 @@ module Ripl::History
   def history() @history ||= [] end
 
   def get_input
-    (@history << super)[-1]
+    (history << super)[-1]
   end
 
   def read_history
