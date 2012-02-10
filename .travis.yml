@@ -1,7 +1,4 @@
 before_install: bundle init --gemspec=.gemspec
 rvm:
+  - 1.8.7
   - 1.9.2
-branches:
-  only:
-    - master
-    - travis
