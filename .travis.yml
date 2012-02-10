@@ -1,2 +1,3 @@
+before_install: bundle init --gemspec=.gemspec
 rvm:
   - 1.9.2
