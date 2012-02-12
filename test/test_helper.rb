@@ -3,6 +3,9 @@ require 'bacon/bits'
 require 'rr'
 require 'bacon/rr'
 require 'stringio'
+
+ENV['RIPL_HISTORY'] = File.dirname(__FILE__) + '/.irb_history'
+ENV['RIPL_RC'] = File.dirname(__FILE__) + '/.riplrc'
 require 'ripl'
 include Ripl
 

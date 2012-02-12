@@ -67,13 +67,13 @@ describe "Runner" do
       it "rescues and prints SyntaxError" do
         mock(Runner).load(anything) { raise SyntaxError }
         mock_shell
-        capture_stderr { Runner.run([]) }.should =~ %r{^ripl: Error while loading ~/.riplrc:\nSyntaxError:}
+        capture_stderr { Runner.run([]) }.should =~ %r{^ripl: Error while loading .*.riplrc:\nSyntaxError:}
       end
 
       it "rescues and prints LoadError" do
         mock(Runner).load(anything) { raise LoadError }
         mock_shell
-        capture_stderr { Runner.run([]) }.should =~ %r{^ripl: Error while loading ~/.riplrc:\nLoadError:}
+        capture_stderr { Runner.run([]) }.should =~ %r{^ripl: Error while loading .*.riplrc:\nLoadError:}
       end
     end
 

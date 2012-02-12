@@ -21,4 +21,4 @@ module Ripl::History
   def after_loop() super; write_history end
 end
 Ripl::Shell.include Ripl::History
-Ripl.config[:history] = '~/.irb_history'
+Ripl.config[:history] = ENV['RIPL_HISTORY'] || '~/.irb_history'
