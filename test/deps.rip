@@ -2,3 +2,4 @@ bacon >=1.1.0
 rr >=1.0.0
 bacon-bits >=0
 bacon-rr >=0
+rake =0.9.2.2
