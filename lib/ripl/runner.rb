@@ -32,10 +32,11 @@ class Ripl::Runner
   end
 
   def self.run_command(argv)
-    exec "#{app}-#{argv.shift}", *argv
-  rescue Errno::ENOENT
-    raise unless $!.message =~ /No such file or directory.*#{app}-(\w+)/
-    abort MESSAGES['run_command'] % [$1, app]
+    exec "#{app}-#{cmd = argv.shift}", *argv
+  rescue SystemCallError
+    raise unless $!.message =~ /No such file or directory.*#{app}-(\w+)/ ||
+      $!.message.include?("Invalid argument - execvp(2) failed")
+    abort MESSAGES['run_command'] % [cmd, app]
   end
 
   def self.start(options={})

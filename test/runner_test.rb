@@ -123,7 +123,7 @@ describe "Runner" do
 
       it "that is invalid aborts" do
         mock(Runner).abort("`zzz' is not a ripl command.")
-        ripl 'zzz', :riplrc => false, :loop => false
+        ripl 'zzz', 'arg', :riplrc => false, :loop => false
       end
       after_all { set_dollar_zero 'ripl' }
     end
