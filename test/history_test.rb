@@ -70,9 +70,9 @@ describe "History with readline" do
   end
 
   it "#history is overridable in #write_history when readline is enabled" do
-    stub(Shell).include(is_a(Module)){} # try to avoid side-effect...
-    require 'ripl/readline'
     SandboxShell = Shell.dup
+    mock(Shell).include(is_a(Module)) {} # try to avoid side-effect...
+    require 'ripl/readline'
     SandboxShell.send :include, Ripl::Readline
     sandbox_shell = SandboxShell.create(:readline => true)
 
