@@ -1,3 +1,7 @@
+== 0.6.3
+* Fix rubinius Kernel#exec bug
+* Add rubinius for test support
+
 == 0.6.2
 * Fix rc test
 * Add $RIPL_HISTORY and $RIPL_RC
