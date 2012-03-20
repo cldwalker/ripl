@@ -1,3 +1,6 @@
+== 0.6.4
+* Releasing with latest rubygems to avoid Syck::DefaultKey
+
 == 0.6.3
 * Fix rubinius Kernel#exec bug
 * Add rubinius for test support
