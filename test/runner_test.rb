@@ -67,13 +67,13 @@ describe "Runner" do
       it "rescues and prints SyntaxError" do
         mock(Runner).load(anything) { raise SyntaxError }
         mock_shell
-        capture_stderr { Runner.run([]) }.should =~ %r{^ripl: Error while loading .*.riplrc:\nSyntaxError:}
+        capture_stderr { Runner.run([]) }.should =~ %r{^ripl: Error while loading .*.riplrc:#{$/}SyntaxError:}
       end
 
       it "rescues and prints LoadError" do
         mock(Runner).load(anything) { raise LoadError }
         mock_shell
-        capture_stderr { Runner.run([]) }.should =~ %r{^ripl: Error while loading .*.riplrc:\nLoadError:}
+        capture_stderr { Runner.run([]) }.should =~ %r{^ripl: Error while loading .*.riplrc:#{$/}LoadError:}
       end
     end
 
@@ -229,13 +229,16 @@ describe "Runner" do
       mock(Runner).exit
       actual = ripl("-h")
       actual.should =~ /^Usage: ripl/
-      actual.should =~ /Options:\n  -f/
+      actual.should =~ /Options:#{$/}  -f/
     end
 
     it "with invalid options prints errors" do
       capture_stderr {
         ripl('--blah', '-z')
-      }.chomp.should == "ripl: invalid option `blah'\nripl: invalid option `z'"
+      }.chomp.should == [
+        "ripl: invalid option `blah'",
+        "ripl: invalid option `z'"
+      ].join($/)
     end
 
     describe "with plugin" do

@@ -1,27 +1,45 @@
 class Ripl::Shell
   def self.create(options={})
-    if options[:readline]
-      require options[:readline] == true ? 'readline' : options[:readline]
-      require 'ripl/readline'
+    begin
+      if options[:readline]
+        readline = case options[:readline]
+                   when true
+                     'readline'
+                   else
+                     options[:readline]
+                   end
+
+        require readline
+        require 'ripl/readline'
+      end
+
+      require 'ripl/completion' if options[:completion]
+    rescue LoadError
     end
-    require 'ripl/completion' if options[:completion]
-    new(options)
-  rescue LoadError
+
     new(options)
   end
 
-  class <<self; public :include; end
+  class << self; public :include; end
 
-  OPTIONS = {:name => 'ripl', :result_prompt => '=> ', :prompt => '>> ',
-    :binding => TOPLEVEL_BINDING, :irbrc=>'~/.irbrc'}
+  OPTIONS = {
+    :name          => 'ripl',
+    :result_prompt => '=> ',
+    :prompt        => '>> ',
+    :binding       => TOPLEVEL_BINDING,
+    :irbrc         =>'~/.irbrc'
+  }
+
   EXIT_WORDS = [nil, 'exit', 'quit']
 
   attr_accessor :line, :binding, :result, :name, :input
+
   def initialize(options={})
-    options = OPTIONS.merge options
-    @name, @binding = options.values_at(:name, :binding)
+    options = OPTIONS.merge(options)
+
+    @name,   @binding       = options.values_at(:name, :binding)
     @prompt, @result_prompt = options.values_at(:prompt, :result_prompt)
-    @irbrc, @line = options[:irbrc], 1
+    @irbrc,  @line          = options[:irbrc], 1
   end
 
   # Loops shell until user exits
@@ -34,14 +52,18 @@ class Ripl::Shell
   def config() Ripl.config end
 
   module API
-    MESSAGES = {'prompt' => 'Error while creating prompt',
-      'print_result' => 'Error while printing result'}
+    MESSAGES = {
+      'prompt'       => 'Error while creating prompt',
+      'print_result' => 'Error while printing result'
+    }
 
     attr_accessor :prompt, :result_prompt
+
     # Sets up shell before looping by loading ~/.irbrc. Can be extended to
     # initialize plugins and their instance variables.
     def before_loop
       Ripl::Runner.load_rc(@irbrc) if @irbrc
+
       add_commands(eval("self", @binding))
     end
 
@@ -50,15 +72,20 @@ class Ripl::Shell
     end
 
     def add_commands(obj)
-      ![Symbol, Fixnum].include?(obj.class) ? obj.extend(Ripl::Commands) :
-        obj.class.send(:include, Ripl::Commands)
+      unless [Symbol, Fixnum].include?(obj.class)
+        obj.extend Ripl::Commands
+      else
+        obj.class.send :include, Ripl::Commands
+      end
     end
 
     # Runs through one loop iteration: gets input, evals and prints result
     def loop_once
       @error_raised = nil
-      @input = get_input
+      @input        = get_input
+
       throw(:ripl_exit) if EXIT_WORDS.include?(@input)
+
       eval_input(@input)
       print_result(@result)
     rescue Interrupt
@@ -91,7 +118,7 @@ class Ripl::Shell
     def prompt
       @prompt.respond_to?(:call) ? @prompt.call : @prompt
     rescue StandardError, SyntaxError
-      warn "ripl: #{MESSAGES['prompt']}:\n"+ format_error($!)
+      $stderr.puts "ripl: #{MESSAGES['prompt']}:", format_error($!)
       OPTIONS[:prompt]
     end
 
@@ -104,14 +131,14 @@ class Ripl::Shell
     # handle certain exceptions.
     # @param [Exception]
     def print_eval_error(err)
-      warn format_error(err)
+      $stderr.puts format_error(err)
     end
 
     # Prints result using #format_result
     def print_result(result)
       puts(format_result(result)) unless @error_raised
     rescue StandardError, SyntaxError
-      warn "ripl: #{MESSAGES['print_result']}:\n"+ format_error($!)
+      $stderr.puts "ripl: #{MESSAGES['print_result']}:", format_error($!)
     end
 
     # Formats errors raised by eval of user input
@@ -127,5 +154,6 @@ class Ripl::Shell
     # Called after shell finishes looping.
     def after_loop; end
   end
+
   include API
 end

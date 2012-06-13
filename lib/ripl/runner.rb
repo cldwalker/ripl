@@ -52,7 +52,7 @@ class Ripl::Runner
   def self.load_rc(file)
     load file if File.exists?(File.expand_path(file))
   rescue StandardError, SyntaxError, LoadError
-    warn "#{app}: #{MESSAGES['load_rc'] % file}:\n"+ format_error($!)
+    $stderr.puts "#{app}: #{MESSAGES['load_rc'] % file}:", format_error($!)
   end
 
   module API
@@ -77,7 +77,7 @@ class Ripl::Runner
       desc_max = OPTIONS.values.map {|e| e[1].length }.max
       m = MESSAGES
       ["%s: #{app} [%s] [%s] [%s]" % ( [m['usage'], m['command'], m['args'],
-        m['options'].upcase] ), "\n#{m['options']}:", OPTIONS_ARR.
+        m['options'].upcase] ), "#{$/}#{m['options']}:", OPTIONS_ARR.
         map {|e| n,d = OPTIONS[e]; "  %-*s  %-*s" % [name_max, n, desc_max, d] }]
     end
 
@@ -87,7 +87,11 @@ class Ripl::Runner
 
     def format_error(err)
       stack = err.backtrace.take_while {|line| line !~ %r{/ripl/\S+\.rb} }
-      "#{err.class}: #{err.message}\n    #{stack.join("\n    ")}"
+
+      [
+        "#{err.class}: #{err.message}",
+        *stack.map { |line| "    #{line}" }
+      ].join($/)
     end
   end
   extend API
