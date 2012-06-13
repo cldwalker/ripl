@@ -17,7 +17,7 @@ module Ripl::History
 
   def write_history
     if history_file
-      File.open(history_file, 'w') {|f| f.write Array(history).join("\n") }
+      File.open(history_file, 'w') {|f| f.puts(*history) }
     end
   end
   def before_loop() super; read_history end

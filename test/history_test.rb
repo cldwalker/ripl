@@ -24,20 +24,20 @@ describe "History with readline" do
   after { FileUtils.rm_f HISTORY_FILE }
 
   it "#after_loop saves history" do
-    inputs = %w{blih blah}
+    inputs = %w[blih blah]
     shell.instance_variable_set '@history', inputs
     shell.after_loop
-    File.read(HISTORY_FILE).should == inputs.join("\n")
+    File.read(HISTORY_FILE).should == inputs.join($/) + $/
   end
 
   it "#before_loop loads previous history" do
-    File.open(HISTORY_FILE, 'w') {|f| f.write "check\nthe\nmike" }
+    File.open(HISTORY_FILE, 'w') {|f| f.write %w[check the mike].join($/) }
     history_must_equal %w{check the mike}
   end
 
   it "#before_loop loads previous history only when it's empty" do
-    File.open(HISTORY_FILE, 'w') {|f| f.write "check\nthe\nmike" }
-    history = %w{already there}
+    File.open(HISTORY_FILE, 'w') {|f| f.write %w[check the mike].join($/) }
+    history = %w[already there]
     shell.instance_variable_set(:@history, history.dup)
     history_must_equal history
   end
