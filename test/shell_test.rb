@@ -32,12 +32,12 @@ describe "Shell" do
     it "handles Control-C" do
       mock(shell).get_input { raise Interrupt }
       dont_allow(shell).eval_input
-      capture_stdout { shell.loop_once }.should == "\n"
+      capture_stdout { shell.loop_once }.should == $/
     end
 
     it "prints result" do
       mock(shell).get_input { '"m" * 2' }
-      capture_stdout { shell.loop_once }.should == %[=> "mm"\n]
+      capture_stdout { shell.loop_once }.should == '=> "mm"' + $/
     end
 
     it "prints error from a failed result" do
