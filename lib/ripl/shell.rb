@@ -118,7 +118,7 @@ class Ripl::Shell
     def prompt
       @prompt.respond_to?(:call) ? @prompt.call : @prompt
     rescue StandardError, SyntaxError
-      warn "ripl: #{MESSAGES['prompt']}:\n"+ format_error($!)
+      $stderr.puts "ripl: #{MESSAGES['prompt']}:", format_error($!)
       OPTIONS[:prompt]
     end
 
@@ -131,14 +131,14 @@ class Ripl::Shell
     # handle certain exceptions.
     # @param [Exception]
     def print_eval_error(err)
-      warn format_error(err)
+      $stderr.puts format_error(err)
     end
 
     # Prints result using #format_result
     def print_result(result)
       puts(format_result(result)) unless @error_raised
     rescue StandardError, SyntaxError
-      warn "ripl: #{MESSAGES['print_result']}:\n"+ format_error($!)
+      $stderr.puts "ripl: #{MESSAGES['print_result']}:", format_error($!)
     end
 
     # Formats errors raised by eval of user input
