@@ -16,7 +16,7 @@ class Ripl::Runner
     'parse_option' => 'invalid option'
   }
 
-  class <<self; attr_accessor :argv, :app; end
+  class << self; attr_accessor :argv, :app; end
   self.app = 'ripl'
 
   # Adds commandline options for --help
@@ -87,11 +87,7 @@ class Ripl::Runner
 
     def format_error(err)
       stack = err.backtrace.take_while {|line| line !~ %r{/ripl/\S+\.rb} }
-
-      [
-        "#{err.class}: #{err.message}",
-        *stack.map { |line| "    #{line}" }
-      ].join($/)
+      "#{err.class}: #{err.message}#{$/}    #{stack.join("#{$/}    ")}"
     end
   end
   extend API

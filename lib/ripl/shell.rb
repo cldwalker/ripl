@@ -10,10 +10,15 @@ class Ripl::Shell
     new(options)
   end
 
-  class <<self; public :include; end
+  class << self; public :include; end
 
-  OPTIONS = {:name => 'ripl', :result_prompt => '=> ', :prompt => '>> ',
-    :binding => TOPLEVEL_BINDING, :irbrc=>'~/.irbrc'}
+  OPTIONS = {
+    :name => 'ripl',
+    :result_prompt => '=> ',
+    :prompt => '>> ',
+    :binding => TOPLEVEL_BINDING,
+    :irbrc=>'~/.irbrc'
+  }
   EXIT_WORDS = [nil, 'exit', 'quit']
 
   attr_accessor :line, :binding, :result, :name, :input
@@ -34,8 +39,10 @@ class Ripl::Shell
   def config() Ripl.config end
 
   module API
-    MESSAGES = {'prompt' => 'Error while creating prompt',
-      'print_result' => 'Error while printing result'}
+    MESSAGES = {
+      'prompt' => 'Error while creating prompt',
+      'print_result' => 'Error while printing result'
+    }
 
     attr_accessor :prompt, :result_prompt
     # Sets up shell before looping by loading ~/.irbrc. Can be extended to
