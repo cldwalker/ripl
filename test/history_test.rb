@@ -81,7 +81,7 @@ describe "History with readline" do
     sandbox_shell.history.should == ['updated_history']
   end
 
-  describe "History with no history_file" do
+  describe "with no history_file" do
     def shell
       Ripl.shell(:history => false)
     end
@@ -98,7 +98,7 @@ describe "History with readline" do
       File.read(HISTORY_FILE).should == ''
     end
 
-    it "#before_loop loads previous history2" do
+    it "#before_loop does not load history" do
       File.open(HISTORY_FILE, 'w') {|f| f.puts 'check', 'the', 'mike' }
       history_must_equal [], shell
     end
