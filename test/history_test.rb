@@ -8,6 +8,12 @@ describe "History with readline" do
     Ripl.shell(:history => HISTORY_FILE, :readline => false, :completion => false)
   end
 
+  def history_must_equal(history, sh=shell)
+    stub(Ripl::Runner).load_rc
+    sh.before_loop
+    sh.history.to_a.should == history
+  end
+
   before_all { reset_shell }
   before do
     reset_ripl
@@ -26,24 +32,18 @@ describe "History with readline" do
 
   it "#before_loop loads previous history" do
     File.open(HISTORY_FILE, 'w') {|f| f.write "check\nthe\nmike" }
-    stub(Ripl::Runner).load_rc
-    shell.before_loop
-    shell.history.to_a.should == %w{check the mike}
+    history_must_equal %w{check the mike}
   end
 
   it "#before_loop loads previous history only when it's empty" do
     File.open(HISTORY_FILE, 'w') {|f| f.write "check\nthe\nmike" }
-    stub(Ripl::Runner).load_rc
     history = %w{already there}
     shell.instance_variable_set(:@history, history.dup)
-    shell.before_loop
-    shell.history.to_a.should == history
+    history_must_equal history
   end
 
   it "#before_loop has empty history if no history file exists" do
-    stub(Ripl::Runner).load_rc
-    shell.before_loop
-    shell.history.to_a.should == []
+    history_must_equal []
   end
 
   it "#get_input adds to history" do
@@ -56,9 +56,7 @@ describe "History with readline" do
     mod = Object.const_set "Ping_read_history", Module.new
     mod.send(:define_method, 'read_history') { @history = ['pong_read_history'] }
     Shell.send :include, mod
-    stub(Ripl::Runner).load_rc
-    shell.before_loop
-    shell.history.should == ['pong_read_history']
+    history_must_equal ['pong_read_history']
   end
 
   it "#write_history is accessible to plugins in #after_loop" do
@@ -100,11 +98,9 @@ describe "History with readline" do
       File.read(HISTORY_FILE).should == ''
     end
 
-    it "#before_loop loads previous history" do
+    it "#before_loop loads previous history2" do
       File.open(HISTORY_FILE, 'w') {|f| f.puts 'check', 'the', 'mike' }
-      stub(Ripl::Runner).load_rc
-      shell.before_loop
-      shell.history.to_a.should == []
+      history_must_equal [], shell
     end
   end
 end
