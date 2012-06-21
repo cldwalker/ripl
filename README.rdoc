@@ -155,6 +155,7 @@ see {ripl-rails}[http://github.com/cldwalker/ripl-rails].
 == Credits
 * janlelis and godfat for bug fix and tweaks
 * JoshCheek for bug fixes
+* postmodern for windows fixes and no history support
 
 == Bugs/Issues
 Please report them {on github}[http://github.com/cldwalker/ripl/issues].
