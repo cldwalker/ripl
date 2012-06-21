@@ -1,8 +1,6 @@
 module Ripl::History
   def history_file
-    @history_file ||= if config[:history]
-                        File.expand_path(config[:history])
-                      end
+    @history_file ||= config[:history] && File.expand_path(config[:history])
   end
 
   def history() @history ||= [] end

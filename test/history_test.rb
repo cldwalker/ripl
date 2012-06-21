@@ -82,29 +82,29 @@ describe "History with readline" do
     sandbox_shell.after_loop
     sandbox_shell.history.should == ['updated_history']
   end
-end
 
-describe "History with no history_file" do
-  def shell
-    Ripl.shell(:history => HISTORY_FILE, :history => false)
-  end
+  describe "History with no history_file" do
+    def shell
+      Ripl.shell(:history => false)
+    end
 
-  before_all { FileUtils.touch(HISTORY_FILE) }
+    before_all do
+      FileUtils.touch(HISTORY_FILE)
+      reset_shell
+    end
 
-  before_all { reset_shell }
-  before     { reset_ripl  }
+    it "#after_loop does not save history" do
+      inputs = %w{blih blah}
+      shell.instance_variable_set '@history', inputs
+      shell.after_loop
+      File.read(HISTORY_FILE).should == ''
+    end
 
-  it "#after_loop does not save history" do
-    inputs = %w{blih blah}
-    shell.instance_variable_set '@history', inputs
-    shell.after_loop
-    File.read(HISTORY_FILE).should == ''
-  end
-
-  it "#before_loop loads previous history" do
-    File.open(HISTORY_FILE, 'w') {|f| f.puts 'check', 'the', 'mike' }
-    stub(Ripl::Runner).load_rc
-    shell.before_loop
-    shell.history.to_a.should == []
+    it "#before_loop loads previous history" do
+      File.open(HISTORY_FILE, 'w') {|f| f.puts 'check', 'the', 'mike' }
+      stub(Ripl::Runner).load_rc
+      shell.before_loop
+      shell.history.to_a.should == []
+    end
   end
 end
