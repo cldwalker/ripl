@@ -175,6 +175,7 @@ Please report them {on github}[http://github.com/cldwalker/ripl/issues].
 * {ripl-irb}[http://github.com/cldwalker/ripl-irb] : smooths transition from irb
 * {ripl-i18n}[http://github.com/cldwalker/ripl-i18n] : translates ripl to your language
 * {ripl-commands}[http://github.com/cldwalker/ripl-commands] : adds ripl commands similar to irb's commands
+* {ripl-shell_commands}[https://github.com/postmodern/ripl-shell_commands#readme] : adds support for +!ls+ shell commands.
 * {ripl-color_error}[http://github.com/cldwalker/ripl-color_error] : colorize errors
 * {ripl-color_streams}[http://github.com/janlelis/ripl-color_streams] : colorizes stderr + stdout
 * {ripl-color_result}[http://github.com/janlelis/ripl-color_result] : colorizes results
