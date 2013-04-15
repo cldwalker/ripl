@@ -2,9 +2,9 @@
 
 ripl is a light, modular alternative to irb. Like irb, it loads ~/.irbrc, has autocompletion and
 keeps history in ~/.irb_history.  Unlike irb, it is highly customizable via plugins and supports
-commands i.e. {ripl-play}[https://github.com/cldwalker/ripl-play].  This customizability makes it
+commands i.e. {ripl-play}[https://github.com/cldwalker/ripl-play#readme].  This customizability makes it
 easy to build custom shells (i.e. for a gem or application) and complex shells (i.e. for the
-{web}[https://github.com/cldwalker/nirvana]). In other words, ripl is also a shell framework. Works
+{web}[https://github.com/cldwalker/nirvana#readme]). In other words, ripl is also a shell framework. Works
 on ruby 1.8.7 and greater.
 
 == Install
@@ -14,7 +14,7 @@ If you have {readline}[http://cnswww.cns.cwru.edu/php/chet/readline/rltop.html],
     gem install ripl
 
 If you don't have readline, first install ripl with {a pure ruby
-readline}[https://github.com/luislavena/rb-readline]:
+readline}[https://github.com/luislavena/rb-readline#readme]:
 
     gem install ripl rb-readline -- --without-readline
 
@@ -85,13 +85,13 @@ modifying ~/.irbrc, wrap your irb-specific configuration in a block as follow:
   * Create console commands in a simple, modular way
   * Custom commandline options can be added via a plugin
   * ~/.irbrc errors caught
-  * Well-integrated internationalization (see {ripl-i18n}[https://github.com/cldwalker/ripl-i18n])
+  * Well-integrated internationalization (see {ripl-i18n}[https://github.com/cldwalker/ripl-i18n#readme])
 * Different from irb
   * No multi-line evaluation by default (but there is a plugin,
-    {ripl-multi_line}[https://github.com/janlelis/ripl-multi_line]).
+    {ripl-multi_line}[https://github.com/janlelis/ripl-multi_line#readme]).
   * No irb subsessions or workspaces (though ripl has jumps via
-    {ripl-commands}[https://github.com/cldwalker/ripl-commands])
-  * Some IRB.conf features aren't supported yet (see {ripl-irb}[https://github.com/cldwalker/ripl-irb]
+    {ripl-commands}[https://github.com/cldwalker/ripl-commands#readme])
+  * Some IRB.conf features aren't supported yet (see {ripl-irb}[https://github.com/cldwalker/ripl-irb#readme]
     for details)
 
 Note: Irb features not in ripl can be implemented as plugins.
@@ -150,7 +150,7 @@ If you want to invoke your custom shell with ripl, make it a ripl command.
 To create one, create an executable in the format ripl-<command> and make sure it's in your shell's
 $PATH. For example, the file 'ripl-my_gem' would be invoked with `ripl my_gem`. Note that with your
 command you can take arguments and parse your options as you please. For an example command,
-see {ripl-rails}[https://github.com/cldwalker/ripl-rails].
+see {ripl-rails}[https://github.com/cldwalker/ripl-rails#readme].
 
 == Credits
 * janlelis and godfat for bug fix and tweaks
@@ -164,42 +164,42 @@ Please report them {on github}[https://github.com/cldwalker/ripl/issues].
 
 == Ripl Plugins
 
-* {ripl-multi_line}[https://github.com/janlelis/ripl-multi_line] : evaluate multiple lines
-* {ripl-ripper}[https://github.com/cldwalker/ripl-ripper] : evaluate multiple lines with ripper
-* {ripl-rails}[https://github.com/cldwalker/ripl-rails] : console for rails
-* {ripl-rack}[https://github.com/cldwalker/ripl-rack] : console for rack
-* {ripl-play}[https://github.com/cldwalker/ripl-play] : play back and record input into ripl
-* {ripl-debug}[https://github.com/cldwalker/ripl-debug] : automatically debugs a failed eval
-* {ripl-after_rc}[https://github.com/cldwalker/ripl-after_rc] : provide blocks to run after ~/.irbrc is loaded
-* {ripl-irb}[https://github.com/cldwalker/ripl-irb] : smooths transition from irb
-* {ripl-i18n}[https://github.com/cldwalker/ripl-i18n] : translates ripl to your language
-* {ripl-commands}[https://github.com/cldwalker/ripl-commands] : adds ripl commands similar to irb's commands
-* {ripl-color_error}[https://github.com/cldwalker/ripl-color_error] : colorize errors
-* {ripl-color_streams}[https://github.com/janlelis/ripl-color_streams] : colorizes stderr + stdout
-* {ripl-color_result}[https://github.com/janlelis/ripl-color_result] : colorizes results
-* {ripl-auto_indent}[https://github.com/janlelis/ripl-auto_indent] : auto indents multi-line input
-* {ripl-hirb}[https://github.com/cldwalker/hirb] : comes with hirb to make it a proper riplzen
-* {ripl-hijack}[https://github.com/cldwalker/ripl-hijack] : ripl console to a ruby process
-* {ripl-misc}[https://github.com/cldwalker/ripl-misc] : a playground for ripl plugins
-* {ripl-profiles}[https://github.com/janlelis/ripl-profiles]: load ripl profiles with a --profile option
+* {ripl-multi_line}[https://github.com/janlelis/ripl-multi_line#readme] : evaluate multiple lines
+* {ripl-ripper}[https://github.com/cldwalker/ripl-ripper#readme] : evaluate multiple lines with ripper
+* {ripl-rails}[https://github.com/cldwalker/ripl-rails#readme] : console for rails
+* {ripl-rack}[https://github.com/cldwalker/ripl-rack#readme] : console for rack
+* {ripl-play}[https://github.com/cldwalker/ripl-play#readme] : play back and record input into ripl
+* {ripl-debug}[https://github.com/cldwalker/ripl-debug#readme] : automatically debugs a failed eval
+* {ripl-after_rc}[https://github.com/cldwalker/ripl-after_rc#readme] : provide blocks to run after ~/.irbrc is loaded
+* {ripl-irb}[https://github.com/cldwalker/ripl-irb#readme] : smooths transition from irb
+* {ripl-i18n}[https://github.com/cldwalker/ripl-i18n#readme] : translates ripl to your language
+* {ripl-commands}[https://github.com/cldwalker/ripl-commands#readme] : adds ripl commands similar to irb's commands
+* {ripl-color_error}[https://github.com/cldwalker/ripl-color_error#readme] : colorize errors
+* {ripl-color_streams}[https://github.com/janlelis/ripl-color_streams#readme] : colorizes stderr + stdout
+* {ripl-color_result}[https://github.com/janlelis/ripl-color_result#readme] : colorizes results
+* {ripl-auto_indent}[https://github.com/janlelis/ripl-auto_indent#readme] : auto indents multi-line input
+* {ripl-hirb}[https://github.com/cldwalker/hirb#readme] : comes with hirb to make it a proper riplzen
+* {ripl-hijack}[https://github.com/cldwalker/ripl-hijack#readme] : ripl console to a ruby process
+* {ripl-misc}[https://github.com/cldwalker/ripl-misc#readme] : a playground for ripl plugins
+* {ripl-profiles}[https://github.com/janlelis/ripl-profiles#readme]: load ripl profiles with a --profile option
 * {ripl-short_errors}[https://github.com/janlelis/ripl-misc/blob/master/lib/ripl/short_errors.rb]:
   display short backtrace
-* {ripl-rocket}[https://github.com/janlelis/ripl-rocket]: outputs ripl result as a hash rocket
-* {ripl-padrino}[https://github.com/achiu/ripl-padrino]: console for padrino
-* {ripltools}[https://github.com/janlelis/ripltools]: a collection of ripl plugins
-* {ripl-rc}[https://github.com/godfat/ripl-rc]: ripl plugins for debugging, class-based coloring and more
-* {ripl-em}[https://github.com/cldwalker/ripl-em]: interact with EM libraries asynchronously
-* {ripl-readline-em}[https://github.com/pmahoney/ripl-readline-em]: another async EM interface
+* {ripl-rocket}[https://github.com/janlelis/ripl-rocket#readme]: outputs ripl result as a hash rocket
+* {ripl-padrino}[https://github.com/achiu/ripl-padrino#readme]: console for padrino
+* {ripltools}[https://github.com/janlelis/ripltools#readme]: a collection of ripl plugins
+* {ripl-rc}[https://github.com/godfat/ripl-rc#readme]: ripl plugins for debugging, class-based coloring and more
+* {ripl-em}[https://github.com/cldwalker/ripl-em#readme]: interact with EM libraries asynchronously
+* {ripl-readline-em}[https://github.com/pmahoney/ripl-readline-em#readme]: another async EM interface
 
 == Ripl Shells
 Shells built on top of ripl:
 
-* {nirvana}[https://github.com/cldwalker/nirvana]: A ruby web shell complete with autocomplete
-* {fresh}[https://github.com/janlelis/fresh]: An interesting ruby/system hybrid shell
-* {ripl-johnson}[https://github.com/cldwalker/ripl-johnson]: A js shell based on johnson (firefox tracemonkey)
-* {ronin}[https://github.com/ronin-ruby/ronin]: An exploit development platform using ripl for its console
-* {tux}[https://github.com/cldwalker/tux]: A sinatra shell
-* {rack-webconsole}[https://github.com/codegram/rack-webconsole]: A rack middleware that adds a
+* {nirvana}[https://github.com/cldwalker/nirvana#readme]: A ruby web shell complete with autocomplete
+* {fresh}[https://github.com/janlelis/fresh#readme]: An interesting ruby/system hybrid shell
+* {ripl-johnson}[https://github.com/cldwalker/ripl-johnson#readme]: A js shell based on johnson (firefox tracemonkey)
+* {ronin}[https://github.com/ronin-ruby/ronin#readme]: An exploit development platform using ripl for its console
+* {tux}[https://github.com/cldwalker/tux#readme]: A sinatra shell
+* {rack-webconsole}[https://github.com/codegram/rack-webconsole#readme]: A rack middleware that adds a
   web shell to any rack app
 
 == More Ripl Links
@@ -211,7 +211,7 @@ Shells built on top of ripl:
 == Irb Alternatives
 Some other irb alternatives to check out:
 
-* {ir}[https://github.com/raggi/ir]: nice and light
-* {irb2}[https://github.com/wycats/irb2]: yehuda katz's partial attempt at rewriting irb
-* {dietrb}[https://github.com/alloy/dietrb]: mac and ruby 1.9 specific
-* {pry}[https://github.com/banister/pry]: featureful but heavy
+* {ir}[https://github.com/raggi/ir#readme]: nice and light
+* {irb2}[https://github.com/wycats/irb2#readme]: yehuda katz's partial attempt at rewriting irb
+* {dietrb}[https://github.com/alloy/dietrb#readme]: mac and ruby 1.9 specific
+* {pry}[https://github.com/banister/pry#readme]: featureful but heavy
