@@ -197,7 +197,7 @@ Shells built on top of ripl:
 * {nirvana}[https://github.com/cldwalker/nirvana#readme]: A ruby web shell complete with autocomplete
 * {fresh}[https://github.com/janlelis/fresh#readme]: An interesting ruby/system hybrid shell
 * {ripl-johnson}[https://github.com/cldwalker/ripl-johnson#readme]: A js shell based on johnson (firefox tracemonkey)
-* {ronin}[https://github.com/ronin-ruby/ronin#readme]: An exploit development platform using ripl for its console
+* {ronin}[http://ronin-ruby.github.io]: An exploit development platform using ripl for its console
 * {tux}[https://github.com/cldwalker/tux#readme]: A sinatra shell
 * {rack-webconsole}[https://github.com/codegram/rack-webconsole#readme]: A rack middleware that adds a
   web shell to any rack app
