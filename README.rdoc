@@ -57,10 +57,10 @@ To view ripl's man page:
 When first trying ripl, you may experience errors in your +~/.irbrc+ due to an
 irb-specific configuration. In order to have ripl and irb coexist peacefully,
 you should silence these errors. To silence them without touching your
-+~/.irbrc+, install the ripl-irb gem. This ripl plugin fakes irb's existence
-and points to ripl equivalents for your irb configurations. Otherwise, if you
-don't mind modifying +~/.irbrc+, wrap your irb-specific configuration in a block
-as follow:
++~/.irbrc+, install the {ripl-irb}[https://github.com/cldwalker/ripl-irb#readme]
+gem. This ripl plugin fakes irb's existence and points to ripl equivalents for
+your irb configurations. Otherwise, if you don't mind modifying +~/.irbrc+,
+wrap your irb-specific configuration in a block as follow:
 
     if defined? IRB
       IRB.conf[:BLAH] = 'blah'
