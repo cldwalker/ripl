@@ -153,13 +153,16 @@ command you can take arguments and parse your options as you please. For an exam
 see {ripl-rails}[https://github.com/cldwalker/ripl-rails#readme].
 
 == Credits
+
 * janlelis and godfat for bug fix and tweaks
 * JoshCheek for bug fixes
 
 == Bugs/Issues
+
 Please report them {on github}[https://github.com/cldwalker/ripl/issues].
 
 == Contributing
+
 {See here}[http://tagaholic.me/contributing.html]
 
 == Ripl Plugins
@@ -209,6 +212,7 @@ Shells built on top of ripl:
 * {slides at euroko about ruby consoles}[http://rbjl.net/irbtools+ripl.pdf]
 
 == Irb Alternatives
+
 Some other irb alternatives to check out:
 
 * {ir}[https://github.com/raggi/ir#readme]: nice and light
