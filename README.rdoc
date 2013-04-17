@@ -196,6 +196,8 @@ Please report them {on github}[https://github.com/cldwalker/ripl/issues].
   translates ripl to your language
 * {ripl-commands}[https://github.com/cldwalker/ripl-commands#readme]:
   adds ripl commands similar to irb's commands
+* {ripl-shell_commands}[https://github.com/postmodern/ripl-shell_commands#readme]:
+  adds support for +!ls+ shell commands.
 * {ripl-color_error}[https://github.com/cldwalker/ripl-color_error#readme]:
   colorize errors
 * {ripl-color_streams}[https://github.com/janlelis/ripl-color_streams#readme]:
