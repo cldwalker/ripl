@@ -1,7 +1,7 @@
 == Description
 
-ripl is a light, modular alternative to irb. Like irb, it loads +~/.irbrc+, has
-autocompletion and keeps history in +~/.irb_history+.  Unlike irb, it is highly
+ripl is a light, modular alternative to irb. Like irb, it loads ~/.irbrc, has
+autocompletion and keeps history in ~/.irb_history.  Unlike irb, it is highly
 customizable via plugins and supports commands i.e. {ripl-play}[https://github.com/cldwalker/ripl-play#readme].
 This customizability makes it easy to build custom shells (i.e. for a gem or
 application) and complex shells (i.e. for the {web}[https://github.com/cldwalker/nirvana#readme]).
@@ -19,7 +19,7 @@ readline}[https://github.com/luislavena/rb-readline#readme]:
 
     gem install ripl rb-readline -- --without-readline
 
-Then, add the following to +~/.riplrc+:
+Then, add the following to ~/.riplrc:
 
     Ripl.config[:readline] = 'rb-readline'
     Ripl.config[:completion] = {:readline => :ruby }
@@ -54,12 +54,12 @@ To view ripl's man page:
 
 == Coming from irb
 
-When first trying ripl, you may experience errors in your +~/.irbrc+ due to an
+When first trying ripl, you may experience errors in your ~/.irbrc due to an
 irb-specific configuration. In order to have ripl and irb coexist peacefully,
 you should silence these errors. To silence them without touching your
-+~/.irbrc+, install the {ripl-irb}[https://github.com/cldwalker/ripl-irb#readme]
+~/.irbrc, install the {ripl-irb}[https://github.com/cldwalker/ripl-irb#readme]
 gem. This ripl plugin fakes irb's existence and points to ripl equivalents for
-your irb configurations. Otherwise, if you don't mind modifying +~/.irbrc+,
+your irb configurations. Otherwise, if you don't mind modifying ~/.irbrc,
 wrap your irb-specific configuration in a block as follow:
 
     if defined? IRB
@@ -70,24 +70,24 @@ wrap your irb-specific configuration in a block as follow:
 == Comparison to Irb
 
 * Similar to irb
-  * Reads +~/.irbrc+ on startup
-  * Appends to +~/.irb_history+ on exit
+  * Reads ~/.irbrc on startup
+  * Appends to ~/.irb_history on exit
   * Autocompletion (from bond)
   * _ for last result
-  * Type +exit+, +quit+ or press Ctrl-D to exit
-  * 6 common commandline options: +-f+, +-r+, +-I+, +-d+, +-h+, +-v+
-  * +IRB.conf+ -> +Ripl.config+
+  * Type exit, quit or press Ctrl-D to exit
+  * 6 common commandline options: -f, -r, -I, -d, -h, -v
+  * IRB.conf -> Ripl.config
   * Handles Ctrl-C quietly
 * Enhancements over irb
   * ~290 lines (doc included) vs irb's 5000+ lines
   * Easily extendable with plugins
   * Tests and documentation!
   * Customizable completion and completion of method arguments (from bond)
-  * Easy to create custom shells for gems and apps i.e. +Ripl.start+
+  * Easy to create custom shells for gems and apps i.e. Ripl.start
   * Easy to create and invoke ripl commands
   * Create console commands in a simple, modular way
   * Custom commandline options can be added via a plugin
-  * +~/.irbrc+ errors caught
+  * ~/.irbrc errors caught
   * Well-integrated internationalization (see {ripl-i18n}[https://github.com/cldwalker/ripl-i18n#readme])
 * Different from irb
   * No multi-line evaluation by default (but there is a plugin,
@@ -101,8 +101,8 @@ Note: Irb features not in ripl can be implemented as plugins.
 
 == Plugins
 
-A ripl plugin is a module that is included into +Ripl::Shell+ or extended into
-+Ripl::Runner+. Being simply modules, they can be packaged as gems and reused
+A ripl plugin is a module that is included into Ripl::Shell or extended into
+Ripl::Runner. Being simply modules, they can be packaged as gems and reused
 across shells as needed.  ripl highly encourages plugins by loading them as
 early as possible and allowing them to extend most of ripl's functionality.
 
@@ -120,22 +120,22 @@ As an example plugin, let's color error messages red:
     end
     Ripl::Shell.include Ripl::RedError
 
-Note this plugin extends +format_error()+ by invoking the original
-+format_error()+ with super. This is possible for any method that is available
+Note this plugin extends format_error() by invoking the original
+format_error() with super. This is possible for any method that is available
 for extension by plugins. To see what methods are available for extension, see
-+Ripl::Shell::API+ and +Ripl::Runner::API+.
+Ripl::Shell::API and Ripl::Runner::API.
 
 If we want to add a config for this plugin, we can simply add a key to
-+Ripl.config+ that matches the underscored version of the plugin name i.e.
-+Ripl.config[:red_error]+.
+Ripl.config that matches the underscored version of the plugin name i.e.
+Ripl.config[:red_error].
 
 For available plugins, see Ripl Plugins below.
 
 == Configuration
 
-Since ripl is highly customizable, it loads +~/.riplrc+ before it does anything.
+Since ripl is highly customizable, it loads ~/.riplrc before it does anything.
 This ruby file should require and/or define plugins. Any ripl configurations
-via +Ripl.config+ should also be done here. For an example +~/.riplrc+,
+via Ripl.config should also be done here. For an example ~/.riplrc,
 see {mine}[https://github.com/cldwalker/dotfiles/tree/master/.riplrc].
 
 == Create Custom Shells
@@ -154,9 +154,9 @@ start on a specific binding:
 == Create Commands
 
 If you want to invoke your custom shell with ripl, make it a ripl command.
-To create one, create an executable in the format +ripl-<command>+ and make sure
-it's in your shell's +$PATH+. For example, the file +ripl-my_gem+ would be
-invoked with +ripl my_gem+. Note that with your command you can take arguments
+To create one, create an executable in the format ripl-<command> and make sure
+it's in your shell's $PATH. For example, the file ripl-my_gem would be
+invoked with ripl my_gem. Note that with your command you can take arguments
 and parse your options as you please. For an example command,
 see {ripl-rails}[https://github.com/cldwalker/ripl-rails#readme].
 
@@ -197,7 +197,7 @@ Please report them {on github}[https://github.com/cldwalker/ripl/issues].
 * {ripl-commands}[https://github.com/cldwalker/ripl-commands#readme]:
   adds ripl commands similar to irb's commands
 * {ripl-shell_commands}[https://github.com/postmodern/ripl-shell_commands#readme]:
-  adds support for +!ls+ shell commands.
+  adds support for !ls shell commands.
 * {ripl-color_error}[https://github.com/cldwalker/ripl-color_error#readme]:
   colorize errors
 * {ripl-color_streams}[https://github.com/janlelis/ripl-color_streams#readme]:
