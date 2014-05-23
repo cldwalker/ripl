@@ -1,3 +1,7 @@
+== 0.7.1
+* Bump bond dependency
+* Add Ripl::History::HISTORY_FILE
+
 == 0.7.0
 * Don't read/write history when history is false
 * Error messages and history file are properly formatted in Windows
