@@ -46,14 +46,16 @@ To make your first ripl experience smoother, install these plugins:
     $ ripl
     >> ...
 
+== Documentation
+
 To view ripl's man page:
 
     # If installed with rubygems
     $ gem install gem-man
     $ gem man ripl
 
-    # If installed with rip, man page is automatically installed
-    $ man ripl
+To view ripl's documentation online, read [the source](https://github.com/cldwalker/ripl/blob/master/man/ripl.1.ronn)
+or [the html version](https://rawgit.com/cldwalker/ripl/master/man/ripl.1.html).
 
 == Coming from irb
 
