@@ -57,8 +57,13 @@ class Ripl::Shell
     end
 
     def add_commands(obj)
-      ![Symbol, Fixnum].include?(obj.class) ? obj.extend(Ripl::Commands) :
-        obj.class.send(:include, Ripl::Commands)
+      if defined? Integer
+        ![Symbol, Integer].include?(obj.class) ? obj.extend(Ripl::Commands) :
+          obj.class.send(:include, Ripl::Commands)
+      else
+        ![Symbol, Fixnum].include?(obj.class) ? obj.extend(Ripl::Commands) :
+          obj.class.send(:include, Ripl::Commands)
+      end
     end
 
     # Runs through one loop iteration: gets input, evals and prints result
