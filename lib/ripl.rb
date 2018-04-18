@@ -1,7 +1,8 @@
 module Ripl
   def self.config
-    @config ||= { :readline => true, :riplrc => ENV['RIPL_RC'] || '~/.riplrc',
-      :completion => {} }
+    local_riplrc = File.join(Dir.pwd, '.riplrc')
+    riplrc = ENV['RIPL_RC'] || (local_riplrc if File.exist?(local_riplrc)) || '~/.riplrc'
+    @config ||= {:readline => true, :riplrc => riplrc, :completion => {}}
   end
 
   def self.start(*args) Runner.start(*args) end
