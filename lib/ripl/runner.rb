@@ -50,7 +50,7 @@ class Ripl::Runner
   end
 
   def self.load_rc(file)
-    load file if File.exists?(File.expand_path(file))
+    load file if File.exist?(File.expand_path(file))
   rescue StandardError, SyntaxError, LoadError
     $stderr.puts "#{app}: #{MESSAGES['load_rc'] % file}:", format_error($!)
   end
